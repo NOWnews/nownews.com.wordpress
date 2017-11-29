@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">px_gallery</custom-type>
+	</custom-types>
+	
+	<taxonomies>
+		<taxonomy translate="1">px_gallery-category</taxonomy>
+	</taxonomies>
+</wpml-config>
