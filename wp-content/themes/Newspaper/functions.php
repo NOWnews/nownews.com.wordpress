@@ -35,6 +35,8 @@ require_once('includes/widgets/td_page_builder_widgets.php'); // widgets
  */
 require_once('mobile/includes/td_css_generator_mob.php');
 
+// Custom Editor Buttons
+require_once('wptuts-editor-buttons/wptuts.php');
 
 /* ----------------------------------------------------------------------------
  * Woo Commerce
