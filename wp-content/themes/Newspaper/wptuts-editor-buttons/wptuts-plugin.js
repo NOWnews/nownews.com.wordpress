@@ -74,8 +74,8 @@
         getInfo : function() {
             return {
                 longname : 'Wptuts Buttons',
-                author : 'Lee',
-                authorurl : 'http://wp.tutsplus.com/author/leepham',
+                author : 'esbb48',
+                authorurl : 'https://github.com/NOWnews/nownews.com.wordpress',
                 infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/example',
                 version : "0.1"
             };
