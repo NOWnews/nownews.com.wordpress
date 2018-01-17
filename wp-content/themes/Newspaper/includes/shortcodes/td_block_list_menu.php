@@ -40,7 +40,8 @@ class td_block_list_menu extends td_block {
 
 		// For tagDiv composer add a placeholder element
 		if (empty($this->atts['menu_id'])) {
-			$buffy .= '<div id=' . $this->block_uid . ' class="td_block_inner">';
+            //td-fix-index class to fix background color z-index
+            $buffy .= '<div id=' . $this->block_uid . ' class="td_block_inner td-fix-index">';
 			$buffy .= td_util::get_block_error('List Menu', 'Render failed - please select a menu' );
 			$buffy .= '</div>';
 
@@ -49,7 +50,8 @@ class td_block_list_menu extends td_block {
 			return $buffy;
 		}
 
-		$buffy .= '<div id=' . $this->block_uid . ' class="td_block_inner">';
+        //td-fix-index class to fix background color z-index
+        $buffy .= '<div id=' . $this->block_uid . ' class="td_block_inner td-fix-index">';
 
 		$buffy .= $this->inner($this->atts['menu_id']);  //inner content of the block
 		$buffy .= '</div>';

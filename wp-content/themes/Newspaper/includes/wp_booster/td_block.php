@@ -186,6 +186,8 @@ class td_block {
 
 
 
+	    // Set tdc_config::$font_settings ('load' param)
+		$this->set_font_settings($atts);
 
 
 
@@ -238,7 +240,10 @@ class td_block {
 
 		$tdcElementStyleCss = '';
 		if ( !empty($cssOutput) || !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
-			$tdcElementStyleCss = PHP_EOL . '<div class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></div>';
+			if ( !empty($beforeCssOutput) ) {
+				$beforeCssOutput = PHP_EOL . '<div class="td-element-style-before"><style>' . $beforeCssOutput . '</style></div>';
+			}
+			$tdcElementStyleCss = PHP_EOL . '<div class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style">' . $beforeCssOutput . '<style>' . $cssOutput . ' ' . $afterCssOutput . '</style></div>';
 		}
 
 		if (!empty($buffy)) {
@@ -332,8 +337,16 @@ class td_block {
 		//
 		$moveBorderSettingsOnBefore = false;
 
-		if (class_exists('vc_row') && $this instanceof vc_row) {
-			$attFullWidth = $this->get_att( 'full_width' );
+		if (class_exists('vc_row') && $this instanceof vc_row ) {
+
+			// Important! get_custom_att was introduced in composer only after 01.08.2017 (because 'full_width' att was moved from tdc_composer_block to vc_row)
+			// This check is done to allow older versions of composer to use 'full_width'.
+
+			if ( method_exists( $this, 'get_custom_att' ) ) {
+				$attFullWidth = $this->get_custom_att( 'full_width' );
+			} else {
+				$attFullWidth = $this->get_att( 'full_width' );
+			}
 			if ($attFullWidth !== '') {
 				$moveBorderSettingsOnBefore = true;
 			}
@@ -359,6 +372,8 @@ class td_block {
 				$numericCssProps = array(
 					'border-radius',
 
+					'width',
+
 					'margin-top',
 					'margin-right',
 					'margin-bottom',
@@ -373,6 +388,10 @@ class td_block {
 					'padding-right',
 					'padding-bottom',
 					'padding-left',
+
+					'shadow-size',
+					'shadow-offset-h',
+					'shadow-offset-v',
 				);
 
 				$borderWidthCssProps = array(
@@ -407,6 +426,7 @@ class td_block {
 				$afterCssProps = array(
 					'color-1-overlay',
 					'color-2-overlay',
+					'gradient-direction',
 				);
 
 				$cssBeforeSettings =
@@ -417,7 +437,7 @@ class td_block {
 			        "top:0 !important;" . PHP_EOL .
 			        "left:0 !important;" . PHP_EOL .
 			        "display:block !important;" . PHP_EOL .
-			        "z-index:-1 !important;" . PHP_EOL;
+			        "z-index:0 !important;" . PHP_EOL;
 
 				$cssAfterSettings =
 					"content:'' !important;" . PHP_EOL .
@@ -426,7 +446,7 @@ class td_block {
 				    "position:absolute !important;" . PHP_EOL .
 				    "top:0 !important;" . PHP_EOL .
 				    "left:0 !important;" . PHP_EOL .
-				    "z-index:-1 !important;" . PHP_EOL .
+				    "z-index:0 !important;" . PHP_EOL .
 				    "display:block !important;" . PHP_EOL;
 
 
@@ -434,6 +454,8 @@ class td_block {
 				$cssBeforeAll = '';
 				$cssElementStyleAll = '';
 				$cssAfterAll = array();
+
+				$mediaCssDesktop = '';
 
 				$borderInAll = false;
 				$backgroundInAll = false;
@@ -463,6 +485,8 @@ class td_block {
 							$setting = 'background-size';
 							if ($v1 === 'repeat' || $v1 === 'no-repeat') {
 								$setting = 'background-repeat';
+							} else if ($v1 === 'contain') {
+								$cssBeforeAll .= 'background-repeat: no-repeat !important;' . PHP_EOL;
 							}
 							$cssBeforeAll .= $setting . ':' . $v1 . ' !important;' . PHP_EOL;
 							continue;
@@ -492,6 +516,51 @@ class td_block {
 							$cssAfterAll[$k1] = $v1;
 							continue;
 						}
+
+						if ( 'content-h-align' === $k1 ) {
+							$k1 = 'text-align';
+							$v1 = str_replace( 'content-horiz-', '', $v1 );
+
+							// These settings were introduced because of vertical align
+							switch ( $v1 ){
+								case 'center' : $mediaCssAll .= 'justify-content:center !important;' . PHP_EOL; break;
+								case 'right' : $mediaCssAll .= 'justify-content:flex-end !important;' . PHP_EOL; break;
+							}
+						}
+
+
+
+						// Shadow settings
+						if ( 'shadow-size' === $k1 && ! empty( $v1 ) ) {
+							$shadow_offset_h = 0;
+							if ( ! empty( $tdcCssArray['all']['shadow-offset-h'] ) ) {
+								$shadow_offset_h = $tdcCssArray['all']['shadow-offset-h'] . 'px';
+							}
+							$shadow_offset_v = 0;
+							if ( ! empty( $tdcCssArray['all']['shadow-offset-v'] ) ) {
+								$shadow_offset_v = $tdcCssArray['all']['shadow-offset-v'] . 'px';
+							}
+							$shadow_color = '#888888';
+							if ( ! empty( $tdcCssArray['all']['shadow-color'] ) ) {
+								$shadow_color = $tdcCssArray['all']['shadow-color'];
+							}
+							$mediaCssAll .= 'box-shadow:' . $shadow_offset_h . ' ' . $shadow_offset_v . ' ' . $v1 . ' ' . $shadow_color . ' !important;' . PHP_EOL;
+							continue;
+						}
+
+						if ( in_array( $k1, array( 'shadow-color', 'shadow-offset-h', 'shadow-offset-v' ) ) ) {
+							continue;
+						}
+
+
+						// Display settings
+						if ( 'display' === $k1 ) {
+							if ( 'show' !== $v1 && '' !== $v1 ) {
+								$mediaCssDesktop .= $k1 . ':' . $v1 . ' !important;' . PHP_EOL;
+							}
+							continue;
+						}
+
 
 						$mediaCssAll .= $k1 . ':' . $v1 . ' !important;' . PHP_EOL;
 					}
@@ -568,7 +637,7 @@ class td_block {
 						}
 
 						//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
-						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::before {' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . ' > .td-element-style-before {' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 
 						$positionElement = true;
 					}
@@ -577,10 +646,14 @@ class td_block {
 					if (!empty($cssAfterAll)) {
 
 						$css = '';
+						$deg = '';
 
+						if (array_key_exists('gradient-direction', $cssAfterAll )) {
+							$deg = $cssAfterAll['gradient-direction'] . 'deg,';
+						}
 
 						if (array_key_exists('color-1-overlay', $cssAfterAll) && array_key_exists('color-2-overlay', $cssAfterAll)) {
-							$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', '  . $cssAfterAll['color-2-overlay'] . ') !important;' . PHP_EOL;
+							$css .= 'background: linear-gradient(' . $deg . $cssAfterAll['color-1-overlay'] . ', '  . $cssAfterAll['color-2-overlay'] . ') !important;' . PHP_EOL;
 						} else if (array_key_exists('color-1-overlay', $cssAfterAll)) {
 							$css .= 'background: ' . $cssAfterAll['color-1-overlay'] .' !important;' . PHP_EOL;
 						} else if (array_key_exists('color-2-overlay', $cssAfterAll)) {
@@ -612,11 +685,26 @@ class td_block {
 
 					// all css
 					if ($mediaCssAll !== '') {
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
+
+						if ((class_exists('vc_row') && $this instanceof vc_row) || (class_exists('vc_row_inner') && $this instanceof vc_row_inner)) {
+							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att('tdc_css_class') . ' .td_block_wrap{ text-align:left }' . PHP_EOL;
+						}
 					}
 
-					unset($tdcCssArray['all']);
+					// desktop css
+					if ($mediaCssDesktop !== '') {
+						$limit_bottom = td_global::$td_viewport_intervals[ count( td_global::$td_viewport_intervals ) - 1 ]['limitBottom'];
+						$tdcCssProcessed .= PHP_EOL . '/* desktop */ @media(min-width: ' . ( $limit_bottom + 1 ) . 'px) { ' . '.' . $this->get_att('tdc_css_class') . ' { ' . PHP_EOL . $mediaCssDesktop . '} }' . PHP_EOL;
+					}
+
+					// Temporarily commented
+					//unset($tdcCssArray['all']);
 				}
+
+
+
+
 
 
 				// @todo The css media queries must be output in reverse order. Maybe this generated css should be managed all at once, in page.
@@ -695,6 +783,8 @@ class td_block {
 							$setting = 'background-size';
 							if ($v2 === 'repeat' || $v2 === 'no-repeat') {
 								$setting = 'background-repeat';
+							} else if ($v2 === 'contain') {
+								$cssBeforeAll .= 'background-repeat: no-repeat !important;' . PHP_EOL;
 							}
 							$cssBeforeAll .= $setting . ':' . $v2 . ' !important;' . PHP_EOL;
 							continue;
@@ -743,9 +833,84 @@ class td_block {
 						}
 
 
+						if ( 'content-h-align' === $k2 ) {
+							$k2 = 'text-align';
+							$v2 = str_replace( 'content-horiz-', '', $v2 );
+
+							// These settings were introduced because of vertical align
+							switch ( $v2 ){
+								case 'center' : $mediaCss .= 'justify-content:center !important;' . PHP_EOL; break;
+								case 'right' : $mediaCss .= 'justify-content:flex-end !important;' . PHP_EOL; break;
+							}
+						}
+
+						// Do nothing for these keys - they will be checked later
+						if ( in_array( $k2, array( 'shadow-size', 'shadow-color', 'shadow-offset-h', 'shadow-offset-v' ) ) ) {
+							continue;
+						}
+
+
+						// Display
+						if ( 'display' === $k2 ) {
+							if ( 'show' !== $v2 && '' !== $v2 ) {
+								$mediaCss .= $k2 . ':' . $v2 . ' !important;' . PHP_EOL;
+							}
+							continue;
+						}
+
 
 						$mediaCss .= $k2 . ':' . $v2 . ' !important;' . PHP_EOL;
 					}
+
+
+
+
+					// Shadow settings
+					$shadow_size = 0;
+
+					if ( array_key_exists( 'shadow-size', $mediaArray ) ) {
+						$shadow_size = $mediaArray['shadow-size'] . 'px';
+					}
+
+					// check media-all
+					if ( empty( $shadow_size ) && array_key_exists('all', $tdcCssArray) && array_key_exists( 'shadow-size', $tdcCssArray['all'] ) && ! empty( $tdcCssArray['all']['shadow-size'] ) ) {
+						$shadow_size = $tdcCssArray['all']['shadow-size'] . 'px';
+					}
+
+
+					if ( ! empty( $shadow_size ) ) {
+						$shadow_offset_h = 0;
+						if ( array_key_exists( 'shadow-offset-h', $mediaArray ) ) {
+							$shadow_offset_h = $mediaArray['shadow-offset-h'] . 'px';
+						}
+						if ( empty( $shadow_offset_h ) && array_key_exists( 'shadow-offset-h', $tdcCssArray['all'] ) && ! empty( $tdcCssArray['all']['shadow-offset-h'] ) ) {
+							$shadow_offset_h = $tdcCssArray['all']['shadow-offset-h'] . 'px';
+						}
+
+						$shadow_offset_v = 0;
+						if ( array_key_exists( 'shadow-offset-v', $mediaArray ) ) {
+							$shadow_offset_v = $mediaArray['shadow-offset-v'] . 'px';
+						}
+						if ( empty( $shadow_offset_v ) && array_key_exists( 'shadow-offset-v', $tdcCssArray['all'] ) && ! empty( $tdcCssArray['all']['shadow-offset-v'] ) ) {
+							$shadow_offset_v = $tdcCssArray['all']['shadow-offset-v'] . 'px';
+						}
+
+						$shadow_color = 0;
+						if ( array_key_exists( 'shadow-color', $mediaArray ) ) {
+							$shadow_color = $mediaArray['shadow-color'];
+						}
+						if ( empty( $shadow_color ) ) {
+							if ( array_key_exists( 'shadow-color', $tdcCssArray['all'] ) && ! empty( $tdcCssArray['all']['shadow-color'] ) ) {
+								$shadow_color = $tdcCssArray['all']['shadow-color'];
+							} else {
+								$shadow_color = '#888888';
+							}
+						}
+						$mediaCss .= 'box-shadow:' . $shadow_offset_h . ' ' . $shadow_offset_v . ' ' . $shadow_size . ' ' . $shadow_color . ' !important;' . PHP_EOL;
+					}
+
+
+
 
 
 					// Add default value for 'border-style'
@@ -841,7 +1006,8 @@ class td_block {
 								$beforeCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
 								$beforeCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
 								$beforeCssOutput .= '{'. PHP_EOL;
-								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class_style') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								//$beforeCssOutput .= '.' . $this->get_att('tdc_css_class_style') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class_style') . ' > .td-element-style-before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
 								$beforeCssOutput .= '}'. PHP_EOL;
 
 								$positionElement = true;
@@ -850,22 +1016,29 @@ class td_block {
 							if (!empty($cssAfter)) {
 
 								$css = '';
+								$deg = '';
+
+								if (array_key_exists('gradient-direction', $cssAfter )) {
+									$deg = $cssAfter['gradient-direction'] . 'deg,';
+								}
 
 
 								if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
-									$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ') !important;' . PHP_EOL;
+									$css .= 'background: linear-gradient(' . $deg . $cssAfter['color-1-overlay'] . ', '  . $cssAfter['color-2-overlay'] . ') !important;' . PHP_EOL;
 								} else if (array_key_exists('color-1-overlay', $cssAfter)) {
 									if (array_key_exists('color-2-overlay', $cssAfterAll)) {
-										$css .= 'background: linear-gradient(' . $cssAfter['color-1-overlay'] . ', ' . $cssAfterAll['color-2-overlay'] . ') !important;' . PHP_EOL;
+										$css .= 'background: linear-gradient(' . $deg . $cssAfter['color-1-overlay'] . ', ' . $cssAfterAll['color-2-overlay'] . ') !important;' . PHP_EOL;
 									} else {
 										$css .= 'background: ' . $cssAfter['color-1-overlay'] .' !important;' . PHP_EOL;
 									}
 								} else if (array_key_exists('color-2-overlay', $cssAfter)) {
 									if (array_key_exists('color-1-overlay', $cssAfterAll)) {
-										$css .= 'background: linear-gradient(' . $cssAfterAll['color-1-overlay'] . ', ' . $cssAfter['color-2-overlay'] . ') !important;' . PHP_EOL;
+										$css .= 'background: linear-gradient(' . $deg . $cssAfterAll['color-1-overlay'] . ', ' . $cssAfter['color-2-overlay'] . ') !important;' . PHP_EOL;
 									} else {
 										$css .= 'background: ' . $cssAfter['color-2-overlay'] .' !important;' . PHP_EOL;
 									}
+								} else {
+									$css .= 'background: linear-gradient(' . $deg . $cssAfterAll['color-1-overlay'] . ', ' . $cssAfterAll['color-2-overlay'] . ') !important;' . PHP_EOL;
 								}
 
 								if (array_key_exists('opacity', $cssAfter)) {
@@ -1592,6 +1765,7 @@ class td_block {
 
 	/**
 	 * Safe way to read $this->atts. It makes sure that you read them when they are ready and set! For now, the class is not refactorized to use this
+	 * @deprecated Use get_shortcode_att instead - rewrite shortcode to support it
 	 * @param $att_name
 	 * @return mixed
 	 */
@@ -1608,6 +1782,27 @@ class td_block {
 		}
 
 		return $this->atts[$att_name];
+	}
+
+
+	/**
+	 * @param $att_name
+	 *
+	 * @return mixed
+	 */
+	protected function get_shortcode_att( $att_name ) {
+		if ( empty($this->shortcode_atts ) ) {
+			td_util::error(__FILE__, get_class($this) . '->get_shortcode_att(' . $att_name . ') Internal error: The atts are not set yet(AKA: the render method was not called yet and the system tried to read a shorcode_att)');
+			die;
+		}
+
+		if ( ! isset($this->shortcode_atts[ $att_name ] ) ) {
+			var_dump( $this->shortcode_atts );
+			td_util::error(__FILE__, 'Internal error: The system tried to use a shorcode_att that does not exists! class_name: ' . get_class($this) . '  Att name: "' . $att_name . '" The list with available shorcode_att is computed at run time by each shortcode');
+			die;
+		}
+
+		return $this->shortcode_atts[ $att_name ];
 	}
 
 
@@ -1651,6 +1846,78 @@ class td_block {
 	private function is_loop_block() {
 		return $this->is_loop_block;
 	}
+
+
+	/**
+	 * Set 'load' option for tdc_config::$font_settings
+	 * @param $atts
+	 */
+	protected function set_font_settings( $atts ) {
+		if ( ! empty( $atts ) ) {
+			$current_class         = get_class( $this );
+			$shortcodes_with_icons = td_util::get_shortcodes_with_icons();
+
+			if ( array_key_exists( $current_class, $shortcodes_with_icons ) ) {
+
+				foreach ( $shortcodes_with_icons[ $current_class ] as $param ) {
+
+					if ( 'icon' === $param['type'] && array_key_exists( $param['param_name'], $atts ) && ! empty( $atts[ $param['param_name'] ] ) ) {
+
+						$css_classes = explode( ' ', $atts[ $param['param_name'] ] );
+						if ( count( $css_classes ) ) {
+							foreach ( $css_classes as $css_class ) {
+								foreach ( tdc_config::$font_settings as &$font_setting ) {
+									if ( false === $font_setting['load'] && $css_class === 'tdc-font-' . $font_setting['family_class'] ) {
+										$font_setting['load'] = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Generate css compiled code
+	 *
+	 * @param $css_compiler
+	 * @param $shortcode_att_id
+	 * @param $color_id
+	 * @param $gradient_id
+	 * @param $instance - shortcode or style template
+	 */
+	static function load_color_settings( $instance, $css_compiler, $shortcode_att_id, $color_id = '', $gradient_id = '', $gradient_color = '', $gradient_params = '' ) {
+		if ( $instance instanceof td_block  ) {
+			$shortcode_att = $instance->get_shortcode_att( $shortcode_att_id );
+		} else {
+			$shortcode_att = $instance->get_style_att( $shortcode_att_id );
+		}
+
+	    if ( ! empty( $shortcode_att ) ) {
+
+		    $decoded_shortcode_att = @base64_decode( $shortcode_att, true );
+		    if ( false !== $decoded_shortcode_att && $decoded_shortcode_att !== $shortcode_att ) {
+			    $att = json_decode( $decoded_shortcode_att, true );
+			    if ( ! empty ( $gradient_id ) && ! empty ( $att['css'] ) ) {
+			        $css_compiler->load_setting_raw( $gradient_id, $att['css'] );
+				    if ( ! empty ( $gradient_color ) && ! empty( $att['color1'] ) ) {
+					    $css_compiler->load_setting_raw( $gradient_color, $att['color1'] );
+				    }
+				    if ( ! empty ( $gradient_params ) && ! empty( $att['cssParams'] ) ) {
+					    $css_compiler->load_setting_raw( $gradient_params, $att['cssParams'] );
+				    }
+			    }
+		    } else {
+			    if ( ! empty ( $color_id ) ) {
+				    $css_compiler->load_setting_raw( $color_id, $shortcode_att );
+			    }
+		    }
+	    }
+	}
+
 
 }
 

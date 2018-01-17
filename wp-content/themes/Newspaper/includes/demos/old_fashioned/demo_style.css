@@ -235,22 +235,21 @@ usage:
   position: relative;
   padding-left: 52px;
 }
-.td-old-fashioned .td-post-template-2 .td-post-sharing a {
-  position: relative;
-  background-color: #f1f0ee;
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-network {
   color: #000;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
   -ms-transform: translateZ(0);
   -o-transform: translateZ(0);
+  overflow: visible;
 }
-.td-old-fashioned .td-post-template-2 .td-post-sharing a:before,
-.td-old-fashioned .td-post-template-2 .td-post-sharing a:after {
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-network:before,
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-network:after {
   content: '';
   position: absolute;
 }
-.td-old-fashioned .td-post-template-2 .td-post-sharing a:before {
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-network:before {
   bottom: -3px;
   left: -3px;
   background-color: #000;
@@ -264,9 +263,9 @@ usage:
   opacity: 0.1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 10 ")";
   filter: alpha(opacity=10);
-  z-index: -2;
+  z-index: -1;
 }
-.td-old-fashioned .td-post-template-2 .td-post-sharing a:after {
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-network:after {
   top: 0;
   left: 0;
   width: 100%;
@@ -274,12 +273,26 @@ usage:
   background-color: #f1f0ee;
   z-index: -1;
 }
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-handler {
+  border-color: #f0f0f0;
+}
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-handler:before {
+  border-color: transparent transparent transparent #f0f0f0;
+}
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-handler:after {
+  border-color: transparent transparent transparent #e6ded2;
+}
+.td-old-fashioned .td-post-template-2 .td-post-sharing-style1 .td-social-handler .td-social-but-text:before {
+  background-color: #fff;
+}
 .td-old-fashioned .td-post-template-2 .td-post-sharing-bottom,
+.td-old-fashioned .td-post-template-2 .author-box-wrap {
+  border-color: rgba(52, 40, 24, 0.17);
+}
 .td-old-fashioned .td-post-template-2 .author-box-wrap {
   padding-left: 0;
   padding-right: 0;
   border-width: 1px 0;
-  border-color: rgba(52, 40, 24, 0.17);
 }
 .td-old-fashioned .td-post-template-2 .td-post-next-prev-content span {
   color: #818181;

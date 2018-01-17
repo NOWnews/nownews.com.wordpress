@@ -25,6 +25,9 @@ require_once('td_api.php');
 require_once('wp-admin/panel/panel_core/td_panel_data_source.php');
 
 
+if (td_util::is_amp_plugin_installed()) {
+    require_once AMP__DIR__ . "/templates/functions.php";
+}
 
 // hook here to use the theme api
 do_action('td_global_after');
@@ -77,6 +80,8 @@ td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/inc
 td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
 td_api_autoload::add('td_help_pointers', td_global::$get_template_directory . '/includes/wp_booster/td_help_pointers.php');
 td_api_autoload::add('td_block_template', td_global::$get_template_directory . '/includes/wp_booster/td_block_template.php');
+td_api_autoload::add('td_social_sharing', td_global::$get_template_directory . '/includes/wp_booster/td_social_sharing.php');
+
 
 /* ----------------------------------------------------------------------------
  * video thumbnail & featured video embeds support
@@ -93,6 +98,16 @@ add_action('admin_notices', array('td_video_support', 'td_twitter_class_on_admin
 td_api_autoload::add('td_more_article_box', td_global::$get_template_directory . '/includes/wp_booster/td_more_article_box.php');
 add_action('wp_footer', array('td_more_article_box', 'on_wp_footer_render_box'));
 
+
+
+/* ----------------------------------------------------------------------------
+ * td_admin_popup
+ */
+//execute only if the admin_go_premium_popup flag is enabled and is not premium version of the ionmag theme
+if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false) {
+	td_api_autoload::add('td_admin_popup', td_global::$get_template_directory . '/includes/wp_booster/td_admin_popup.php');
+	add_action('admin_footer', array('td_admin_popup', 'on_admin_footer'));
+}
 
 
 /* ----------------------------------------------------------------------------
@@ -177,6 +192,7 @@ add_action('wp_ajax_td_ajax_db_check', array('td_ajax', 'on_ajax_db_check'));
 //function td_wp_footer_debug() {
 //	td_api_base::_debug_show_autoloaded_components();
 //}
+
 
 
 
@@ -463,7 +479,7 @@ function load_wp_admin_js() {
  */
 add_action('admin_print_footer_scripts', 'check_if_media_uploads_is_loaded', 9999);
 function check_if_media_uploads_is_loaded() {
-    $wp_scripts = wp_scripts();
+	$wp_scripts = wp_scripts();
     $media_upload = $wp_scripts->query('media-upload', 'done');
     if ($media_upload === true) {
         //td_js_buffer::add_to_wp_admin_footer('var td_media_upload_loaded = true;');
@@ -1806,7 +1822,7 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
                     jQuery(document).ready(function() {
                         //magnific popup
                         jQuery("#' . $gallery_slider_unique_id . ' .td-slide-popup-gallery").magnificPopup({
-                            delegate: "a",
+                            delegate: "a.slide-gallery-image-link",
                             type: "image",
                             tLoading: "Loading image #%curr%...",
                             mainClass: "mfp-img-mobile",
@@ -2454,14 +2470,16 @@ function td_template_include_filter( $wordpress_template_path ) {
 			try {
 				$single_template_path = td_api_single_template::get_key($single_template_id, 'file');
 			} catch (ErrorException $ex) {
-				td_util::error(__FILE__, "The template $single_template_id isn't set. Did you disable a tagDiv plugin?"); // this does not stop execution
+				td_util::error( __FILE__, "The template $single_template_id isn't set. Did you disable a tagDiv plugin?" ); // this does not stop execution
+				td_util::set_check_installed_plugins();
 			}
 
 			// we have the file in the API, now we make sure that the file exists on disk
 			if (!empty($single_template_path) and file_exists($single_template_path)) {
 				$wordpress_template_path = $single_template_path;
 			} else {
-				td_util::error(__FILE__, "The path $single_template_path of the $single_template_id template not found. Did you disable a tagDiv plugin?");  // this does not stop execution
+				td_util::error( __FILE__, "The path $single_template_path of the $single_template_id template not found. Did you disable a tagDiv plugin?" );  // this does not stop execution
+				td_util::set_check_installed_plugins();
 			}
 		}
 
@@ -2513,7 +2531,7 @@ function td_customize_js() {
 
 add_filter('admin_body_class', 'td_on_admin_body_class' );
 function td_on_admin_body_class( $classes ) {
-    if (TD_THEME_NAME == "ionMag" && (!defined('TD_DEPLOY_IS_PREMIUM') || TD_DEPLOY_IS_PREMIUM === false)) {
+    if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false) {
         $classes .= ' td-theme-panel-ionMag-free ';
     }
 	$classes .= ' td-theme-' . TD_THEME_NAME;

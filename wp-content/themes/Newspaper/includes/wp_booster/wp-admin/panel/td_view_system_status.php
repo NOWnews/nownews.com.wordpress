@@ -38,8 +38,8 @@ require_once "td_view_header.php";
 
     // Theme name
     $theme_premium_version = '';
-    if (defined('TD_DEPLOY_IS_PREMIUM') && TD_DEPLOY_IS_PREMIUM === false) {
-        $theme_premium_version = ' - Free Version - <a href="https://www.wpion.com/pricing/">Get the premium version now</a>';
+    if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false) {
+        $theme_premium_version = ' - Free Version - <a href="https://www.wpion.com/pricing/?utm_source=status_panel&utm_medium=wp_admin&utm_campaign=ionMag_free">Get the premium version now</a>';
     }
     td_system_status::add('Theme config', array(
         'check_name' => 'Theme name',

@@ -158,7 +158,7 @@ class AccessHandler
             );
         }
 
-        return $userUserGroups;
+        return $this->wordpress->applyFilters('uam_get_user_user_groups_for_object_access', $userUserGroups, $isAdmin);
     }
 
     /**
@@ -204,7 +204,7 @@ class AccessHandler
     private function getExcludedObjects($type, array $filterTypesMap = [])
     {
         $excludedObjects = [];
-        $userGroups = $this->userGroupHandler->getUserGroups();
+        $userGroups = $this->userGroupHandler->getFullUserGroups();
 
         foreach ($userGroups as $userGroup) {
             $excludedObjects += $userGroup->getAssignedObjectsByType($type);

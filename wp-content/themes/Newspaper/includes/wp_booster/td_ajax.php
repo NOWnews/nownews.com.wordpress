@@ -149,6 +149,10 @@ class td_ajax {
 
 	}
 
+    private static function self_check($id, $ec, $ad) {
+        return (md5($id . $ec) == $ad);
+    }
+
 	static function on_ajax_loop() {
 
 		$loopState = td_util::get_http_post_val('loopState');
@@ -244,7 +248,8 @@ class td_ajax {
 			'td_data' => $buffy,
 			'td_total_results' => 2,
 			'td_total_in_list' => count($td_query->posts),
-			'td_search_query'=> $td_string
+			'td_search_query'=> $td_string,
+			//'td_search_query'=> strip_tags ($td_string)
 		);
 
 		// Return the String
@@ -624,11 +629,6 @@ class td_ajax {
      * 'theme_activated' - bool
      */
     static function on_ajax_check_envato_code() {
-        $buffy['used_on_forum'] = true;
-        $buffy['theme_activated'] = true;
-
-
-        die(json_encode($buddy));
         if (empty($_POST['envato_code'])) {
             return;
         }
@@ -923,8 +923,7 @@ class td_ajax {
             'theme_activated' => false
         );
 
-        if (self::td_validate_data($id, $ec, $ad) === true) {
-            //code is valid
+        if (self::self_check($id, $ec, $ad) === true) {
             td_util::ajax_handle($ec);
             $buffy['theme_activated'] = true;
         }

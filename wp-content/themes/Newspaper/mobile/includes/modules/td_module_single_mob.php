@@ -40,32 +40,29 @@ class td_module_single_mob extends td_module_single_base {
         // @todo single-post-thumbnail appears to not be in used! please check
         $image = wp_get_attachment_image_src( get_post_thumbnail_id( $this->post->ID ), 'single-post-thumbnail' );
 
-        $twitter_user = td_util::get_option('tds_tweeter_username');
 
-
-        $buffy .= '<div class="td-post-sharing td-post-sharing-top">';
-
-            /**
-             * get Pinterest share description
-             * get it from SEO by Yoast meta (if the plugin is active and the description is set) else use the post title
-             */
-            if (is_plugin_active('wordpress-seo/wp-seo.php') and get_post_meta($this->post->ID, '_yoast_wpseo_metadesc', true) != '') {
-                $td_pinterest_share_description = get_post_meta($this->post->ID, '_yoast_wpseo_metadesc', true);
-            } else{
-                $td_pinterest_share_description = htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8');
+        $buffy .= '<div class="td-post-sharing-top">';
+            if( td_util::get_option('tds_top_like_show') == 'show' ) {
+                $buffy .= '<div class="td-post-sharing-classic">';
+                    $buffy .= '<iframe frameBorder="0" src="' . td_global::$http_or_https . '://www.facebook.com/plugins/like.php?href=' . $this->href . '&amp;layout=button_count&amp;show_faces=false&amp;width=105&amp;action=like&amp;colorscheme=light&amp;height=21" style="border:none; overflow:hidden; width:105px; height:21px; background-color:transparent;"></iframe>';
+                $buffy .= '</div>';
             }
 
-            $buffy .= '
-				<div class="td-default-sharing">
-		            <a class="td-social-sharing-buttons td-social-facebook" href="https://www.facebook.com/sharer.php?u=' . urlencode( esc_url( get_permalink() ) ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-facebook"></i></a>
-		            <a class="td-social-sharing-buttons td-social-twitter" href="https://twitter.com/intent/tweet?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '&url=' . urlencode( esc_url( get_permalink() ) ) . '&via=' . urlencode( $twitter_user ? $twitter_user : get_bloginfo( 'name' ) ) . '"  ><i class="td-icon-twitter"></i></a>
-		            <a class="td-social-sharing-buttons td-social-google" href="https://plus.google.com/share?url=' . esc_url( get_permalink() ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-googleplus"></i></a>
-		            <a class="td-social-sharing-buttons td-social-pinterest" href="https://pinterest.com/pin/create/button/?url=' . esc_url( get_permalink() ) . '&amp;media=' . ( ! empty( $image[0] ) ? $image[0] : '' ) . '&description=' . $td_pinterest_share_description . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-pinterest"></i></a>
-		            <a class="td-social-sharing-buttons td-social-whatsapp" href="whatsapp://send?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '%20-%20' . urlencode( esc_url( get_permalink() ) ) . '" ><i class="td-icon-whatsapp"></i></a>
-		        </div>';
+            if (td_util::get_option('tds_top_social_show') != 'hide') {
+                $share_text_show = false;
+                if (td_util::get_option('tds_top_like_share_text_show') == 'show') {
+                    $share_text_show = true;
+                }
 
-
+                $buffy .= td_social_sharing::render_generic(array(
+                    'services' => td_api_social_sharing_styles::_helper_get_enabled_socials(),
+                    'style' => td_options::get('tds_social_sharing_bottom_style', 'style1'),
+                    'share_text_show' => $share_text_show,
+                    'el_class' => ''
+                ), 'td_social_sharing_article_top');
+            }
         $buffy .= '</div>';
+
 
         return $buffy;
     }
@@ -85,30 +82,27 @@ class td_module_single_mob extends td_module_single_base {
         $buffy = '';
         // @todo single-post-thumbnail appears to not be in used! please check
         $image = wp_get_attachment_image_src( get_post_thumbnail_id( $this->post->ID ), 'single-post-thumbnail' );
-        $buffy .= '<div class="td-post-sharing td-post-sharing-bottom">';
 
-            $twitter_user = td_util::get_option( 'tds_tweeter_username' );
-
-            /**
-             * get Pinterest share description
-             * get it from SEO by Yoast meta (if the plugin is active and the description is set) else use the post title
-             */
-            if (is_plugin_active('wordpress-seo/wp-seo.php') and get_post_meta($this->post->ID, '_yoast_wpseo_metadesc', true) != '') {
-                $td_pinterest_share_description = get_post_meta($this->post->ID, '_yoast_wpseo_metadesc', true);
-            } else{
-                $td_pinterest_share_description = htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8');
+        $buffy .= '<div class="td-post-sharing-bottom">';
+            if( td_util::get_option('tds_bottom_like_show') == 'show' ) {
+                $buffy .= '<div class="td-post-sharing-classic">';
+                    $buffy .= '<iframe frameBorder="0" src="' . td_global::$http_or_https . '://www.facebook.com/plugins/like.php?href=' . $this->href . '&amp;layout=button_count&amp;show_faces=false&amp;width=105&amp;action=like&amp;colorscheme=light&amp;height=21" style="border:none; overflow:hidden; width:105px; height:21px; background-color:transparent;"></iframe>';
+                $buffy .= '</div>';
             }
 
-            //default share buttons
-            $buffy .= '
-            <div class="td-default-sharing">
-	            <a class="td-social-sharing-buttons td-social-facebook" href="https://www.facebook.com/sharer.php?u=' . urlencode( esc_url( get_permalink() ) ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-facebook"></i></a>
-	            <a class="td-social-sharing-buttons td-social-twitter" href="https://twitter.com/intent/tweet?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '&url=' . urlencode( esc_url( get_permalink() ) ) . '&via=' . urlencode( $twitter_user ? $twitter_user : get_bloginfo( 'name' ) ) . '"><i class="td-icon-twitter"></i></a>
-	            <a class="td-social-sharing-buttons td-social-google" href="https://plus.google.com/share?url=' . esc_url( get_permalink() ) . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-googleplus"></i></a>
-	            <a class="td-social-sharing-buttons td-social-pinterest" href="https://pinterest.com/pin/create/button/?url=' . esc_url( get_permalink() ) . '&amp;media=' . ( ! empty( $image[0] ) ? $image[0] : '' ) . '&description=' . $td_pinterest_share_description . '" onclick="window.open(this.href, \'mywin\',\'left=50,top=50,width=600,height=350,toolbar=0\'); return false;"><i class="td-icon-pinterest"></i></a>
-	            <a class="td-social-sharing-buttons td-social-whatsapp" href="whatsapp://send?text=' . htmlspecialchars(urlencode(html_entity_decode($this->title, ENT_COMPAT, 'UTF-8')), ENT_COMPAT, 'UTF-8') . '%20-%20' . urlencode( esc_url( get_permalink() ) ) . '" ><i class="td-icon-whatsapp"></i></a>
-            </div>';
+            if (td_util::get_option('tds_bottom_social_show') != 'hide') {
+                $share_text_show = false;
+                if (td_util::get_option('tds_bottom_like_share_text_show') == 'show') {
+                    $share_text_show = true;
+                }
 
+                $buffy .= td_social_sharing::render_generic(array(
+                    'services' => td_api_social_sharing_styles::_helper_get_enabled_socials(),
+                    'style' => td_options::get('tds_social_sharing_bottom_style', 'style1'),
+                    'share_text_show' => $share_text_show,
+                    'el_class' => ''
+                ), 'td_social_sharing_article_bottom');
+            }
         $buffy .= '</div>';
 
         return $buffy;

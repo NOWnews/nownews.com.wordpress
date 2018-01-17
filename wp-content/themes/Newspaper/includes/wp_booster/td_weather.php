@@ -234,7 +234,11 @@ class td_weather
 
 			<div class="td-weather-week">
 				<?php
+				$count = 0;
 				foreach ($weather_data['forecast'] as $forecast_index => $day_forecast) {
+					if ($count === 5) {
+						break;
+					}
 					?>
 					<div class="td-weather-days">
 						<div class="td-day-<?php echo $forecast_index ?>"><?php echo $day_forecast['day_name'] ?></div>
@@ -246,6 +250,7 @@ class td_weather
 						</div>
 					</div>
 					<?php
+					$count++;
 				}
 				?>
 			</div>

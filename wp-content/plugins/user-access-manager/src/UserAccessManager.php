@@ -48,7 +48,7 @@ use UserAccessManager\Wrapper\Wordpress;
  */
 class UserAccessManager
 {
-    const VERSION = '2.1.9';
+    const VERSION = '2.1.10';
     const DB_VERSION = '1.6.1';
 
     /**
@@ -494,6 +494,7 @@ class UserAccessManager
             2
         );
         $this->wordpress->addAction('save_post', [$postObjectController, 'savePostData']);
+        $this->wordpress->addAction('add_attachment', [$postObjectController, 'addAttachment']);
         $this->wordpress->addAction('edit_user_profile', [$userObjectController, 'showUserProfile']);
         $this->wordpress->addAction('user_new_form', [$userObjectController, 'showUserProfile']);
         $this->wordpress->addAction('user_register', [$userObjectController, 'saveUserData']);
@@ -622,14 +623,7 @@ class UserAccessManager
         $backendController = $this->controllerFactory->createBackendController();
         $this->wordpress->addAction('admin_enqueue_scripts', [$backendController, 'enqueueStylesAndScripts']);
         $this->wordpress->addAction('wp_dashboard_setup', [$backendController, 'setupAdminDashboard']);
-        $updateAction = $backendController->getRequestParameter('uam_update_db');
-
-        if ($this->setupHandler->getDatabaseHandler()->isDatabaseUpdateNecessary() === true
-            && $updateAction !== SetupController::UPDATE_BLOG
-            && $updateAction !== SetupController::UPDATE_NETWORK
-        ) {
-            $this->wordpress->addAction('admin_notices', [$backendController, 'showDatabaseNotice']);
-        }
+        $this->wordpress->addAction('admin_notices', [$backendController, 'showAdminNotice']);
 
         $taxonomies = $this->objectHandler->getTaxonomies();
         $taxonomy = $backendController->getRequestParameter('taxonomy');

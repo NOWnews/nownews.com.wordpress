@@ -294,7 +294,7 @@ class Quick_Featured_Images_Columns {
 							// show image linked to media selection box
 							$link_title = __( 'Change &#8220;%s&#8221;', 'quick-featured-images' );
 							$thumb_title = _draft_or_post_title( $thumbnail_id );
-							$text = 'Change Image';
+							$text = 'Change image';
 							$link_text = __( $text );
 							printf(
 								'<a href="%s" id="qfi_set_%d" class="qfi_set_fi" title="%s">%s<br />%s</a>',
@@ -449,7 +449,7 @@ class Quick_Featured_Images_Columns {
 
 				// Localize the texts
 				$title_edit		= 'Edit &#8220;%s&#8221;';
-				$text_change	= 'Change Image';
+				$text_change	= 'Change image';
 				$text_edit		= 'Edit Image';
 				$text_remove	= 'Remove featured image';
 				$translations = array(

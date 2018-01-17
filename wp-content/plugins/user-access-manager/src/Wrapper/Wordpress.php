@@ -198,6 +198,20 @@ class Wordpress
     }
 
     /**
+     * @see \restore_current_blog()
+     *
+     * @return bool
+     */
+    public function restoreCurrentBlog()
+    {
+        if (function_exists('\restore_current_blog') === true) {
+            return restore_current_blog();
+        }
+
+        return true;
+    }
+
+    /**
      * @see \is_multisite()
      *
      * @return bool
@@ -524,6 +538,15 @@ class Wordpress
      */
     public function isAdmin()
     {
+        //Ajax request are always identified as administrative interface page
+        if (\wp_doing_ajax() === true) {
+            //So let's check if we are calling the ajax data for the frontend or backend
+            //If the referer is an admin url we are requesting the data for the backend
+            $adminUrl = get_admin_url();
+            return (substr($_SERVER['HTTP_REFERER'], 0, strlen($adminUrl)) === $adminUrl);
+        }
+
+        //No ajax request just use the normal function
         return \is_admin();
     }
 

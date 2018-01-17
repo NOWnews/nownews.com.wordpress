@@ -78,7 +78,8 @@ td_demo_misc::add_ad_image('sidebar', 'td_blog_baby_sidebar_ad');
 
 /*  ----------------------------------------------------------------------------
     sidebars
- */
+*/
+
 //default sidebar
 td_demo_widgets::remove_widgets_from_sidebar('default');
 
@@ -137,61 +138,61 @@ $demo_cat_1_id =td_demo_category::add_category(array(
     'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
     'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
 ));
-    $demo_cat_2_id =td_demo_category::add_category(array(
-        'category_name' => 'Birth',
-        'parent_id' => $demo_cat_1_id,
-        'category_template' => '',
-        'top_posts_style' => '',
-        'description' => '',
-        'background_td_pic_id' => '',
-        'sidebar_id' => '',
-        'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
-        'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
-    ));
-    $demo_cat_3_id =td_demo_category::add_category(array(
-        'category_name' => 'Learning',
-        'parent_id' => $demo_cat_1_id,
-        'category_template' => '',
-        'top_posts_style' => '',
-        'description' => '',
-        'background_td_pic_id' => '',
-        'sidebar_id' => '',
-        'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
-        'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
-    ));
-    $demo_cat_4_id =td_demo_category::add_category(array(
-        'category_name' => 'Life',
-        'parent_id' => $demo_cat_1_id,
-        'category_template' => '',
-        'top_posts_style' => '',
-        'description' => '',
-        'background_td_pic_id' => '',
-        'sidebar_id' => '',
-        'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
-        'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
-    ));
-    $demo_cat_5_id =td_demo_category::add_category(array(
-        'category_name' => 'Moments',
-        'parent_id' => $demo_cat_1_id,
-        'category_template' => '',
-        'top_posts_style' => '',
-        'description' => '',
-        'background_td_pic_id' => '',
-        'sidebar_id' => '',
-        'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
-        'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
-    ));
-    $demo_cat_6_id =td_demo_category::add_category(array(
-        'category_name' => 'Pregnancy',
-        'parent_id' => $demo_cat_1_id,
-        'category_template' => '',
-        'top_posts_style' => '',
-        'description' => '',
-        'background_td_pic_id' => '',
-        'sidebar_id' => '',
-        'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
-        'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
-    ));
+$demo_cat_2_id =td_demo_category::add_category(array(
+    'category_name' => 'Birth',
+    'parent_id' => $demo_cat_1_id,
+    'category_template' => '',
+    'top_posts_style' => '',
+    'description' => '',
+    'background_td_pic_id' => '',
+    'sidebar_id' => '',
+    'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
+    'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
+));
+$demo_cat_3_id =td_demo_category::add_category(array(
+    'category_name' => 'Learning',
+    'parent_id' => $demo_cat_1_id,
+    'category_template' => '',
+    'top_posts_style' => '',
+    'description' => '',
+    'background_td_pic_id' => '',
+    'sidebar_id' => '',
+    'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
+    'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
+));
+$demo_cat_4_id =td_demo_category::add_category(array(
+    'category_name' => 'Life',
+    'parent_id' => $demo_cat_1_id,
+    'category_template' => '',
+    'top_posts_style' => '',
+    'description' => '',
+    'background_td_pic_id' => '',
+    'sidebar_id' => '',
+    'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
+    'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
+));
+$demo_cat_5_id =td_demo_category::add_category(array(
+    'category_name' => 'Moments',
+    'parent_id' => $demo_cat_1_id,
+    'category_template' => '',
+    'top_posts_style' => '',
+    'description' => '',
+    'background_td_pic_id' => '',
+    'sidebar_id' => '',
+    'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
+    'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
+));
+$demo_cat_6_id =td_demo_category::add_category(array(
+    'category_name' => 'Pregnancy',
+    'parent_id' => $demo_cat_1_id,
+    'category_template' => '',
+    'top_posts_style' => '',
+    'description' => '',
+    'background_td_pic_id' => '',
+    'sidebar_id' => '',
+    'tdc_layout' => '', //THE MODULE ID 1 2 3 NO NAME JUST ID
+    'tdc_sidebar_pos' => '', //sidebar_left, sidebar_right, no_sidebar
+));
 
 $demo_cat_7_id =td_demo_category::add_category(array(
     'category_name' => 'Fitness',
@@ -259,7 +260,7 @@ $demo_cat_11_id =td_demo_category::add_category(array(
 $td_homepage_id = td_demo_content::add_page(array(
     'title' => 'Home',
     'file' => td_global::$get_template_directory . '/includes/demos/blog_baby/pages/homepage.txt',
-    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '4',
     'homepage' => true,
     'limit' => '12'
@@ -269,7 +270,7 @@ $td_homepage_id = td_demo_content::add_page(array(
 $td_aboutpage_id = td_demo_content::add_page(array(
     'title' => 'About',
     'file' => td_global::$get_template_directory . '/includes/demos/blog_baby/pages/about.txt',
-    'template' => 'page-pagebuilder-title.php',   // the page template full file name with .php
+    'template' => 'page-pagebuilder-title.php',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '',
     'sidebar_position' => 'no_sidebar',
     'homepage' => false

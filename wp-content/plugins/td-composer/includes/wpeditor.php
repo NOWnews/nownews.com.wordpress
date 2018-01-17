@@ -12,6 +12,10 @@ define('WP_USE_THEMES', false);
 $parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
 require_once( $parse_uri[0] . 'wp-load.php' );
 
+if ( ! is_user_logged_in()) {
+	return;
+}
+
 // 'screen.php' is required by woo, which calls get_current_screen()
 require_once (ABSPATH . "wp-admin/includes/screen.php");
 
@@ -29,7 +33,60 @@ require_once (ABSPATH . "wp-admin/includes/screen.php");
 
 			wp_enqueue_style( 'td-wp-admin-td-panel-2', td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/css/wp-admin.css', false, TD_THEME_VERSION, 'all' );
 
+			wp_enqueue_script( 'td_confirm', td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/js/tdConfirm.js', array( 'jquery' ) );
+
 		?>
+
+		<script>
+
+			// mini detector from td_js_generator
+			(function(){
+	            var htmlTag = document.getElementsByTagName("html")[0];
+
+	            if ( navigator.userAgent.indexOf("MSIE 10.0") > -1 ) {
+	                htmlTag.className += ' ie10';
+	            }
+
+	            if ( !!navigator.userAgent.match(/Trident.*rv\:11\./) ) {
+	                htmlTag.className += ' ie11';
+	            }
+
+				if ( navigator.userAgent.indexOf("Edge") > -1 ) {
+	                htmlTag.className += ' ieEdge';
+	            }
+
+	            if ( /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ) {
+	                htmlTag.className += ' td-md-is-ios';
+	            }
+
+	            var user_agent = navigator.userAgent.toLowerCase();
+	            if ( user_agent.indexOf("android") > -1 ) {
+	                htmlTag.className += ' td-md-is-android';
+	            }
+
+	            if ( -1 !== navigator.userAgent.indexOf('Mac OS X')  ) {
+	                htmlTag.className += ' td-md-is-os-x';
+	            }
+
+	            if ( /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) ) {
+	               htmlTag.className += ' td-md-is-chrome';
+	            }
+
+	            if ( -1 !== navigator.userAgent.indexOf('Firefox') ) {
+	                htmlTag.className += ' td-md-is-firefox';
+	            }
+
+	            if ( -1 !== navigator.userAgent.indexOf('Safari') && -1 === navigator.userAgent.indexOf('Chrome') ) {
+	                htmlTag.className += ' td-md-is-safari';
+	            }
+
+	            if( -1 !== navigator.userAgent.indexOf('IEMobile') ){
+	                htmlTag.className += ' td-md-is-iemobile';
+	            }
+
+	        })();
+
+		</script>
 
 		<style>
 
@@ -44,6 +101,22 @@ require_once (ABSPATH . "wp-admin/includes/screen.php");
             }
 
             .tdc-one-column .tdc-wpeditor #tdc-wpeditor_ifr {
+                height: calc(100% - 175px) !important;
+            }
+
+            .tdc-two-column .tdc-wpeditor #tdc-wpeditor_ifr {
+                height: calc(100% - 139px) !important;
+            }
+
+            .td-md-is-firefox .tdc-wpeditor #tdc-wpeditor_ifr {
+                height: 100% !important;
+            }
+
+            .td-md-is-firefox .tdc-wpeditor .mce-tinymce {
+                height: calc(100% - 98px) !important;
+            }
+
+            .td-md-is-firefox .tdc-one-column .tdc-wpeditor .mce-tinymce {
                 height: calc(100% - 140px) !important;
             }
 

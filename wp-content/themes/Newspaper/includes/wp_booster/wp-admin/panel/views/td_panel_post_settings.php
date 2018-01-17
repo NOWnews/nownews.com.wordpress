@@ -413,11 +413,11 @@
 <?php echo td_panel_generator::box_start('Sharing', false); ?>
 
 
+
     <!-- text -->
     <div class="td-box-row">
         <div class="td-box-description td-box-full">
-            <p>All the articles of <?php echo TD_THEME_NAME?> have sharing buttons at the start of the article (usually under the title) and at the end of the article (after tags). Each article sharing section is
-            made from the sharing buttons + the facebook like + tweeter tweet button.</p>
+            <p>All the articles of <?php echo TD_THEME_NAME?> have sharing buttons at the start of the article (usually under the title) and at the end of the article (after tags). You can sort the social networks with drag and drop.</p>
         </div>
         <div class="td-box-row-margin-bottom"></div>
     </div>
@@ -447,20 +447,58 @@
     <!-- ARTICLE top like -->
     <div class="td-box-row">
         <div class="td-box-description">
-            <span class="td-box-title">TOP ARTICLE LIKE/TWEET</span>
-            <p>Show or hide the top article like/tweet on single post</p>
+            <span class="td-box-title">TOP ARTICLE LIKE</span>
+            <p>Show or hide the top article like on single post</p>
         </div>
         <div class="td-box-control-full">
             <?php
             echo td_panel_generator::checkbox(array(
                 'ds' => 'td_option',
-                'option_id' => 'tds_top_like_tweet_show',
+                'option_id' => 'tds_top_like_show',
                 'true_value' => 'show',
                 'false_value' => ''
             ));
             ?>
         </div>
     </div>
+
+    <!-- ARTICLE top share text -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">TOP ARTICLE SHARE TEXT</span>
+            <p>Show or hide the top article share text on single post</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_top_like_share_text_show',
+                'true_value' => 'show',
+                'false_value' => ''
+            ));
+            ?>
+        </div>
+    </div>
+
+    <!-- TOP sharing style -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">TOP SHARE BUTTONS STYLE</span>
+            <p>Change the appearance of the top sharing buttons.</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::visual_select_o(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_social_sharing_top_style',
+                'values' => td_api_social_sharing_styles::_helper_social_sharing_to_panel_values()
+            ));
+            ?>
+        </div>
+    </div>
+
+
+
 
 
 <div class="td-box-section-separator"></div>
@@ -488,16 +526,51 @@
     <!-- ARTICLE bottom like -->
     <div class="td-box-row">
         <div class="td-box-description">
-            <span class="td-box-title">BOTTOM ARTICLE LIKE/TWEET</span>
-            <p>Show or hide the bottom article like/tweet on post</p>
+            <span class="td-box-title">BOTTOM ARTICLE LIKE</span>
+            <p>Show or hide the bottom article like on post</p>
         </div>
         <div class="td-box-control-full">
             <?php
             echo td_panel_generator::checkbox(array(
                 'ds' => 'td_option',
-                'option_id' => 'tds_bottom_like_tweet_show',
+                'option_id' => 'tds_bottom_like_show',
                 'true_value' => '',
                 'false_value' => 'hide'
+            ));
+            ?>
+        </div>
+    </div>
+
+    <!-- ARTICLE bottom share text -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">BOTTOM ARTICLE SHARE TEXT</span>
+            <p>Show or hide the bottom article share text on single post</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::checkbox(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_bottom_like_share_text_show',
+                'true_value' => 'show',
+                'false_value' => ''
+            ));
+            ?>
+        </div>
+    </div>
+
+    <!-- BOTTOM sharing style -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">BOTTOM SHARE BUTTONS STYLE</span>
+            <p>Change the appearance of the bottom sharing buttons.</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::visual_select_o(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_social_sharing_bottom_style',
+                'values' => td_api_social_sharing_styles::_helper_social_sharing_to_panel_values()
             ));
             ?>
         </div>
@@ -522,6 +595,25 @@
             ?>
         </div>
     </div>
+
+
+<div class="td-box-section-separator"></div>
+
+
+<!-- Twitter name -->
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">SOCIAL NETWORKS</span>
+        <p>Select active social share links and sort them with drag and drop:</p>
+    </div>
+    <div class="td-box-control-full">
+        <?php
+        echo td_panel_generator::social_drag_and_drop(array(
+            'ds' => 'td_social_drag_and_drop'
+        ));
+        ?>
+    </div>
+</div>
 
 <?php echo td_panel_generator::box_end();?>
 

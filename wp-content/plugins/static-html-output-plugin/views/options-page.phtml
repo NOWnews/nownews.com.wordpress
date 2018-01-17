@@ -13,6 +13,8 @@ if ($settings == '') {
 
 <script>
 var settings = '<?php echo $settings; ?>';
+var uploadsDir = '<?php echo $this->wpUploadsDir; ?>';
+var pollingInterval = 500;
 
 jQuery(document).ready(function($){
     if (Notification.permission !== "granted") {
@@ -59,7 +61,13 @@ jQuery(document).ready(function($){
                     $('#results').append(serverResponse);
                     currentArchive += 1;
                     processArchives();
-                    }
+                    },
+                error: function(serverResponse) {
+                    $('#progress').hide();
+                    $('#results').html('ERROR OCCURRED <a target="_blank" href="' + uploadsDir  + '/WP-STATIC-EXPORT-LOG">View log</a>');
+
+                }
+
             });
         } else {
              currentArchive = 0;
@@ -85,8 +93,29 @@ jQuery(document).ready(function($){
     $('#generateArchiveButton').click(function() {
         $('#progress').show();
         processArchives();
+        $('#exportStatus').html('');
+        // allow time for status file to be emptied before first poll
+        setTimeout(pollStatus, pollingInterval);
         $('#results').html('');
     });
+
+
+
+    // start polling, stop when hiding progress
+    function pollStatus() {
+        // read status from file
+        statusFile = uploadsDir + '/WP-STATIC-EXPORT-STATUS';
+
+        $.get(statusFile, function(data){
+            $('#exportStatus').html(data);
+        });
+
+        if ($('#progress').is(":visible")) {
+            // poll again after interval if export still in progress
+            setTimeout(pollStatus, pollingInterval);
+        }
+        
+    }
 
     $('.wrap').on('click', '.removeTargetButton', function(event) {
         event.preventDefault();
@@ -131,6 +160,8 @@ jQuery(document).ready(function($){
         
             $(targetExportSettingsBlock).find('#baseUrl').first().val(decodeURIComponent(settingsBlock.baseUrl));
 
+            $(targetExportSettingsBlock).find('#outputDirectory').val(decodeURIComponent(settingsBlock.outputDirectory));
+
             additionalUrls = settingsBlock.additionalUrls.split(',');
             newAdditionalUrls = '';
 
@@ -153,9 +184,20 @@ jQuery(document).ready(function($){
             $(targetExportSettingsBlock).find('#s3Secret').first().val(decodeURIComponent(settingsBlock.s3Secret));
             $(targetExportSettingsBlock).find('#s3Region').first().val(decodeURIComponent(settingsBlock.s3Region));
             $(targetExportSettingsBlock).find('#s3Bucket').first().val(decodeURIComponent(settingsBlock.s3Bucket));
+            $(targetExportSettingsBlock).find('#cfDistributionId').first().val(decodeURIComponent(settingsBlock.cfDistributionId));
             $(targetExportSettingsBlock).find('#sendViaDropbox')[0].checked = settingsBlock.sendViaDropbox;
+            $(targetExportSettingsBlock).find('#dropboxAppKey').first().val(decodeURIComponent(settingsBlock.dropboxAppKey));
+            $(targetExportSettingsBlock).find('#dropboxAppSecret').first().val(decodeURIComponent(settingsBlock.dropboxAppSecret));
             $(targetExportSettingsBlock).find('#dropboxAccessToken').first().val(decodeURIComponent(settingsBlock.dropboxAccessToken));
             $(targetExportSettingsBlock).find('#dropboxFolder').first().val(decodeURIComponent(settingsBlock.dropboxFolder));
+            $(targetExportSettingsBlock).find('#sendViaGithub')[0].checked = settingsBlock.sendViaGithub;
+            $(targetExportSettingsBlock).find('#githubPersonalAccessToken').first().val(decodeURIComponent(settingsBlock.githubPersonalAccessToken));
+            $(targetExportSettingsBlock).find('#githubPath').first().val(decodeURIComponent(settingsBlock.githubPath));
+            $(targetExportSettingsBlock).find('#githubRepo').first().val(decodeURIComponent(settingsBlock.githubRepo));
+            $(targetExportSettingsBlock).find('#githubBranch').first().val(decodeURIComponent(settingsBlock.githubBranch));
+            $(targetExportSettingsBlock).find('#sendViaNetlify')[0].checked = settingsBlock.sendViaNetlify;
+            $(targetExportSettingsBlock).find('#netlifyPersonalAccessToken').first().val(decodeURIComponent(settingsBlock.netlifyPersonalAccessToken));
+            $(targetExportSettingsBlock).find('#netlifySiteID').first().val(decodeURIComponent(settingsBlock.netlifySiteID));
 
 
             // if there are more to come, clone and set target
@@ -163,6 +205,7 @@ jQuery(document).ready(function($){
                 $('.options-form:last').clone().insertAfter('.options-form:last');
                 targetExportSettingsBlock =  $('.options-form:last');
                 $(targetExportSettingsBlock).find('#baseUrl').first().val('');
+                $(targetExportSettingsBlock).find('#outputDirectory').val('');
                 $(targetExportSettingsBlock).find('#additionalUrls').val('');
                 $(targetExportSettingsBlock).find('#cleanMeta').first().prop('checked', false);
                 $(targetExportSettingsBlock).find('#retainStaticFiles').first().prop('checked', false);
@@ -176,9 +219,20 @@ jQuery(document).ready(function($){
                 $(targetExportSettingsBlock).find('#s3Secret').val('');
                 $(targetExportSettingsBlock).find('#s3Region').val('');
                 $(targetExportSettingsBlock).find('#s3Bucket').val('');
+                $(targetExportSettingsBlock).find('#cfDistributionId').val('');
                 $(targetExportSettingsBlock).find('#sendViaDropbox').first().prop('checked', false);
+                $(targetExportSettingsBlock).find('#dropboxAppKey').val('');
+                $(targetExportSettingsBlock).find('#dropboxAppSecret').val('');
                 $(targetExportSettingsBlock).find('#dropboxAccessToken').val('');
                 $(targetExportSettingsBlock).find('#dropboxFolder').val('');
+                $(targetExportSettingsBlock).find('#sendViaGithub').first().prop('checked', false);
+                $(targetExportSettingsBlock).find('#githubPersonalAccessToken').val('');
+                $(targetExportSettingsBlock).find('#githubPath').val('');
+                $(targetExportSettingsBlock).find('#githubRepo').val('');
+                $(targetExportSettingsBlock).find('#githubBranch').val('');
+                $(targetExportSettingsBlock).find('#sendViaNetlify').first().prop('checked', false);
+                $(targetExportSettingsBlock).find('#netlifyPersonalAccessToken').val('');
+                $(targetExportSettingsBlock).find('#netlifySiteID').val('');
             }
         });
     }
@@ -208,6 +262,14 @@ jQuery(document).ready(function($){
                     <i>This defaults to your WordPress Site URL. If you know the URL of where you'll be hosting the static version of your site, it will be good to change this to that, ie http://mystaticsite.github.io</i>
                   </p> 
                   <input type="text" id="baseUrl" name="baseUrl" value="<?php echo esc_attr($this->baseUrl) ?>" size="50" />
+                </p>
+
+                <p>
+                  <strong><label for="outputDirectory"><?php echo __('Output Directory', 'static-html-output-plugin');?></label></strong>
+                  <p>
+                    <i>This defaults to your WordPress uploads directory. Ex: <?php $default_upload_dir = wp_upload_dir(); echo $default_upload_dir['path']; ?></i>
+                  </p> 
+                  <input type="text" id="outputDirectory" name="outputDirectory" value="<?php echo esc_html($this->outputDirectory) ?>" size="50" />
                 </p>
                 
                 <p>
@@ -275,6 +337,8 @@ http://172.17.0.3/my_pricelist.pdf</pre>
                 <span class="description">ie, wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
                 <br>
 
+                <!-- check regions available at: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region -->
+
                 <select name="s3Region" id="s3Region">
                     <option value="us-east-1">US East (N. Virginia)</option>
                     <option value="us-east-2">US East (Ohio)</option>
@@ -289,13 +353,20 @@ http://172.17.0.3/my_pricelist.pdf</pre>
                     <option value="eu-central-1">EU (Frankfurt)</option>
                     <option value="eu-west-1">EU (Ireland)</option>
                     <option value="eu-west-2">EU (London)</option>
+                    <option value="eu-west-3">EU (Paris)</option>
                     <option value="sa-east-1">South America (São Paulo)</option>
+                    <option value="cn-north-1">China (Beijing)</option>
+                    <option value="cn-northwest-1">China (Ningxia)</option>
                 </select>
                 <span class="description">choose the region your bucket is in</span>
                 <br>
 
                 <input name="s3Bucket" class="regular-text" id="s3Bucket" value="<?php echo esc_attr($this->s3Bucket) ?>" placeholder="<?php echo __('S3 Bucket name', 'static-html-output-plugin');?>" />
                 <span class="description">ie, my-static-site</span>
+                <br>
+
+                <input name="cfDistributionId" class="regular-text" id="cfDistributionId" value="<?php echo esc_attr($this->cfDistributionId) ?>" placeholder="<?php echo __('CloudFront DistributionId', 'static-html-output-plugin');?>" />
+                <span class="description">ie, ABC123DEFX</span>
                 <br>
 
                 <br>
@@ -306,13 +377,69 @@ http://172.17.0.3/my_pricelist.pdf</pre>
                     </label>
                 </fieldset>
 
+
+		<input name="dropboxAppKey" class="regular-text" id="dropboxAppKey" value="<?php echo esc_attr($this->dropboxAppKey) ?>" placeholder="<?php echo __('Dropbox app key', 'static-html-output-plugin');?>" />
+
+                <span class="description">ie, 'llkjhlkewedsc'</span>
+                <br>
+
+                <input name="dropboxAppSecret" class="regular-text" id="dropboxAppSecret" value="<?php echo esc_attr($this->dropboxAppSecret) ?>" placeholder="<?php echo __('Dropbox app secret', 'static-html-output-plugin');?>" />
+                <span class="description">ie, 'vsndbvfjhsdfs'</span>
+                <br>
+
                 <input name="dropboxAccessToken" class="regular-text" id="dropboxAccessToken" value="<?php echo esc_attr($this->dropboxAccessToken) ?>" placeholder="<?php echo __('Dropbox access token', 'static-html-output-plugin');?>" />
                 <span class="description"><a href="https://blogs.dropbox.com/developers/2014/05/generate-an-access-token-for-your-own-account/" target="_blank">How do I get this?</a></span>
                 <br>
 
                 <input name="dropboxFolder" class="regular-text" id="dropboxFolder" value="<?php echo esc_attr($this->dropboxFolder) ?>" placeholder="<?php echo __('Dropbox folder', 'static-html-output-plugin');?>" />
-                <span class="description">ie, where you want this to appear in your Dropbox account</span>
+                <span class="description">where you want this to be transferred to in your Dropbox account (ie, /teststatic)</span>
                 <br>
+
+                <br>
+                <fieldset>
+                    <label for="sendViaGithub">
+                    <input name="sendViaGithub" id="sendViaGithub" value="1" type="checkbox" <?php if ($this->sendViaGithub == 1) echo "checked"; ?> />
+                        <span><?php echo __('Transfer files via GitHub', 'static-html-output-plugin');?></span>
+                    </label>
+                </fieldset>
+
+
+		<input name="githubPersonalAccessToken" class="regular-text" id="githubPersonalAccessToken" value="<?php echo esc_attr($this->githubPersonalAccessToken) ?>" placeholder="<?php echo __('GitHub personal access token', 'static-html-output-plugin');?>" />
+
+                <span class="description"><a href="https://github.com/settings/tokens/new" target="_blank">How do I get this?</a></span>
+                <br>
+
+                <input name="githubRepo" class="regular-text" id="githubRepo" value="<?php echo esc_attr($this->githubRepo) ?>" placeholder="<?php echo __('GitHub repository', 'static-html-output-plugin');?>" />
+                <span class="description">ie, 'mystaticsite'</span>
+                <br>
+
+                <input name="githubBranch" class="regular-text" id="githubBranch" value="<?php echo esc_attr($this->githubBranch) ?>" placeholder="<?php echo __('GitHub branch', 'static-html-output-plugin');?>" />
+                <span class="description">usually 'master' or 'gh-pages'</span>
+                <br>
+
+                <input name="githubPath" class="regular-text" id="githubPath" value="<?php echo esc_attr($this->githubPath) ?>" placeholder="<?php echo __('GitHub path', 'static-html-output-plugin');?>" />
+                <span class="description">Usually the repository root (leave this blank) or the 'doc' folder</span>
+                <br>
+                <br>
+                <fieldset>
+                    <label for="sendViaNetlify">
+                    <input name="sendViaNetlify" id="sendViaNetlify" value="1" type="checkbox" <?php if ($this->sendViaNetlify == 1) echo "checked"; ?> />
+                        <span><?php echo __('Transfer files via Netlify', 'static-html-output-plugin');?></span>
+                    </label>
+                </fieldset>
+
+
+		<input name="netlifyPersonalAccessToken" class="regular-text" id="netlifyPersonalAccessToken" value="<?php echo esc_attr($this->netlifyPersonalAccessToken) ?>" placeholder="<?php echo __('Netlify personal access token', 'static-html-output-plugin');?>" />
+
+                <span class="description"><a href="https://app.netlify.com/account/applications/personal" target="_blank">How do I get this?</a></span>
+                <br>
+
+                <input name="netlifySiteID" class="regular-text" id="netlifySiteID" value="<?php echo esc_attr($this->netlifySiteID) ?>" placeholder="<?php echo __('Netlify site ID', 'static-html-output-plugin');?>" />
+                <span class="description">ie, 'mystaticsite'</span>
+                <br>
+
+                <br>
+
 
 					<p class="submit">
             <?php wp_nonce_field($this->onceAction) ?>
@@ -335,10 +462,14 @@ http://172.17.0.3/my_pricelist.pdf</pre>
                 <p>
 
     <div id="progress" style="display:none;">
-        <img src="<?php echo plugins_url('../images/dashinfinity.gif', __FILE__); ?>" />
+        <img src="<?php echo plugins_url('../images/dashinfinity.gif', __FILE__); ?>" style="float:left;"/>
+
+        <div id="exportStatus">
+        
+        </div>
     </div>
 
-    <div id="results">
+    <div id="results" style="clear:both;">
     </div>
 
                   <p>

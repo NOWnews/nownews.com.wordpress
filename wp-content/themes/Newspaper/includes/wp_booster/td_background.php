@@ -44,6 +44,8 @@ class td_background {
         // activate the boxed layout - if we have an image or color
         if ($background_params['theme_bg_image'] != '' or  $background_params['theme_bg_color'] != '') {
             $background_params['is_boxed_layout'] = true;
+            //set the global is boxed layout, used on post templates (single template 3)
+            td_global::$is_boxed_layout = true;
         }
 
 

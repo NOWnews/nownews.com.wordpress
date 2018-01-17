@@ -9,14 +9,9 @@
 #td-outer-wrap {
   overflow: hidden;
 
-  /* responsive landscape tablet */
-  @media (max-width: @responsive_l_tablet_max) {
-    overflow: hidden;
-  }
-
   /* responsive portrait phone */
   @media (max-width: @responsive_p_phone_max) {
-    overflow: auto;
+    //overflow: auto; need overflow: hidden to fix the layout on mobile, 100vw backgrounds
     margin: auto;
     width: 100%;
     .transition(transform 0.7s ease);

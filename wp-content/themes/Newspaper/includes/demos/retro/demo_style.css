@@ -186,6 +186,39 @@ usage:
   border-color: #444;
   color: #fff;
 }
+.td-retro .td-social-network {
+  color: #fff;
+}
+.td-retro .td-social-handler {
+  color: #ccc;
+  border-color: #464646;
+}
+.td-retro .td-social-handler:before {
+  border-color: transparent transparent transparent #434343;
+}
+.td-retro .td-social-handler:after {
+  border-color: transparent transparent transparent #111;
+}
+.td-retro .td-social-handler .td-social-but-text:before {
+  background-color: #fff;
+}
+.td-retro .td-ps-border .td-social-network .td-social-but-text:before {
+  background-color: #fff;
+}
+.td-retro .td-ps-border-grey .td-social-but-icon,
+.td-retro .td-ps-border-grey .td-social-but-text {
+  border-color: #434343;
+}
+.td-retro .td-ps-icon-color .td-social-mail .td-social-but-icon,
+.td-retro .td-ps-icon-color .td-social-digg .td-social-but-icon,
+.td-retro .td-ps-icon-color .td-social-print .td-social-but-icon {
+  color: #fff;
+}
+.td-retro .td-ps-text-color .td-social-mail .td-social-but-text,
+.td-retro .td-ps-text-color .td-social-digg .td-social-but-text,
+.td-retro .td-ps-text-color .td-social-print .td-social-but-text {
+  color: #fff;
+}
 .td-retro .td-post-sharing-bottom {
   border-color: #444;
 }

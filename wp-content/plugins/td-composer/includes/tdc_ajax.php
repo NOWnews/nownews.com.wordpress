@@ -47,6 +47,11 @@ function tdc_register_api_routes() {
 		'methods'  => 'POST',
 		'callback' => array ('tdc_ajax', 'on_ajax_get_image_id'),
 	));
+
+	register_rest_route($namespace, '/save_parts/', array(
+		'methods'  => 'POST',
+		'callback' => array ('tdc_ajax', 'on_ajax_save_parts'),
+	));
 }
 
 /**
@@ -251,6 +256,9 @@ class tdc_ajax {
 						if ( is_array( $decoded_page_settings ) ) {
 
 							if ( isset( $decoded_page_settings['td_homepage_loop'] ) ) {
+                                $td_homepage_loop = array();
+                                $td_homepage_loop[0] = array();
+
 								foreach ( $decoded_page_settings['td_homepage_loop'] as $key => $val ) {
 									$td_homepage_loop[0][ $key ] = $val;
 								}
@@ -259,6 +267,9 @@ class tdc_ajax {
 							}
 
 							if ( isset( $decoded_page_settings['td_page'] ) ) {
+                                $td_page = array();
+                                $td_page[0] = array();
+
 								foreach ( $decoded_page_settings['td_page'] as $key => $val ) {
 									$td_page[0][ $key ] = $val;
 								}
@@ -401,6 +412,33 @@ class tdc_ajax {
 				}
 			}
 
+		}
+
+		die( json_encode( $parameters ) );
+	}
+
+
+	static function on_ajax_save_parts( WP_REST_Request $request ) {
+		if ( ! current_user_can( 'edit_pages' ) ) {
+			//@todo - ceva eroare sa afisam aici
+			echo 'no permission';
+			die;
+		}
+
+		$parameters = array();
+
+		$action  = $_POST['action'];
+		$tdc_savings = @$_POST['tdc_savings'];
+
+		if ( ! isset( $action ) || 'tdc_ajax_save_parts' !== $action ) {
+			$parameters['errors'][] = 'Invalid data';
+
+		} else {
+			if ( isset( $tdc_savings ) ) {
+				$parameters['tdc_savings'] = td_util::update_option( 'tdc_savings', $tdc_savings );
+			} else {
+				$parameters['tdc_savings'] = td_util::update_option( 'tdc_savings', '' );
+			}
 		}
 
 		die( json_encode( $parameters ) );

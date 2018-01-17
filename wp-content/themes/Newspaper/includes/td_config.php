@@ -4,7 +4,7 @@
  */
 
 define("TD_THEME_NAME", "Newspaper");
-define("TD_THEME_VERSION", "8.1.2");
+define("TD_THEME_VERSION", "8.6");
 define("TD_THEME_DEMO_URL", "https://demo.tagdiv.com/" . strtolower(TD_THEME_NAME));
 define("TD_THEME_DEMO_DOC_URL", 'http://forum.tagdiv.com/demos_introduction/');  //the url to the demo documentation
 define("TD_FEATURED_CAT", "Featured"); //featured cat name
@@ -122,6 +122,8 @@ class td_config {
             'tdLastInit' =>             '/includes/wp_booster/js_dev/tdLastInit.js',
             'tdAnimationSprite' =>      '/includes/wp_booster/js_dev/tdAnimationSprite.js',
             'tdDateI18n' =>             '/includes/wp_booster/js_dev/tdDatei18n.js',
+            'tdSocialSharing'=>         '/includes/wp_booster/js_dev/tdSocialSharing.js'
+
         );
 
 
@@ -1693,7 +1695,6 @@ class td_config {
             )
         );
 
-
         /**
          * the styles for big grids. This styles will show up in the panel @see td_panel_categories.php and on each big grid block
          * This has to be before the blocks are added! The grids blocks are made with this
@@ -2481,7 +2482,7 @@ class td_config {
 	            'tdc_category' => 'Blocks',
                 'icon' => 'icon-pagebuilder-td_block_1',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_1.php',
-                "params" => array_merge(
+	            "params" => array_merge(
                     self::get_map_block_general_array(),
                     self::get_map_filter_array(),
                     self::get_map_block_ajax_filter_array(),
@@ -3201,6 +3202,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_1.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3218,6 +3226,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_2.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3235,6 +3250,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_3.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3252,6 +3274,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_4.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3269,6 +3298,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_5.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3286,6 +3322,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_6.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3303,6 +3346,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_7.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3320,6 +3370,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_8.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3337,6 +3394,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_9.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3354,6 +3418,13 @@ class td_config {
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_big_grid_fl_10.php',
                 "params" => self::td_block_big_grid_params(),
 	            'tdc_in_row' => true,
+	            'tdc_row_start_values' => base64_encode(
+	                json_encode(
+	                    array(
+	                        'full_width'  => 'stretch_row_content td-stretch-content',
+	                    )
+	                )
+	            )
             )
         );
 
@@ -3385,6 +3456,7 @@ class td_config {
                 "class" => 'td_block_trending_now',
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td_block_trending_now',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_trending_now.php',
                 "params" => self::td_block_trending_now_params(),
@@ -3400,6 +3472,7 @@ class td_config {
                 "class" => "td_block_video_playlist_youtube",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td-youtube',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_video_youtube.php',
                 "params" => array(
@@ -3468,6 +3541,7 @@ class td_config {
                 "class" => "td_block_video_playlist_vimeo",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td-vimeo',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_video_vimeo.php',
                 "params" => array(
@@ -3536,6 +3610,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-ads',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_ad_box.php',
                 "params" => array_merge(
@@ -3610,6 +3685,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td_block_image_box',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_image_box.php',
                 "params" => array_merge(
@@ -3893,6 +3969,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td_block_author',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_author.php',
                 "params" => array_merge(
@@ -3976,6 +4053,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td_block_authors',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_authors.php',
                 "params" => array_merge(
@@ -4054,6 +4132,7 @@ class td_config {
                 "class" => 'td_block_homepage_full_1',
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td_block_homepage_full_1',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_homepage_full_1.php',
                 "params" => self::td_homepage_full_1_params()
@@ -4069,6 +4148,7 @@ class td_config {
                 "class" => "td_block_popular_categories",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-popular_categories',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_popular_categories.php',
                 "params" => array_merge(
@@ -4119,6 +4199,7 @@ class td_config {
                 "class" => "td_block_slide",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-slide',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_slide.php',
                 "params" => array_merge(
@@ -4153,6 +4234,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-title',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_text_with_title.php',
                 "params" => array_merge(
@@ -4213,6 +4295,7 @@ class td_config {
 		        "class" => "",
 		        "controls" => "full",
 		        "category" => 'Blocks',
+				'tdc_category' => 'Extended',
 				'icon' => 'icon-pagebuilder-title',
 		        'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_title.php',
 		        "params" => array_merge(
@@ -4256,22 +4339,23 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td-weather',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_weather.php',
                 "params" => array_merge(
                     self::get_map_block_general_array(),
 	                array(
-	                    array(
+                        array(
                             "param_name" => "w_key",
                             "type" => "textfield",
                             "value" => '',
-                            "heading" => "Weather api key",
+                            "heading" => "Api key",
                             "description" => '<a href="https://forum.tagdiv.com/weather-widget/" target="_blank">How to get an api key</a>',
                             "holder" => "div",
                             "class" => "",
                             'group' => 'Weather'
                         ),
-						array(
+	                    array(
 	                        "param_name" => "w_location",
 	                        "type" => "textfield",
 	                        "value" => '',
@@ -4329,6 +4413,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td-exchange',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_exchange.php',
                 "params" => array_merge(
@@ -4477,6 +4562,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td-instagram',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_instagram.php',
                 "params" => array_merge(
@@ -4610,6 +4696,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td-pinterest',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_pinterest.php',
                 "params" => array_merge(
@@ -4762,6 +4849,7 @@ class td_config {
                 "class" => "",
                 "controls" => "full",
                 "category" => 'Blocks',
+	            'tdc_category' => 'Extended',
                 'icon' => 'icon-pagebuilder-td_block_list_menu',
                 'file' => td_global::$get_template_directory . '/includes/shortcodes/td_block_list_menu.php',
                 'params' => array_merge(
@@ -5156,31 +5244,34 @@ class td_config {
         td_api_top_bar_template::add('td_top_bar_template_1',
             array(
                 'img' => td_global::$get_template_directory_uri . '/images/panel/top_bar_templates/icon-top-bar-1.png',
-                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_1.php'
+                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_1.php',
+                'text' => 'Style 1'
             )
         );
 
         td_api_top_bar_template::add('td_top_bar_template_2',
             array(
                 'img' => td_global::$get_template_directory_uri . '/images/panel/top_bar_templates/icon-top-bar-2.png',
-                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_2.php'
+                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_2.php',
+                'text' => 'Style 2'
             )
         );
 
         td_api_top_bar_template::add('td_top_bar_template_3',
             array(
                 'img' => td_global::$get_template_directory_uri . '/images/panel/top_bar_templates/icon-top-bar-3.png',
-                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_3.php'
+                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_3.php',
+                'text' => 'Style 3'
             )
         );
 
         td_api_top_bar_template::add('td_top_bar_template_4',
             array(
                 'img' => td_global::$get_template_directory_uri . '/images/panel/top_bar_templates/icon-top-bar-4.png',
-                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_4.php'
+                'file' => td_global::$get_template_directory . '/parts/header/td_top_bar_template_4.php',
+                'text' => 'Style 4'
             )
         );
-
 
 
 
@@ -5311,6 +5402,18 @@ class td_config {
             )
         );
 
+
+        /**
+         * the td_api_sub_footer
+         */
+        td_api_sub_footer_template::add('td_sub_footer_template_1',
+            array(
+                'img' => td_global::$get_template_directory_uri . '/images/panel/sub_footer_templates/icon-sub-footer-1.png',
+                'file' => td_global::$get_template_directory . '/parts/footer/td_sub_footer_template_1.php',
+                'text' => 'Style 1'
+
+            )
+        );
 
 
 	    // custom ads
@@ -5534,11 +5637,137 @@ class td_config {
 	    );
 
 
+        /**
+         * social sharing styles
+         */
+
+        td_api_social_sharing_styles::add('style1', array (
+            'wrap_classes' => 'td-ps-bg td-ps-notext',
+            'text' => 'Style 1',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-1.png'
+        ));
+
+        td_api_social_sharing_styles::add('style2', array (
+            'wrap_classes' => 'td-ps-bg td-ps-padding',
+            'text' => 'Style 2',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-2.png'
+        ));
+
+        td_api_social_sharing_styles::add('style3', array (
+            'wrap_classes' => 'td-ps-bg td-ps-notext td-ps-rounded',
+            'text' => 'Style 3',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-3.png'
+        ));
+
+        td_api_social_sharing_styles::add('style4', array (
+            'wrap_classes' => 'td-ps-bg td-ps-padding td-ps-rounded',
+            'text' => 'Style 4',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-4.png'
+        ));
+
+        td_api_social_sharing_styles::add('style5', array (
+            'wrap_classes' => 'td-ps-bg td-ps-notext td-ps-bar',
+            'text' => 'Style 5',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-5.png'
+        ));
+
+        td_api_social_sharing_styles::add('style6', array (
+            'wrap_classes' => 'td-ps-bg td-ps-padding td-ps-bar',
+            'text' => 'Style 6',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-6.png'
+        ));
+
+        td_api_social_sharing_styles::add('style7', array (
+            'wrap_classes' => 'td-ps-bg td-ps-padding',
+            'text' => 'Style 7',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-7.png'
+        ));
+
+        td_api_social_sharing_styles::add('style8', array (
+            'wrap_classes' => 'td-ps-bg td-ps-notext td-ps-big',
+            'text' => 'Style 8',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-8.png'
+        ));
+
+        td_api_social_sharing_styles::add('style9', array (
+            'wrap_classes' => 'td-ps-bg td-ps-padding td-ps-big',
+            'text' => 'Style 9',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-9.png'
+        ));
+
+        td_api_social_sharing_styles::add('style10', array (
+            'wrap_classes' => 'td-ps-bg td-ps-notext td-ps-big td-ps-bar',
+            'text' => 'Style 10',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-10.png'
+        ));
+
+        td_api_social_sharing_styles::add('style11', array (
+            'wrap_classes' => 'td-ps-bg td-ps-padding td-ps-big td-ps-bar',
+            'text' => 'Style 11',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-11.png'
+        ));
+
+        td_api_social_sharing_styles::add('style12', array (
+            'wrap_classes' => 'td-ps-bg td-ps-notext td-ps-big td-ps-nogap',
+            'text' => 'Style 12',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-12.png'
+        ));
+
+        td_api_social_sharing_styles::add('style13', array (
+            'wrap_classes' => 'td-ps-bg td-ps-padding td-ps-big td-ps-nogap',
+            'text' => 'Style 13',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-13.png'
+        ));
+
+        td_api_social_sharing_styles::add('style14', array (
+            'wrap_classes' => 'td-ps-dark-bg td-ps-notext',
+            'text' => 'Style 14',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-14.png'
+        ));
+
+        td_api_social_sharing_styles::add('style15', array (
+            'wrap_classes' => 'td-ps-dark-bg td-ps-padding',
+            'text' => 'Style 15',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-15.png'
+        ));
+
+        td_api_social_sharing_styles::add('style16', array (
+            'wrap_classes' => 'td-ps-border td-ps-border-grey td-ps-notext td-ps-icon-color td-ps-text-color',
+            'text' => 'Style 16',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-16.png'
+        ));
+
+        td_api_social_sharing_styles::add('style17', array (
+            'wrap_classes' => 'td-ps-border td-ps-border-grey td-ps-padding td-ps-icon-color td-ps-text-color',
+            'text' => 'Style 17',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-17.png'
+        ));
+
+        td_api_social_sharing_styles::add('style18', array (
+            'wrap_classes' => 'td-ps-border td-ps-border-grey td-ps-rounded td-ps-padding td-ps-icon-color',
+            'text' => 'Style 18',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-18.png'
+        ));
+
+        td_api_social_sharing_styles::add('style19', array (
+            'wrap_classes' => 'td-ps-border td-ps-border-grey td-ps-icon-arrow td-ps-icon-bg td-ps-text-color',
+            'text' => 'Style 19',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-19.png'
+        ));
+
+        td_api_social_sharing_styles::add('style20', array (
+            'wrap_classes' => 'td-ps-border td-ps-border-colored td-ps-icon-bg td-ps-text-color',
+            'text' => 'Style 20',
+            'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-20.png'
+        ));
+
+
+
 
 
 	    /**
-             * the tiny mce styles
-             */
+         * the tiny mce styles
+         */
 
 	        td_api_tinymce_formats::add('td_tinymce_item_1',
 		        array(
@@ -6010,6 +6239,15 @@ class td_config {
                 'media_query' => '@media (max-width: 767px)',
                 'img' => td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/resp-phone.png'
             )
+        );
+
+
+		// @todo Change it to use just one option for viewport settings!
+	    td_global::$viewport_settings = array(
+            'all' => td_global::$theme_panel_custom_css_fields_list['tds_responsive_css_desktop'],
+            'landscape' => td_global::$theme_panel_custom_css_fields_list['tds_responsive_css_ipad_landscape'],
+	        'portrait' => td_global::$theme_panel_custom_css_fields_list['tds_responsive_css_ipad_portrait'],
+            'phone' => td_global::$theme_panel_custom_css_fields_list['tds_responsive_css_phone'],
         );
 
 
@@ -6980,6 +7218,138 @@ class td_config {
                 'td_css_generator_demo' => false,                // must have a td_css_generator_demo.php in demo's folder
                 'uses_custom_style_css' => true                // load a custom demo_style.less - must also be added to td_less_style.css.php
             ),
+            'restro' => array(
+                'text' => 'Restro',
+                'folder' => td_global::$get_template_directory . '/includes/demos/restro/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/restro/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_restro/',
+                'td_css_generator_demo' => true,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'smart_app' => array(
+                'text' => 'Smart APP',
+                'folder' => td_global::$get_template_directory . '/includes/demos/smart_app/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/smart_app/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_smart_app/',
+                'td_css_generator_demo' => false,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'technology' => array(
+                'text' => 'Technology',
+                'folder' => td_global::$get_template_directory . '/includes/demos/technology/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/technology/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_technology/',
+                'td_css_generator_demo' => true,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'dentist' => array(
+                'text' => 'Dental Studio',
+                'folder' => td_global::$get_template_directory . '/includes/demos/dentist/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/dentist/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_dentist/',
+                'td_css_generator_demo' => true,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'spa' => array(
+                'text' => 'Spa Heaven',
+                'folder' => td_global::$get_template_directory . '/includes/demos/spa/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/spa/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_spa/',
+                'td_css_generator_demo' => false,               // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'law_firm' => array(
+                'text' => 'Law Firm',
+                'folder' => td_global::$get_template_directory . '/includes/demos/law_firm/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/law_firm/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_law_firm/',
+                'td_css_generator_demo' => true,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'construction' => array(
+                'text' => 'Construction',
+                'folder' => td_global::$get_template_directory . '/includes/demos/construction/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/construction/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_construction/',
+                'td_css_generator_demo' => false,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'showcase' => array(
+                'text' => 'Showcase',
+                'folder' => td_global::$get_template_directory . '/includes/demos/showcase/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/showcase/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_showcase/',
+                'td_css_generator_demo' => true,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'nature' => array(
+                'text' => 'Nature Love',
+                'folder' => td_global::$get_template_directory . '/includes/demos/nature/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/nature/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_nature/',
+                'td_css_generator_demo' => false,               // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'wildlife' => array(
+                'text' => 'Wildlife Photographer',
+                'folder' => td_global::$get_template_directory . '/includes/demos/wildlife/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/wildlife/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_wildlife/',
+                'td_css_generator_demo' => false,               // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
+            'ink' => array(
+                'text' => 'Ink Parlor',
+                'folder' => td_global::$get_template_directory . '/includes/demos/ink/',
+                'img' => td_global::$get_template_directory_uri . '/includes/demos/ink/screenshot.png',
+                'demo_url' => 'https://demo.tagdiv.com/newspaper_ink/',
+                'td_css_generator_demo' => true,                // must have a td_css_generator_demo.php in demo's folder
+                'uses_custom_style_css' => true,                // load a custom demo_style.less - must also be added to td_less_style.css.php
+                'required_plugins' => array(                    // required plugins for the demo to work properly
+                    'tagDiv Composer' => 'td-composer/td-composer.php',
+                    'tagDiv Multi-Purpose' => 'td-multi-purpose/td-multi-purpose.php',
+                ),
+            ),
 	    );
 
 
@@ -7243,10 +7613,6 @@ class td_config {
                     'text' => 'Customize your pages and posts with this popular page builder<br><a href="http://forum.tagdiv.com/how-to-use-visual-composer/" target="_blank">Read more</a>',
                     'required_label' => 'optional', //the text for required/recommended label - used also as a class for label bg color
                     'slug' => 'td-mobile-plugin'
-
-
-
-
                 )
 	        );
 
@@ -7281,6 +7647,21 @@ class td_config {
                     'required_label' => 'optional', //the text for required/recommended label - used also as a class for label bg color
                     'td_activate' => true, // custom field used to activate the plugin
                     'td_install' => true, // custom field used to install the plugin
+                ),
+                array(
+                    'name' => 'tagDiv Multi-Purpose', // The plugin name
+                    'slug' => 'td-multi-purpose', // The plugin slug (typically the folder name)
+                    'source' => td_global::$get_template_directory_uri . '/includes/plugins/td-multi-purpose.zip', // The plugin source
+                    'required' => false, // If false, the plugin is only 'recommended' instead of required
+                    'version' => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher, otherwise a notice is presented
+                    'force_activation' => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
+                    'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
+                    'external_url' => '', // If set, overrides default API URL and points to an external URL
+                    'img' => td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/plugins/multi-purpose.gif',
+                    'text' => 'Design and build awesome landing pages to grow your website<br><a href="https://www.youtube.com/watch?v=Jf9-fsfwrp4" target="_blank">Play video</a>',
+                    'required_label' => 'optional', //the text for required/recommended label - used also as a class for label bg color
+                    'td_activate' => false, // custom field used to activate the plugin
+                    'td_install' => false, // custom field used to install the plugin
                 )
             );
 

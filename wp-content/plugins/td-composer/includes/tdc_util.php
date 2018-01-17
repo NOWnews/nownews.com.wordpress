@@ -43,9 +43,11 @@ class tdc_util {
 	 * @param $more_data - it will be print_r if available
 	 */
 	static function error($file, $function, $message, $more_data = '') {
-		echo '<br><br>wp booster error:<br>';
-		echo $message;
 		if (is_user_logged_in() and current_user_can('switch_themes')){
+
+			echo '<br><br>wp booster error:<br>';
+			echo $message;
+
 			echo '<br>' . $file . ' > ' . $function;
 			if (!empty($more_data)) {
 				echo '<br><br><pre>';
@@ -65,5 +67,46 @@ class tdc_util {
 		}
 
 		return false;
+	}
+
+
+
+	static function get_image( $atts ) {
+		$meta = wp_get_attachment_metadata( $atts['image'] );
+
+//		var_dump($atts);
+//		var_dump($meta);
+
+		$image_info = array(
+			'url'    => '',
+			'height' => '',
+			'width'  => '',
+		);
+
+		if ( is_array( $meta ) ) {
+			$image_info = array(
+				'url'    => wp_get_attachment_url( $atts['image'] ),
+				'height' => $meta['height'],
+				'width'  => $meta['width'],
+			);
+
+			if ( isset( $atts['image_width'] ) && isset( $atts['image_height'] ) && ! empty( $meta['sizes'] ) && count( $meta['sizes'] ) ) {
+
+				foreach ( $meta['sizes'] as $size_id => $size_settings ) {
+					if ( $size_settings['width'] == $atts['image_width'] && $size_settings['height'] == $atts['image_height'] ) {
+
+						$image_attributes = wp_get_attachment_image_src( $atts['image'], $size_id );
+						if ( false !== $image_attributes ) {
+							$image_info['url']    = $image_attributes[0];
+							$image_info['width']  = $image_attributes[1];
+							$image_info['height'] = $image_attributes[2];
+						}
+						break;
+					}
+				}
+			}
+		}
+
+		return $image_info;
 	}
 }

@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: categories, images, featured images, filter, random, remove, replace, thumbnails, posts, pages, tags
 Requires at least: 3.8
 Requires PHP: 5.2
-Tested up to: 4.8.2
-Stable tag: 13.3
+Tested up to: 4.9.1
+Stable tag: 13.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ Your time-saving Swiss Army Knife for featured images: Set, replace and delete t
 
 == Description ==
 
-The plugin is available in English and German (Deutsch), for the most part in Spanish (Español), Brazilian Portuguese (Português do Brasil), French (Francais), Arabic (العربية) and Japanese (日本語).
+The plugin is available in English and German (Deutsch), for the most part in Spanish (Español), Brazilian Portuguese (Português do Brasil), French (Francais), Arabic (العربية) Japanese (日本語) and Greek (Ελληνικά).
 
 = Manage featured images quickly =
 
@@ -46,7 +46,7 @@ See more comments under [Reviews](https://wordpress.org/plugins/quick-featured-i
 2. You can select an image in the media library with the **action link 'Bulk set as featured image'**. Click on it and you can go on with the plugin.
 3. You can set in 'Settings' which **minimum user role is allowed to see the plugin** in his/her adminstration area. You can switch between 'Administrator' and 'Editor'. The default value is 'Editor'.
 
-= Set, replace, remove: Actions =
+= Bulk Edit: Actions =
 
 With Quick Featured Images you can apply time-saving tasks with many featured images: add, exchange and delete them in bulk.
 
@@ -57,7 +57,7 @@ With Quick Featured Images you can apply time-saving tasks with many featured im
 
 If you want to **set the first content image as featured** then take a look the **premium version** [Quick Featured Images Pro](https://www.quickfeaturedimages.com/).
 
-= Set, replace, remove: Options =
+= Bulk Edit: Options =
 
 Based on your selected action you can toggle on and off some options:
 
@@ -83,7 +83,7 @@ The **premium version** offers you two more options if you selected multiple ima
 
 If you want to use these options then take a look the **premium version** [Quick Featured Images Pro](https://www.quickfeaturedimages.com/).
 
-= Set, replace, remove: Filters =
+= Bulk Edit: Filters =
 
 If there would be no filters Quick Featured Images would affect all posts and pages without exception! In most cases this is not desired. 
 
@@ -107,7 +107,7 @@ The **premium version** offers you additionally:
 
 If you want to use these filters then take a look the **premium version** [Quick Featured Images Pro](https://www.quickfeaturedimages.com/). 
 
-= Set, replace, remove: Presets (Pro only) =
+= Bulk Edit: Presets (Pro only) =
 
 In the Pro version you can store all settings of a process as a preset. That is time-saving for recurring tasks managing featured images of your site.
 
@@ -162,13 +162,14 @@ Under **'Featured Images' &gt; 'Settings'** you can switch on and off the additi
 
 For the most part the user interface is available in
 
-* English
-* Spanish (Español), kindly drawn up by Andrew Kurtis from [www.webhostinghub.com](http://www.webhostinghub.com/)
-* Japanese (日本語), kindly drawn up by [Kazuyuki Kumai](https://wordpress.org/support/users/kazuyk/)
 * Arabic (العربية), kindly drawn up by [Shadi AlZard](https://wordpress.org/support/profile/salzard)
-* French (Francais), kindly drawn up by Ivan M. Frakov
 * Brazilian Portuguese (Português do Brasil)
+* English
+* French (Francais), kindly drawn up by Ivan M. Frakov
 * German (Deutsch)
+* Greek (Ελληνικά), kindly drawn up by Kostas Arvanitidis
+* Japanese (日本語), kindly drawn up by [Kazuyuki Kumai](https://wordpress.org/support/users/kazuyk/)
+* Spanish (Español), kindly drawn up by Andrew Kurtis from [www.webhostinghub.com](http://www.webhostinghub.com/)
 
 Further translations are welcome. If you want to give in your translation please leave a notice in the [plugin's support forum](https://wordpress.org/support/plugin/quick-featured-images).
 
@@ -287,11 +288,19 @@ If you want to contribute a translation of the plugin in your language it would 
 
 == Changelog ==
 
+= 13.3.1 =
+* Added greek translation. Thank you, Kostas Arvanitidis!
+* Changed label 'Bulk Edit' to WP string 'Bulk Edit' to be translated in much more languages
+* Changed label 'Preset Featured Images' to WP string 'Default Images' to be translated in much more languages
+* Changed previous mentioned labels in readme file
+* Updated translations due to WordPress 4.9
+* Tested successfully with WordPress 4.9.1
+
 = 13.3 =
 * Added japanese translation. Thank you, [Kazuyuki Kumai](https://wordpress.org/support/users/kazuyk/)!
 * Added 'Requires PHP' info in readme.txt
-* Fixed in 'Set, replace, remove': locale name as variable in error message section
-* Fixed in 'Set, replace, remove': typo in page description
+* Fixed in 'Bulk Edit': locale name as variable in error message section
+* Fixed in 'Bulk Edit': typo in page description
 * Removed redudand explanations
 * Tested successfully with WordPress 4.8.2
 
@@ -299,11 +308,11 @@ If you want to contribute a translation of the plugin in your language it would 
 * Fixed incorrect detection of post type name for the result list
 
 = 13.2.1 =
-* Improved in Presets: Image paths starting with '/' will be considered
+* Improved in 'Default Images'': Image paths starting with '/' will be considered
 * Tested successfully with WordPress 4.8.1
 
 = 13.2 =
-* Added in Presets: Post type filters for first image option
+* Added in 'Default Images'': Post type filters for first image option
 * Revised translations
 
 = 13.1 =
@@ -311,20 +320,20 @@ If you want to contribute a translation of the plugin in your language it would 
 * Revised sanitations for texts and URLs on the pages
 * Revised translations
 * Set activation message as dismissible
-* in PRO version: Added in 'Set, replace, remove': Presets for recurring tasks managing featured images
+* in PRO version: Added in 'Bulk Edit': Presets for recurring tasks managing featured images
 
 = 13.0.1 =
-Fixed in 'Set, replace, remove': unnecessary HTML escaping
+Fixed in 'Bulk Edit': unnecessary HTML escaping
 
 = 13.0 =
-* Added in 'Set, replace, remove': action for removing database entries of featured images without existing image files
+* Added in 'Bulk Edit': action for removing database entries of featured images without existing image files
 * Added in image column: check for existence of image file and, if not available, Delete link
 * Revised: added sanitations to (nearly) all displayed texts
 * Updated translations
 
 = 12.3.7 =
 * Added background color for transparent thumbnails or vector graphics on admin pages
-* Changed in "Set, replace, remove": Tiny rearrangement of explanations
+* Changed in 'Bulk Edit': Tiny rearrangement of explanations
 * in PRO version: Added options for thumbnails of external services embedded with an URL
 
 = 12.3.6 =
@@ -342,26 +351,26 @@ Fixed in 'Set, replace, remove': unnecessary HTML escaping
 * Revised translations
 
 = 12.3.2 =
-* Fixed missing loading of Javascript media API on Preset Default Images page
+* Fixed missing loading of Javascript media API on Default Images page
 
 = 12.3.1 =
 * Fixed missing loading of Javascript media API on post edit pages
 * Fixed a typo, revised translations
 
 = 12.3 =
-* Changed in part "Replace" of section "Set, replace, remove": Media library dialog box instead of image list to select the replacement images
+* Changed in part "Replace" of section 'Bulk Edit': Media library dialog box instead of image list to select the replacement images
 * Improved: Faster check for found attachment against being an image
 * Updated translations
 * Tested successfully with WordPress 4.7.3
 
 = 12.2 =
-* Added in 'Set, replace, remove': server configuration to avoid PHP timeout and memory limitation in most cases
+* Added in 'Bulk Edit': server configuration to avoid PHP timeout and memory limitation in most cases
 * Fixed deprecated jquery live()
 * Adjusted texts for WP 4.7
 * Tested successfully with WordPress 4.7
 
 = 12.1.1 =
-* Fixed warning about undefined variable in Presets
+* Fixed warning about undefined variable in 'Default Images''
 * Revised german translation
 * Tested successfully with WordPress 4.6.1
 
@@ -370,19 +379,19 @@ Fixed in 'Set, replace, remove': unnecessary HTML escaping
 * Fixed missing default settings
 
 = 12.0 =
-* In Pro version: Added in Presets: option for displaying random featured images at each page load
+* In Pro version: Added in 'Default Images'': option for displaying random featured images at each page load
 * Changed menu item name 'Image Columns' to 'Settings'
 * Added in Settings: option to set a minimum user role to be allowed to see the plugin
 * Added in image column: action links to add, change and remove featured images at each post
 * Revised uninstall function for WordPress 4.6 due to the introduction of WP_Site_Query class
-* Revised style of thumbnails in image column, Presets and bulk edit pages
+* Revised style of thumbnails in image column, 'Default Images'' and bulk edit pages
 * Updated *.pot file and german translation
 * Tested successfully with WordPress 4.6
 
 = 11.8.1 =
 * Improved: media dialogs show only images instead of all files
-* Improved in Presets: only authors instead of all users are listed
-* Fixed in Presets: empty user data
+* Improved in 'Default Images'': only authors instead of all users are listed
+* Fixed in 'Default Images'': empty user data
 
 = 11.8 =
 * Added brazilian portuguese translation
@@ -401,7 +410,7 @@ Fixed in 'Set, replace, remove': unnecessary HTML escaping
 * Tested successfully with WordPress 4.5
 
 = 11.7 =
-* Improved: Presets are working in the frontend, too, e.g. at creating a post with Gravity Forms
+* Improved: 'Default Images'' are working in the frontend, too, e.g. at creating a post with Gravity Forms
 * Improved: Headline structure since WP 4.4 for better accessibility
 * Refactored: Page 'Preset Images'
 * Tested successfully with WordPress 4.4.2
@@ -410,7 +419,7 @@ Fixed in 'Set, replace, remove': unnecessary HTML escaping
 = 11.6.1 =
 * Premium version: Added in 'Preset Images': Selection of multiple images to set one of them randomly as default featured image
 * Improved usability: Advice for selection of multiple images in the media dialog box
-* Improved usability in 'Set, replace, remove': On the start page show selected images after closing the media dialog box
+* Improved usability in 'Bulk Edit': On the start page show selected images after closing the media dialog box
 * Tested successfully with WordPress 4.4
 * Updated *.pot file and translations
 
@@ -425,7 +434,7 @@ Fixed in 'Set, replace, remove': unnecessary HTML escaping
 
 = 11.5 =
 * Added arabic translation. Thank you, [Shadi AlZard](https://wordpress.org/support/profile/salzard)!
-* Added in 'Set, replace, remove': Back button on result page. So you can start a further run faster
+* Added in 'Bulk Edit': Back button on result page. So you can start a further run faster
 * Premium version; Added in 'Preset Featured Images': post format as taxonomy
 * Fixed table row colors due to changes in WP 4.3
 * Redesigned in 'Preset Images': Moved checkboxes to middle column
@@ -435,7 +444,7 @@ Fixed in 'Set, replace, remove': unnecessary HTML escaping
 
 = 11.4.1 =
 * Revised styles for image column in small displays, since WP 4.3
-* Premium version: Added search in post title in 'Presets': set default featured image for posts with a specific search string in the title
+* Premium version: Added search in post title in 'Default Images'': set default featured image for posts with a specific search string in the title
 * Tested successfully with WordPress 4.3
 
 = 11.4 =
@@ -446,11 +455,11 @@ Added spanish translation for the main texts of the plugin
 * Updated screenshot
 
 = 11.2 =
-* Fixed in 'Set, replace, remove': invalid thumbnail IDs will be ignored
-* Fixed in 'Set, replace, remove': Added missing 'break' in switch()
-* Fixed in 'Set, replace, remove': Post Type Filter founded always posts and pages
+* Fixed in 'Bulk Edit': invalid thumbnail IDs will be ignored
+* Fixed in 'Bulk Edit': Added missing 'break' in switch()
+* Fixed in 'Bulk Edit': Post Type Filter founded always posts and pages
 * Fixed broken bulk assign link at each image in the media library
-* Premium version: Added option in 'Set, replace, remove': Take the first post image from current site domain
+* Premium version: Added option in 'Bulk Edit': Take the first post image from current site domain
 * Updated *.pot file and german translation
 
 = 11.1 =
@@ -460,35 +469,38 @@ Added spanish translation for the main texts of the plugin
 = 11.0 =
 * Improved performance of confirmation step by using cached results of preview step
 * Improved security by changing $_REQUEST to $_POST and $_GET
-* Premium version: Added option in 'Set, replace, remove' for selection of multiple images: Use each selected only once
-* Premium version: Added option in 'Set, replace, remove' for selection of multiple images: Remove excess featured images after all selected images are used
-* Premium version: Added option in 'Set, replace, remove': Remove first image in content
-* Premium version: Added option in 'Set, replace, remove': Take first image of NextGen galleries
-* Premium version: Added option in 'Set, replace, remove': Take first external image
-* Premium version: Added option in 'Set, replace, remove': Take first attached image
+* Premium version: Added option in 'Bulk Edit' for selection of multiple images: Use each selected only once
+* Premium version: Added option in 'Bulk Edit' for selection of multiple images: Remove excess featured images after all selected images are used
+* Premium version: Added option in 'Bulk Edit': Remove first image in content
+* Premium version: Added option in 'Bulk Edit': Take first image of NextGen galleries
+* Premium version: Added option in 'Bulk Edit': Take first external image
+* Premium version: Added option in 'Bulk Edit': Take first attached image
 * Tested successfully with WordPress 4.2.2
 * Updated *.pot file and german translation
 
 = 10.0 =
 * Introducing **premium version** [Quick Featured Images Pro](https://www.quickfeaturedimages.com/)
-* Deleted in 'Set, replace, remove': some filters and options in favor of the premium version
+* Deleted in 'Bulk Edit': some filters and options in favor of the premium version
 * Corrected CSS height for images in image column to keep the aspect ratio
 * Updated *.pot file and german translation
 
 
 == Upgrade Notice ==
 
+= 13.3.1 =
+* Added greek translation, changed labels, updated WP translations, tested with WordPress 4.9.1
+
 = 13.3 =
-Added japanese translation and Requires PHP info in readme.txt
+Added japanese translation and small revisions, tested with WP 4.8.2
 
 = 13.2.2 =
 Fixed incorrect detection of post type name for the result list
 
 = 13.2.1 =
-In Presets image paths starting with / will be considered, tested with WP 4.8.1
+In 'Default Images'' image paths starting with / will be considered, tested with WP 4.8.1
 
 = 13.2 =
-Added in Presets: Post type filters for first image option, revised translations
+Added in 'Default Images'': Post type filters for first image option, revised translations
 
 = 13.1 =
 Added french translation, revised sanitations and translations, tested with WordPress 4.8
@@ -515,7 +527,7 @@ Fixed minor errors for SVG support, tested with WP 4.7.4
 Revised translations
 
 = 12.3.2 =
-Fixed missing wp_enqueue_media() in Presets
+Fixed missing wp_enqueue_media() in 'Default Images''
 
 = 12.3.1 =
 Fixed missing wp_enqueue_media() for featured image column, fixed typo
@@ -527,7 +539,7 @@ Faster image check, media library dialog box to select the replacement images, u
 Added prevention of PHP timeout and memory limitation, fixed live(), considered WordPress 4.7
 
 = 12.1.1 =
-Fixed warning about undefined variable in Presets
+Fixed warning about undefined variable in 'Default Images''
 
 = 12.1 =
 Fixed fatal error at plugin activation, fixed missing default settings
@@ -536,7 +548,7 @@ Fixed fatal error at plugin activation, fixed missing default settings
 New features: user role option, action links in image columns, tested with WP 4.6
 
 = 11.8.1 =
-Improved media dialogs, revised users list in Presets
+Improved media dialogs, revised users list in 'Default Images''
 
 = 11.8 =
 Added brazilian portuguese translation, tested with WP 4.5.3
@@ -551,7 +563,7 @@ Fixed: broken recognition of first post image works in multilines
 Revised plugin activation message function, tested with WP 4.5
 
 = 11.7 =
-Presets are working in the frontend, too; Revised headline structure for better accessibility
+'Default Images'' are working in the frontend, too; Revised headline structure for better accessibility
 
 = 11.6.1 =
 Tested successfully with WordPress 4.4
@@ -560,7 +572,7 @@ Tested successfully with WordPress 4.4
 Added automatic deletion of rules assigned with a deleted image in the library, some fixes
 
 = 11.5 =
-Added arabic translation, added in 'Set, replace, remove': Back button on result page, some design improvements, changed text domain
+Added arabic translation, added in 'Bulk Edit': Back button on result page, some design improvements, changed text domain
 
 = 11.4.1 =
 Revised styles for image column since WP 4.3, tested in WP 4.3

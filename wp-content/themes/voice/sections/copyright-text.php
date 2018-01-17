@@ -1,1 +1,0 @@
-<p><?php echo do_shortcode(vce_get_option('footer_copyright'));?></p>

@@ -40,7 +40,7 @@ class vc_column_text extends td_block {
 				$buffy .= $this->get_pull_down_filter(); //get the sub category filter for this block
             $buffy .= '</div>';
 
-		$buffy .= $content . '</div>';
+		$buffy .= '<div class="td-fix-index">' . $content . '</div></div>';
 
 		return $buffy;
 	}

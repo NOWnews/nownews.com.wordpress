@@ -197,7 +197,7 @@ $demo_cat_7_id =td_demo_category::add_category(array(
 $td_homepage_id = td_demo_content::add_page(array(
     'title' => 'Home',
     'file' => td_global::$get_template_directory . '/includes/demos/art_creek/pages/homepage.txt',
-    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '',
     'homepage' => true
 ));

@@ -66,8 +66,8 @@ class tdc_config {
 		'tdcLoader'             => '/assets/js/tdcLoader.js',
 
 		'tdcLivePanel'          => '/assets/js/tdcLivePanel.js',
-		'tdcLivePanelMenuSettings'  => '/assets/js/tdcLivePanelMenuSettings.js',
-		'tdcLivePanelPageSettings'  => '/assets/js/tdcLivePanelPageSettings.js',
+		'tdcLivePanelMenuSettings'      => '/assets/js/tdcLivePanelMenuSettings.js',
+		'tdcLivePanelPageSettings'      => '/assets/js/tdcLivePanelPageSettings.js',
 	);
 
 
@@ -97,5 +97,36 @@ class tdc_config {
 
 	static $js_files_for_plugin_live_css = array(
 		'td_live_css_main'                      => '/css-live/assets/js/tdLiveCssMain.js',
+	);
+
+	static $font_settings = array(
+		'font_awesome' => array(
+			'name' => 'Font Awesome',
+			'family_class' => 'fa',
+			'css_file' => '/assets/fonts/font-awesome/font-awesome.css',
+			'template_file' => 'font-awesome.php',
+			'load' => false,
+		),
+		'typicons' => array(
+			'name' => 'Typicons',
+			'family_class' => 'typcn',
+			'css_file' => '/assets/fonts/typicons/typicons.css',
+			'template_file' => 'typicons.php',
+			'load' => false,
+		),
+		'open_iconic' => array(
+			'name' => 'Open Iconic',
+			'family_class' => 'oi',
+			'css_file' => '/assets/fonts/open-iconic/open-iconic.css',
+			'template_file' => 'open-iconic.php',
+			'load' => false,
+		),
+        'td-multipurpose' => array(
+			'name' => 'tagDiv Multi-purpose',
+			'family_class' => 'tdmp',
+			'css_file' => '/assets/fonts/td-multipurpose/td-multipurpose.css',
+			'template_file' => 'td-multipurpose.php',
+			'load' => false,
+		),
 	);
 }

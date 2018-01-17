@@ -3988,7 +3988,7 @@ var tdUtil = {};
             jQuery("html, body").stop();
 
 
-            var destination = domElement.offset().top;
+            var destination = domElement.find( 'img' ).offset().top;
             destination = destination - 150;
 
             var distance = Math.abs( jQuery(window).scrollTop() - destination );
@@ -4242,6 +4242,11 @@ var tdAffix = {};
 
                 // overwrite the tdAffix.menu_affix_height variable with the real affix height
                 tdAffix.menu_affix_height = jQuery(tdAffix.menu_selector).height();
+
+                // Fix used to solve 'Sticky Menu - Smart snap'
+                if ( 'smart_snap_always' === tdAffix.tds_snap_menu ) {
+                    tdAffix.top_offset = tdAffix.menu_affix_height;
+                }
             }
             return tdAffix.menu_affix_height;
         },
@@ -4623,6 +4628,9 @@ jQuery().ready(function jQuery_ready() {
     // prevents comments form submission without filing the required form fields
     td_comments_form_validation();
 
+    // bind events to scroll to css class elements
+    td_scroll_to_class();
+
 }); //end on load
 
 
@@ -4718,8 +4726,6 @@ function td_done_resizing(){
     td_resize_videos();
 }
 
-
-
 /*  ----------------------------------------------------------------------------
     Resize the videos
  */
@@ -4802,11 +4808,6 @@ function td_resize_videos() {
     //    td_video.css('height', '100%', 'important');
     //})
 }
-
-
-
-
-
 
 //handles mobile menu
 function td_mobile_menu() {
@@ -4917,8 +4918,6 @@ function td_mobile_menu_toogle() {
     });
 }
 
-
-
 /*  ----------------------------------------------------------------------------
     Add retina support
  */
@@ -4983,9 +4982,6 @@ if(!tdDetect.isTouchDevice && tdUtil.getBackendVar('td_ad_background_click_link'
         //stopBubble(event);
     });
 }
-
-
-
 
 
 /**
@@ -5259,6 +5255,59 @@ function td_smart_lists_magnific_popup() {
             }
         }
     });
+
+
+    // Add video magnific popup to 'data-mpf-src' elements
+    jQuery('[data-mfp-src]').magnificPopup({
+
+        preloader: true,
+        tLoading: "Loading url #%curr%...",
+        type: "iframe",
+        markup: '<div class="mfp-iframe-scaler">'+
+                '<div class="mfp-close"></div>'+
+                '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
+            '</div>', // HTML markup of popup, `mfp-close` will be replaced by the close button
+        iframe: {
+            patterns: {
+                youtube: {
+
+                    index: 'youtube.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
+
+                    //id: 'v=', // String that splits URL in a two parts, second part should be %id%
+                    // Or null - full URL will be returned
+                    // Or a function that should return %id%, for example:
+                    // id: function(url) { return 'parsed id'; }
+
+                    id: function( url ) {
+                        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]{11,11}).*/;
+                        var match = url.match(regExp);
+                        if (match && match.length >= 2 ) {
+                            return match[2];
+                        }
+                        return null;
+                    },
+
+                    src: '//www.youtube.com/embed/%id%?autoplay=1' // URL that will be set as a source for iframe.
+                },
+                vimeo: {
+
+                    index: 'vimeo.com/', // String that detects type of video (in this case YouTube). Simply via url.indexOf(index).
+
+                    id: '/',
+
+                    src: '//player.vimeo.com/video/%id%?autoplay=1' // URL that will be set as a source for iframe.
+                }
+            },
+            srcAction: 'iframe_src' // Templating object key. First part defines CSS selector, second attribute. "iframe_src" means: find "iframe" and set attribute "src".
+        }
+    });
+
+
+    jQuery('[data-mfp-src]').on('click', function(event) {
+        event.preventDefault();
+
+        jQuery(this).magnificPopup( 'open' );
+    });
 }
 
 
@@ -5411,8 +5460,100 @@ function td_comments_form_validation() {
                 current_input_field.css('border', '1px solid #e1e1e1');
             }
         });
-    })
+    });
 }
+
+
+function td_scroll_to_class() {
+    jQuery('[data-scroll-to-class]').on('click', function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        var $this = jQuery( this),
+            offsetThis = $this.offset(),
+            dataScrollToClass = $this.data( 'scroll-to-class' ),
+            dataScrollOffset = $this.data( 'scroll-offset' ),
+            dataScrollTarget = $this.data( 'scroll-target' );
+
+        if ( 'undefined' === typeof dataScrollOffset || '' === dataScrollOffset ) {
+            dataScrollOffset = 0;
+        }
+
+        if ( 'undefined' !== typeof dataScrollToClass && '' !== dataScrollToClass ) {
+            var $toScrollElement = jQuery( '.' + dataScrollToClass );
+            if ( $toScrollElement.length ) {
+                var offsetElement = $toScrollElement.offset(),
+                    duration = Math.floor( Math.abs( offsetThis.top - offsetElement.top) / 100 ) * 400;
+
+                if ( duration > 1500 ) {
+                    duration = 1500;
+                } else if ( duration < 500 ) {
+                    duration = 500;
+                }
+
+                //console.log(Math.abs( offsetThis.top - offsetElement.top));
+                //console.log(duration);
+                tdUtil.scrollToPosition( offsetElement.top + dataScrollOffset, duration ) ;
+
+                var $li = $this.parent().parent( 'li.menu-item' );
+                if ( $li.length ) {
+                    $li.siblings( '.current-menu-item' ).removeClass( 'current-menu-item' );
+                    $li.addClass( 'current-menu-item' );
+                }
+                jQuery( 'body').removeClass( 'td-menu-mob-open-menu' );
+
+            } else if ( 'undefined' !== typeof dataScrollTarget && '' !== dataScrollTarget ) {
+                td_set_cookies_life(['td-cookie-scroll-to-class', dataScrollToClass, 86400000]);//86400000 is the number of milliseconds in a day
+                td_set_cookies_life(['td-cookie-scroll-offset', dataScrollOffset, 86400000]);//86400000 is the number of milliseconds in a day
+
+                jQuery( 'body').removeClass( 'td-menu-mob-open-menu' );
+                window.location = dataScrollTarget;
+            }
+        }
+    });
+}
+
+jQuery(window).load(function(){
+
+    //read the cookie
+    var td_cookie_scroll_to_class = td_read_site_cookie( 'td-cookie-scroll-to-class' ),
+        td_cookie_scroll_offset = td_read_site_cookie( 'td-cookie-scroll-offset' );
+
+    if ( 'undefined' !== typeof td_cookie_scroll_to_class && null !== td_cookie_scroll_to_class ) {
+
+        // Delete cookies
+        td_set_cookies_life(['td-cookie-scroll-to-class', '', 1]);
+        td_set_cookies_life(['td-cookie-scroll-offset', '', 1]);
+
+        var $toScrollElement = jQuery( '.' + td_cookie_scroll_to_class );
+
+        if ( $toScrollElement.length ) {
+            var offsetElement = $toScrollElement.offset(),
+                duration = Math.floor(Math.abs(offsetElement.top) / 100) * 400;
+
+            if (duration > 1500) {
+                duration = 1500;
+            } else if (duration < 500) {
+                duration = 500;
+            }
+
+            var scrollOffset = 0;
+            if ( 'undefined' !== typeof td_cookie_scroll_offset && null !== td_cookie_scroll_offset ) {
+                scrollOffset = parseInt( td_cookie_scroll_offset );
+            }
+            tdUtil.scrollToPosition(offsetElement.top + scrollOffset, duration);
+
+            var $currentItem = jQuery('[data-scroll-to-class="' + td_cookie_scroll_to_class + '"]');
+            if ( $currentItem.length ) {
+                var $li = $currentItem.parent().parent('li.menu-item');
+                if ($li.length) {
+                    $li.siblings('.current-menu-item').removeClass('current-menu-item');
+                    $li.addClass('current-menu-item');
+                }
+            }
+        }
+    }
+});
 /* global jQuery:false */
 /* global tdUtil:false */
 
@@ -6044,6 +6185,64 @@ function tdModalImage() {
 
     //popup on modal images in articles
     jQuery( 'article' ).magnificPopup({
+        type: 'image',
+        delegate: ".td-modal-image",
+        gallery: {
+            enabled: true,
+            tPrev: tdUtil.getBackendVar( 'td_magnific_popup_translation_tPrev' ), // Alt text on left arrow
+            tNext: tdUtil.getBackendVar( 'td_magnific_popup_translation_tNext' ), // Alt text on right arrow
+            tCounter: tdUtil.getBackendVar( 'td_magnific_popup_translation_tCounter' ) // Markup for "1 of 7" counter
+        },
+        ajax: {
+            tError: tdUtil.getBackendVar( 'td_magnific_popup_translation_ajax_tError' )
+        },
+        image: {
+            tError: tdUtil.getBackendVar( 'td_magnific_popup_translation_image_tError' ),
+            titleSrc: function( item ) {//console.log(item.el);
+                //alert(jQuery(item.el).data("caption"));
+                var td_current_caption = jQuery( item.el ).data( 'caption' );
+                if ( 'undefined' !== typeof td_current_caption ) {
+                    return td_current_caption;
+                } else {
+                    return '';
+                }
+            }
+        },
+        zoom: {
+            enabled: true,
+            duration: 300,
+            opener: function( element ) {
+                return element.find( 'img' );
+            }
+        },
+        callbacks: {
+            change: function( item ) {
+                tdModalImageLastEl = item.el;
+                //setTimeout(function(){
+                tdUtil.scrollIntoView( item.el );
+                //}, 100);
+            },
+            beforeClose: function() {
+                tdAffix.allow_scroll = false;
+
+                tdUtil.scrollIntoView( tdModalImageLastEl );
+
+                var interval_td_affix_scroll = setInterval(function() {
+
+                    if ( ! tdIsScrollingAnimation ) {
+                        clearInterval( interval_td_affix_scroll );
+                        setTimeout(function() {
+                            tdAffix.allow_scroll = true;
+                            //tdAffix.td_events_scroll(td_events.scroll_window_scrollTop);
+                        }, 100 );
+                    }
+                }, 100 );
+            }
+        }
+    });
+
+    //popup on modal images in .td-main-content-wrap
+    jQuery( '.td-main-content-wrap' ).magnificPopup({
         type: 'image',
         delegate: ".td-modal-image",
         gallery: {
@@ -7769,26 +7968,6 @@ var tdDemoMenu;
         // document - vertical mouse position
         mousePosY: 0,
 
-        // The timer waiting to start de interval
-        startTimeout: undefined,
-
-        // The interval that decreases the padding-left css value and increases the left css value of the screen demo (previewer of the demo)
-        startInterval: undefined,
-
-
-
-        // Flag marks that it's possible to move the mouse to the original demo
-        _extendedDemo: false,
-
-        // The current demo element (for which the counters have been applied)
-        _currentElement: undefined,
-
-        // The timer waiting to start the interval for extended demo
-        _startExtendedTimeout: undefined,
-
-        // The interval that decreases the width css value of the extended element
-        _startExtendedInterval: undefined,
-
 
 
 
@@ -7810,18 +7989,7 @@ var tdDemoMenu;
             // cloase the preview on mouse leave
             jQuery(document).mouseleave(function (event) {
 
-                // Any existing timeout is cleard to stop any further css settings
-                if (undefined !== tdDemoMenu.startTimeout) {
-                    window.clearTimeout(tdDemoMenu.startTimeout);
-                }
-
-                // Any existing interval is cleard to stop any further css settings
-                if (undefined !== tdDemoMenu.startInterval) {
-                    window.clearInterval(tdDemoMenu.startInterval);
-                }
-
                 jQuery('.td-screen-demo:first').css('visibility', 'hidden');
-                jQuery('.td-screen-demo-extend:first').hide();
             });
 
             // Show/hide the arrow skin scroll element
@@ -7855,15 +8023,6 @@ var tdDemoMenu;
                         easing: 'easeInOutQuart'
                     });
             }).mouseenter(function (event) {
-                // Any existing timeout is cleard to stop any further css settings
-                if (undefined !== tdDemoMenu.startTimeout) {
-                    window.clearTimeout(tdDemoMenu.startTimeout);
-                }
-
-                // Any existing interval is cleard to stop any further css settings
-                if (undefined !== tdDemoMenu.startInterval) {
-                    window.clearInterval(tdDemoMenu.startInterval);
-                }
 
                 //jQuery( '#td-theme-settings' ).find( '.td-screen-demo:first' ).hide();
                 jQuery('#td-theme-settings').find('.td-screen-demo:first').css('visibility', 'hidden');
@@ -7878,16 +8037,6 @@ var tdDemoMenu;
                 function (event) {
 
                 //console.log( 'in MAIN ' + contor++);
-
-                    // Any existing timeout is cleard to stop any further css settings
-                    if (undefined !== tdDemoMenu.startTimeout) {
-                        window.clearTimeout(tdDemoMenu.startTimeout);
-                    }
-
-                    // Any existing interval is cleard to stop any further css settings
-                    if (undefined !== tdDemoMenu.startInterval) {
-                        window.clearInterval(tdDemoMenu.startInterval);
-                    }
 
                     var
                     // The css class of the container element
@@ -7927,7 +8076,8 @@ var tdDemoMenu;
                         dataImgUrl = $this.data('img-url');
 
                     if (imgElement.length) {
-                        imgElement.attr('src', dataImgUrl);
+                        imgElement.replaceWith( '<img src="' + dataImgUrl + '"/>' );
+                        //imgElement.attr('src', dataImgUrl);
                     } else {
                         jQueryDisplayEl.html('<img src="' + dataImgUrl + '"/>');
                     }
@@ -8001,284 +8151,16 @@ var tdDemoMenu;
 
                     //console.log('out MAIN ');
 
-                    jQuery('.td-screen-demo-extend:first').hide();
-
                     var
                     // The jquery object of the previewer demo element
-                        jQueryDisplayEl = jQuery('.td-screen-demo:first'),
+                        jQueryDisplayEl = jQuery('.td-screen-demo:first');
 
-                    // The css right value
-                        existingRightValue = jQueryDisplayEl.css('right'),
-
-                    // The css padding-right value
-                        existingExtraRightValue = jQueryDisplayEl.css('padding-right'),
-
-                    // The css width value
-                        existingWidthValue = jQueryDisplayEl.css('width'),
-
-                    // The integer css right value
-                        newRightValue = parseInt(existingRightValue.replace('px', '')),
-
-                    // The integer css padding-right value
-                        newExtraRightValue = parseInt(existingExtraRightValue.replace('px', '')),
-
-                    // The step value used to decrease the padding-left css value and to increase the left css value
-                        step = 10,
-
-                    // The waiting time (ms) for the timeout
-                        startTimeoutWait = 50,
-
-                    // The time (ms) for the interval
-                    //startIntervalWait = 15,
-                    startIntervalWait = 15,
-
-                        newWidthValue = parseInt(existingWidthValue.replace('px', ''));
-
-
-                    var $this = jQuery(this);
-                    tdDemoMenu._currentElement = $this;
-
-                    var tdThemeSettingsWidth = parseInt(jQuery('#td-theme-settings').css('width').replace('px', ''));
-
-                    if (newExtraRightValue > 0) {
-
-                        // Clear any timeout if there's one, because a new one will be created
-                        if (undefined !== tdDemoMenu.startTimeout) {
-                            window.clearTimeout(tdDemoMenu.startTimeout);
-                            tdDemoMenu.startTimeout = undefined;
-                        }
-
-                        // Clear any interval if there's one, because a new one will be created
-                        if (undefined !== tdDemoMenu.startInterval) {
-                            window.clearInterval(tdDemoMenu.startInterval);
-                            tdDemoMenu.startInterval = undefined;
-                        }
-
-                        tdDemoMenu.startTimeout = setTimeout(function () {
-
-
-                            // Extended demo is eligible to be shown (true)
-                            // The flag is set to false when the mouse is found in wrong position (mouse position is reached)
-                            // The flag is set to true when the counters (the timer and the interval) finish, there the extended demo element being shown
-                            tdDemoMenu._extendedDemo = true;
-
-                            tdDemoMenu.startInterval = setInterval(function () {
-
-                                    var dataWidthPreview = jQueryDisplayEl.data('width-preview');
-
-                                    newRightValue += step;
-                                    newExtraRightValue -= step;
-                                    newWidthValue -= step;
-
-                                    var mousePositionFound = false;
-
-                                    if (newExtraRightValue <= 0 ||
-                                        newWidthValue < dataWidthPreview ||
-                                        tdDemoMenu.mousePosX <= jQuery(window).width() - tdThemeSettingsWidth ||
-                                        tdDemoMenu.mousePosX >= jQuery(window).width() - newRightValue) {
-
-                                        // Clear any timeout, and we should have one, because we finished
-                                        if (undefined !== tdDemoMenu.startTimeout) {
-                                            window.clearTimeout(tdDemoMenu.startTimeout);
-                                            tdDemoMenu.startTimeout = undefined;
-                                        }
-
-                                        // Clear any interval, and we should have one, because we finished
-                                        if (undefined !== tdDemoMenu.startInterval) {
-                                            window.clearInterval(tdDemoMenu.startInterval);
-                                            tdDemoMenu.startInterval = undefined;
-                                        }
-
-                                        newExtraRightValue = 0;
-                                        newRightValue = jQueryDisplayEl.data('right-value');
-                                        newWidthValue = dataWidthPreview;
-
-                                        if (tdDemoMenu.mousePosX >= jQuery(window).width() - newRightValue) {
-                                            mousePositionFound = true;
-                                        }
-                                    }
-
-                                    jQueryDisplayEl.css({
-                                        'right': newRightValue,
-                                        'padding-right': newExtraRightValue,
-                                        'width': newWidthValue
-                                    });
-
-                                    // The timeout started and the interval are stopped (The mouse was reached or the css computation is done)
-                                    if (mousePositionFound) {
-                                        tdDemoMenu._extendedDemo = false;
-                                        tdDemoMenu._checkMousePosition();
-                                    } else if (undefined === tdDemoMenu.startTimeout && undefined === tdDemoMenu.startInterval) {
-                                        tdDemoMenu._extendedDemo = true;
-                                        tdDemoMenu._showExtendedScreenDemo();
-                                    }
-
-                                }, startIntervalWait
-                            );
-                        }, startTimeoutWait);
-
-                    } else {
-                        //jQueryDisplayEl.hide();
-                        jQueryDisplayEl.css('visibility', 'hidden');
-                    }
+                    //jQueryDisplayEl.hide();
+                    jQueryDisplayEl.css('visibility', 'hidden');
                 }
 
             ).mousemove(function(event) {
                 tdDemoMenu._moveScreenDemo( event );
-            });
-
-            //jQuery('.td-screen-demo').hover(
-            //    function (event) {
-            //        //jQuery(this).show();
-            //        jQuery(this).css('visibility', 'visible');
-            //
-            //        tdDemoMenu._resetTdScreeDemoExtendWidth();
-            //    },
-            //    function (event) {
-            //
-            //        // We are on mouseleave event, and because of this, if the main counters (the timer and the interval) are not finished, it means we
-            //        // don't have any extended demo element, so it's okay to set its flag to false and hide the extended demo element and the previewer demo element (this element)
-            //
-            //        // The main counters (the timer and the interval) are cleared immediately, because their final step can make extend demo visible
-            //
-            //        // Clear any timeout, and we should have one, because we finished
-            //        if (undefined !== tdDemoMenu.startTimeout) {
-            //            window.clearTimeout(tdDemoMenu.startTimeout);
-            //            tdDemoMenu.startTimeout = undefined;
-            //        }
-            //
-            //        // Clear any interval, and we should have one, because we finished
-            //        if (undefined !== tdDemoMenu.startInterval) {
-            //            window.clearInterval(tdDemoMenu.startInterval);
-            //            tdDemoMenu.startInterval = undefined;
-            //        }
-            //
-            //        //jQuery(this).hide();
-            //        jQuery(this).css('visibility', 'hidden');
-            //        jQuery('.td-screen-demo-extend:first').hide();
-            //    }
-            //
-            //).mousemove(function(event) {
-            //    //tdDemoMenu._moveScreenDemo( event );
-            //});
-
-            jQuery('.td-screen-demo-extend').hover(
-                function (event) {
-
-                if ( tdDemoMenu._extendedDemo ) {
-
-                    // Set the flag to false to not execute this routine twice on mouseenter event
-                    tdDemoMenu._extendedDemo = false;
-
-                    var
-
-                    // The jquery current element
-                        $this = jQuery(this),
-
-                    // The jquery '.td-screen-demo' element
-                        $tdScreenDemo = jQuery('.td-screen-demo:first'),
-
-                    // The css width value
-                    //columnWidth = $this.data('width-column'),
-                        columnWidth = parseInt(jQuery('#td-theme-settings').css('width').replace('px', '')) / 2,
-
-                    // The step value used to decrease the padding-left css value and to increase the left css value
-                        step = 10,
-
-                    // The waiting time (ms) for the timeout
-                        startTimeoutWait = 50,
-
-                    // The time (ms) for the interval
-                    //startIntervalWait = 15,
-                        startIntervalWait = 15,
-
-                            newWidthValue = columnWidth;
-
-                        $this.css({
-                            'width': columnWidth + 'px',
-                            'top': $tdScreenDemo.css('top')
-                        });
-
-                        $this.show();
-                        //$tdScreenDemo.show();
-                        $tdScreenDemo.css('visibility', 'visible');
-
-
-                        tdDemoMenu._startExtendedTimeout = setTimeout(function () {
-
-                            tdDemoMenu._startExtendedInterval = setInterval(function () {
-
-                                newWidthValue -= step;
-
-                                var mousePositionFound = false;
-
-                                if (newWidthValue < 0 ||
-                                    tdDemoMenu.mousePosX <= jQuery(window).width() - columnWidth - newWidthValue) {
-
-                                    // Clear any timeout, and we should have one, because we finished
-                                    if (undefined !== tdDemoMenu._startExtendedTimeout) {
-                                        window.clearTimeout(tdDemoMenu._startExtendedTimeout);
-                                        tdDemoMenu._startExtendedTimeout = undefined;
-                                    }
-
-                                    // Clear any interval, and we should have one, because we finished
-                                    if (undefined !== tdDemoMenu._startExtendedInterval) {
-                                        window.clearInterval(tdDemoMenu._startExtendedInterval);
-                                        tdDemoMenu._startExtendedInterval = undefined;
-                                    }
-
-                                    if (tdDemoMenu.mousePosX <= jQuery(window).width() - columnWidth - newWidthValue) {
-                                        mousePositionFound = true;
-                                    }
-
-                                    newWidthValue = columnWidth;
-
-                                    $this.hide();
-                                }
-
-                                $this.css({
-                                    'width': newWidthValue,
-                                    'top': $tdScreenDemo.css('top')
-                                });
-
-                                if (mousePositionFound) {
-                                    tdDemoMenu._checkMousePosition();
-                                }
-                            }, startIntervalWait);
-                        }, startTimeoutWait);
-                    }
-                },
-                function (event) {
-
-                    /**
-                     * 1. clear any extended timer/interval
-                     * 2. hide the element
-                     * 3. adjust its width to the initial value
-                     * 4. hide the previewer element (this will be shown by the a mouseenter event if it's the case)
-                     */
-
-                    // Clear any timeout, and we should have one, because we finished
-                    if (undefined !== tdDemoMenu._startExtendedTimeout) {
-                        window.clearTimeout(tdDemoMenu._startExtendedTimeout);
-                        tdDemoMenu._startExtendedTimeout = undefined;
-                    }
-
-                    // Clear any interval, and we should have one, because we finished
-                    if (undefined !== tdDemoMenu._startExtendedInterval) {
-                        window.clearInterval(tdDemoMenu._startExtendedInterval);
-                        tdDemoMenu._startExtendedInterval = undefined;
-                    }
-
-                    tdDemoMenu._resetTdScreeDemoExtendWidth();
-
-                    jQuery(this).hide();
-
-                    //jQuery( '.td-screen-demo:first').hide();
-                    jQuery('.td-screen-demo:first').css('visibility', 'hidden');
-                }
-
-            ).mousemove(function(event) {
-                //tdDemoMenu._moveScreenDemo( event );
             });
         },
 
@@ -8328,29 +8210,7 @@ var tdDemoMenu;
 
 
 
-        /**
-         * Used when the width of the demo menu has changed (the width of the extended screen also changes)
-         * @private
-         */
-        _resetTdScreeDemoExtendWidth: function () {
 
-            var widthColumn = parseInt(jQuery('#td-theme-settings').css('width').replace('px', '')) / 2;
-
-            jQuery('.td-screen-demo-extend:first').css({
-                'width': widthColumn + 'px'
-            });
-        },
-
-        _showExtendedScreenDemo: function () {
-
-            if (tdDemoMenu._extendedDemo) {
-
-                jQuery('.td-screen-demo-extend:first').css({
-                    top: jQuery('.td-screen-demo:first').css('top')
-                }).show();
-
-            }
-        },
 
         _checkMousePosition: function () {
 
@@ -9918,6 +9778,49 @@ var tdCustomEvents = {};
 
             // @todo It will be refactorized when td_site will be
             setMenuMinHeight();
+
+
+            // Stretch video background
+            jQuery( 'body' ).find( '.tdc-video-inner-wrapper' ).each(function() {
+
+                var $wrapper = jQuery( this ),
+                    $iframe = $wrapper.find( 'iframe' );
+
+                if ( ! $iframe.length ) {
+                    return;
+                }
+
+                var iframeAspectRatio = $iframe.attr( 'aspect-ratio' );
+
+                if ( 'undefined' === typeof iframeAspectRatio ) {
+                    return;
+                }
+
+                var wrapperWidth = $wrapper.width(),
+                    wrapperHeight = $wrapper.height(),
+                    wrapperAspectRatio = wrapperHeight / wrapperWidth;
+
+                if ( iframeAspectRatio < wrapperAspectRatio ) {
+                    $iframe.css({
+                        width: wrapperHeight / iframeAspectRatio,
+                        height: wrapperHeight
+                    });
+                } else if ( iframeAspectRatio > wrapperAspectRatio ) {
+                    $iframe.css({
+                        width: '100%',
+                        height: iframeAspectRatio * wrapperWidth
+                    });
+                }
+            });
+
+
+            // every tdAnimationScroll.item item which has 'td_video_parallax' flag must be reinitialized and repositioned for parallax effect
+            for ( var i = 0; i < tdAnimationScroll.items.length; i++ ) {
+                if ( 'undefined' !== typeof tdAnimationScroll.items[i].td_video_parallax ) {
+                    tdAnimationScroll.reinitialize_item( tdAnimationScroll.items[i], true );
+                }
+            }
+
         }
     };
 })();
@@ -11019,6 +10922,25 @@ var tdPullDown = {};
         },
 
 
+        /**
+         * deletes an item but it also moves the dom elements to the main container. Used on the social share icons from the start end bottom of the article
+         * @param blockUid
+         */
+        unloadItem: function (blockUid) {
+            for (var cnt = 0; cnt < tdPullDown.items.length; cnt++) {
+                if (tdPullDown.items[cnt].blockUid === blockUid) {
+                    // move all the elements that are on the vertical list to the horizontal one
+                    for ( var i = 0; i < tdPullDown.items[cnt]._vertical_elements.length; i++ ) {
+                        var local_element = tdPullDown.items[cnt]._vertical_elements[i];
+                        local_element.jquery_object.detach().appendTo( tdPullDown.items[cnt].horizontal_jquery_obj );
+                    }
+                    tdPullDown.deleteItem(blockUid); // delete the item also
+                    return true;
+                }
+            }
+            return false;
+        },
+
 
 
         /**
@@ -11893,6 +11815,16 @@ var tdAnimationScroll = {};
 
             if (item.constructor !== tdAnimationScroll.item) {
                 return;
+            }
+
+            // Don't add elements where 'td_marker_animation' is present
+            if ( 'undefined' === typeof item.jqueryObj ) {
+                return;
+            } else {
+                var $prevItem = item.jqueryObj.prev();
+                if ( $prevItem.length && $prevItem.hasClass( 'td_marker_animation' ) ) {
+                    return;
+                }
             }
 
             // the item is added in the item list
@@ -13463,6 +13395,11 @@ jQuery(window).load( function() {
 
     });
 
+
+
+
+
+
 });
 
 
@@ -13528,7 +13465,22 @@ jQuery(window).ready(function() {
     });
 
 
+
     tdAnimationScroll.compute_all_items();
+
+
+
+    // We need to come after videos wrappers have been inserted in page (@todo after iframe load??)
+    setTimeout(function() {
+
+        jQuery('.tdc-video-parallax-wrapper').each(function (index, element) {
+            td_compute_parallax_background(element);
+        });
+
+        tdAnimationScroll.compute_all_items();
+
+    }, 300);
+
 
 
 
@@ -13536,6 +13488,41 @@ jQuery(window).ready(function() {
     // load animation stack
     tdAnimationStack.ready_init();
 });
+
+
+
+
+function td_compute_parallax_background( htmlElement ) {
+
+    var $el = jQuery(htmlElement);
+
+    var move_y_val = Math.round( $el.height() * 0.2 ),
+        start_move_y_val = -1 * move_y_val,
+        end_move_y_val = move_y_val;
+
+    var item = new tdAnimationScroll.item();
+    item.jqueryObj = $el;
+
+    item.add_item_property('move_y', 0, 100, start_move_y_val, end_move_y_val, '');
+
+    item.animation_callback = function () {
+
+        var move_y_property = parseFloat(item.computed_item_properties['move_y']).toFixed();
+
+        item.jqueryObj.css({
+            '-webkit-transform': 'translate3d(0px,' + move_y_property + 'px, 0px) scale(1.2)',
+            'transform': 'translate3d(0px,' + move_y_property + 'px, 0px) scale(1.2)'
+        });
+
+        item.redraw = false;
+
+        // Flag used to reinitialize item at resize (we need to reinitialize it because its container dimensions can change - and also the properties applied to the item )
+        item.td_video_parallax = true;
+    }
+
+    tdAnimationScroll.add_item(item);
+}
+
 
 
 
@@ -14409,8 +14396,6 @@ var tdWeather = {};
 })();
 
 tdWeather.init(); //init the class
-
-
 /* global jQuery:{} */
 /* global tdUtil:{} */
 /* global tdTrendingNow:{} */
@@ -15159,3 +15144,136 @@ function td_date_i18n(format, timestamp) {
     };
     return this.date(format, timestamp);
 }
+
+/* global tdDetect: {} */
+/* global jQuery: {} */
+/* global tdPullDown: {} */
+
+var tdSocialSharing = {};
+
+(function(){
+    "use strict";
+
+    tdSocialSharing = {
+
+        init: function() {
+
+
+
+
+
+            // hook up the social buttons to the popup window
+
+            jQuery('.td-social-sharing-button').click(function(event){
+
+
+                var $theLinkEl = jQuery(this);
+
+                var blockUid = '';
+
+                // for email just open the url like normal
+                if ($theLinkEl.hasClass('td-social-mail') || $theLinkEl.hasClass('td-social-share-text')) {
+                    return;
+                }
+
+
+                event.preventDefault();
+                if ($theLinkEl.hasClass('td-social-expand-tabs')) {
+
+                    blockUid = $theLinkEl.data('block-uid');
+
+                    var $blockWrapEl = jQuery('#' + blockUid);
+
+
+                    var $iconEl = $theLinkEl.find('.td-social-expand-tabs-icon');
+
+
+                    if ($blockWrapEl.hasClass('td-social-show-all')) { // hide icons
+
+                        // move the plus sign back
+                        $theLinkEl.detach().appendTo($blockWrapEl.find('.td-social-sharing-hidden:first'));
+
+                        // hide icons and init a new pulldown
+                        var jquery_object_container = $blockWrapEl;
+                        var horizontal_jquery_obj = jquery_object_container.find('.td-post-sharing-visible:first');
+                        var pulldown_item_obj = new tdPullDown.item();
+                        pulldown_item_obj.blockUid = jquery_object_container.attr('id');
+                        pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
+                        pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-social-sharing-hidden:first');
+                        pulldown_item_obj.horizontal_element_css_class = 'td-social-sharing-button-js';
+                        pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td-post-sharing:first');
+                        tdPullDown.add_item(pulldown_item_obj);
+
+
+                        jQuery('#' + blockUid).removeClass('td-social-show-all');
+                        $iconEl.removeClass('td-icon-minus');
+                        $iconEl.addClass('td-icon-plus');
+
+                    } else {
+                        // show ALL icons
+                        tdPullDown.unloadItem(blockUid);
+                        jQuery('#' + blockUid).addClass('td-social-show-all');
+                        $iconEl.removeClass('td-icon-plus');
+                        $iconEl.addClass('td-icon-minus');
+
+                        // move the minus button in the vertical list
+                        $theLinkEl.detach().appendTo($blockWrapEl.find('.td-post-sharing-visible:first'));
+                    }
+
+                    return;
+                }
+
+
+
+
+                // if ($theLinkEl.hasClass('td-social-twitter')) {
+                //     return;
+                // }
+
+                if ($theLinkEl.hasClass('td-social-print')) {
+                    window.print();
+                    return;
+                }
+
+                event.preventDefault();
+                var left  = (jQuery(window).width()/2)-(900/2);
+                var top   = (jQuery(window).height()/2)-(600/2);
+                window.open($theLinkEl.attr('href'), 'mywin','left=' + left + ',top=' + top + ',width=900,height=600,toolbar=0');
+            });
+
+
+
+
+
+            // on social images, init a new pull down
+            jQuery('.td-post-sharing').each(function (index, element) {
+
+                var jquery_object_container = jQuery(element);
+                var horizontal_jquery_obj = jquery_object_container.find('.td-post-sharing-visible:first');
+
+                var pulldown_item_obj = new tdPullDown.item();
+
+                pulldown_item_obj.blockUid = jquery_object_container.attr('id');
+
+
+                pulldown_item_obj.horizontal_jquery_obj = horizontal_jquery_obj;
+
+                pulldown_item_obj.vertical_jquery_obj = jquery_object_container.find('.td-social-sharing-hidden:first');
+                //console.log(pulldown_item_obj.vertical_jquery_obj);
+                pulldown_item_obj.horizontal_element_css_class = 'td-social-sharing-button-js';
+                pulldown_item_obj.container_jquery_obj = horizontal_jquery_obj.parents('.td-post-sharing:first');
+                tdPullDown.add_item(pulldown_item_obj);
+
+                //console.log(pulldown_item_obj.container_jquery_obj);
+
+                //console.log(pulldown_item_obj);
+            });
+        }
+
+    };
+
+
+
+    tdSocialSharing.init();
+
+})();

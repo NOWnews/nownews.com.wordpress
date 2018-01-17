@@ -13,12 +13,14 @@ var td_edit_post = {};
         count: 0,
 
         init: function() {
-            tinymce.activeEditor.on('focusin', function(e) {
-                td_edit_post.on_ajax_db_check();
-            });
-            jQuery('.wp-editor-area').on('focusin', function(e) {
-                td_edit_post.on_ajax_db_check();
-            });
+            if (typeof window.tdThemeName !== 'undefined' && (window.tdThemeName === 'Newspaper' || window.tdThemeName === 'Newsmag')) {
+                tinymce.activeEditor.on('focusin', function(e) {
+                    td_edit_post.on_ajax_db_check();
+                });
+                jQuery('.wp-editor-area').on('focusin', function(e) {
+                    td_edit_post.on_ajax_db_check();
+                });
+            }
         },
 
 

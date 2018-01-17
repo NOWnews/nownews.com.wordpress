@@ -40,7 +40,7 @@ class td_remote_video {
 	 */
 	private static function youtube_api_get_videos_info($video_ids) {
 		$video_ids_comma = implode(',', $video_ids);
-		$api_url = 'https://www.googleapis.com/youtube/v3/videos?id=' . $video_ids_comma . '&part=id,contentDetails,snippet&key=AIzaSyBneuqXGHEXQiJlWUOv23_FA4CzpsHaS6I';
+		$api_url = 'https://www.googleapis.com/youtube/v3/videos?id=' . $video_ids_comma . '&part=id,contentDetails,snippet,player&key=AIzaSyBneuqXGHEXQiJlWUOv23_FA4CzpsHaS6I';
 		$json_api_response = td_remote_http::get_page($api_url, __CLASS__);
 
 		// check for a response
@@ -85,6 +85,7 @@ class td_remote_video {
 					'thumb' => td_global::$http_or_https . '://img.youtube.com/vi/' . $video_item['id'] . '/default.jpg',
 					'title' => $video_item['snippet']['title'],
 					'time' => $duration,
+					'embedHtml' => $video_item['player']['embedHtml'],
 				);
 			}
 		}

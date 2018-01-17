@@ -167,9 +167,9 @@ if (!isset($ad_fields['ad_field_position_content']) || (isset($ad_fields['ad_fie
 				'ds' => 'td_option',
 				'option_id' => 'tds_inline_ad_align',
 				'values' => array(
-					array('text' => '', 'title' => '', 'val' => 'left', 'img' => $img_left),
-					array('text' => '', 'title' => '', 'val' => '', 'img' => $img_center),
-					array('text' => '', 'title' => '', 'val' => 'right', 'img' => $img_right)
+					array('text' => '', 'title' => 'Left', 'val' => 'left', 'img' => $img_left),
+					array('text' => '', 'title' => 'Full Width', 'val' => '', 'img' => $img_center),
+					array('text' => '', 'title' => 'Right', 'val' => 'right', 'img' => $img_right)
 				)
 			));
 			?>

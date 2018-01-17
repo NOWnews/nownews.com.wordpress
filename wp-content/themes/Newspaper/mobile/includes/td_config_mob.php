@@ -25,6 +25,11 @@ class td_config_mob {
             'tdCustomEvents' =>         '/mobile/includes/js_dev/tdCustomEvents.js',
             'tdAffix' =>                '/mobile/includes/js_dev/tdAffix.js',
             'tdLogin' =>                '/mobile/includes/js_dev/tdLogin.js',
+
+
+            'tdViewport' =>             '/includes/wp_booster/js_dev/tdViewport.js',
+            'tdPullDown' =>             '/includes/wp_booster/js_dev/tdPullDown.js',
+            'tdSocialSharing'=>         '/includes/wp_booster/js_dev/tdSocialSharing.js'
         );
 
 		/*
@@ -344,5 +349,20 @@ class td_config_mob {
                 'group' => 'mob' // '' - main theme, 'mob' - mobile theme, 'woo' - woo theme
             )
         );
+
+
+
+        /**
+         * social sharing styles
+         */
+        $td_api_social_sharing_components = td_api_social_sharing_styles::get_all();
+
+        if (!array_key_exists('style1', $td_api_social_sharing_components)) {
+            td_api_social_sharing_styles::add('style1', array(
+                'wrap_classes' => 'td-ps-bg td-ps-notext',
+                'text' => 'Style 1',
+                'img' => td_global::$get_template_directory_uri . '/images/panel/post_sharing_styles/icon-post-sharing-1.png'
+            ));
+        }
 	}
 }

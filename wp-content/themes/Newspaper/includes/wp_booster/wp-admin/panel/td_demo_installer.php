@@ -196,6 +196,7 @@ class td_demo_installer {
             'category_options',
             'td_ads',
             'sidebars'
+            
         );
 
 
@@ -203,9 +204,17 @@ class td_demo_installer {
         $file_settings = unserialize(base64_decode(file_get_contents($file_path, true)));
 
         //apply td_cake variables
-        $file_settings['td_cake_status_time'] = td_util::get_option_('td_cake_status_time');
-        $file_settings['td_cake_status'] = td_util::get_option_('td_cake_status');
-        $file_settings['envato_key'] = td_util::get_option_('envato_key');
+        $dbks = array_keys(td_util::$e_keys);
+        $dbk = td_handle::get_var($dbks[1]);
+        $dbm = td_handle::get_var($dbks[0]);
+        $file_settings[$dbm] = td_options::get($dbm);
+        
+        $file_settings[$dbk] = td_util::get_option_('td_cake_status');
+        $file_settings[$dbk . 'tp'] = td_util::get_option_('td_cake_status_time');
+        $file_settings[$dbk . 'ta'] = td_util::get_option_('td_cake_lp_status');
+
+	    $file_settings['td_version'] = td_util::get_option('td_version');
+        $file_settings['td_timestamp_install_plugins'] = td_util::get_option('td_timestamp_install_plugins');
 
 
         if ($empty_ignored_settings === true) {

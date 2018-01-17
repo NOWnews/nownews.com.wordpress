@@ -123,6 +123,11 @@ class td_panel_data_source {
                     return $td_block_styles[$read_array['item_id']][$read_array['option_id']];
                 }
                 break;
+
+
+            case 'td_social_drag_and_drop':
+                return td_options::get_array('td_social_drag_and_drop');
+                break;
         }
 
         return '';
@@ -275,6 +280,10 @@ class td_panel_data_source {
                     self::update_td_block_styles($post_value);
                     break;
 
+                case 'td_social_drag_and_drop':
+                    self::update_social_drag_and_drop($post_value);
+                    break;
+
                 default:
 	                // here we had aurora hooked - removed in 20 sep 2016
                     //tdx_options::set_data_to_datasource($post_data_source, $post_value);
@@ -307,6 +316,31 @@ class td_panel_data_source {
         The functions that update the options from the form on post
      */
 
+
+    /**
+     * Update the social networks
+     * @param $td_social_dnd_values - array of selected social networks. Notice that networks that are not selected in panel will
+     *                                  not appear in this array and we use $_POST['td_social_drag_and_drop_sort'] to sort the list - not nice
+     */
+    private static function update_social_drag_and_drop($td_social_dnd_values) {
+        $new_social_dnd_values = array();
+
+        // if we have some kind of error and the key it's missing, do not save anything in db
+        if (!isset($_POST['td_social_drag_and_drop_sort'])) {
+            return;
+        }
+
+        foreach ($_POST['td_social_drag_and_drop_sort'] as $social_network) {
+            if (in_array($social_network, $td_social_dnd_values)) {
+                $new_social_dnd_values[$social_network] = true;
+            } else {
+                $new_social_dnd_values[$social_network] = false;
+            }
+
+        }
+
+        td_util::update_option('td_social_drag_and_drop', $new_social_dnd_values);
+    }
 
     /**
      * update the custom post types data source cpt

@@ -371,7 +371,6 @@ class td_cake {
 
 
     function td_cake_msg() {
-        return;
         if ($this->check_if_is_our_page() === true || td_api_features::is_enabled('require_activation') === false) {
             return;
         }
@@ -384,7 +383,6 @@ class td_cake {
 
 
     function td_cake_msg_2() {
-        return;
         if ($this->check_if_is_our_page() === true || td_api_features::is_enabled('require_activation') === false) {
             return;
         }

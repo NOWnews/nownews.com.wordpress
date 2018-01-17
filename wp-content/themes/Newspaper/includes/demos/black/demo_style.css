@@ -245,6 +245,39 @@ usage:
   border-color: #444;
   color: #fff;
 }
+.td-black .td-social-network {
+  color: #fff;
+}
+.td-black .td-social-handler {
+  color: #ccc;
+  border-color: #464646;
+}
+.td-black .td-social-handler:before {
+  border-color: transparent transparent transparent #434343;
+}
+.td-black .td-social-handler:after {
+  border-color: transparent transparent transparent #1a1a1a;
+}
+.td-black .td-social-handler .td-social-but-text:before {
+  background-color: #fff;
+}
+.td-black .td-ps-border .td-social-network .td-social-but-text:before {
+  background-color: #fff;
+}
+.td-black .td-ps-border-grey .td-social-but-icon,
+.td-black .td-ps-border-grey .td-social-but-text {
+  border-color: #434343;
+}
+.td-black .td-ps-icon-color .td-social-mail .td-social-but-icon,
+.td-black .td-ps-icon-color .td-social-digg .td-social-but-icon,
+.td-black .td-ps-icon-color .td-social-print .td-social-but-icon {
+  color: #fff;
+}
+.td-black .td-ps-text-color .td-social-mail .td-social-but-text,
+.td-black .td-ps-text-color .td-social-digg .td-social-but-text,
+.td-black .td-ps-text-color .td-social-print .td-social-but-text {
+  color: #fff;
+}
 .td-black .td-post-sharing-bottom {
   border-color: #444;
 }

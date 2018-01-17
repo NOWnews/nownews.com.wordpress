@@ -144,6 +144,24 @@
         ?>
     </div>
 </div>
+
+<!-- Show Reviews -->
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">SHOW REVIEW</span>
+        <p>Enable or disable reviews (on blocks and modules)</p>
+    </div>
+    <div class="td-box-control-full">
+        <?php
+        echo td_panel_generator::checkbox(array(
+            'ds' => 'td_option',
+            'option_id' => 'tds_m_show_review',
+            'true_value' => '',
+            'false_value' => 'hide'
+        ));
+        ?>
+    </div>
+</div>
 <?php echo td_panel_generator::box_end();?>
 
 

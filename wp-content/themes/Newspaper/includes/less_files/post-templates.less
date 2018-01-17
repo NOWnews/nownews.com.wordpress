@@ -125,15 +125,6 @@
     }
   }
 
-  .td-post-sharing-top {
-    margin-bottom: 30px;
-
-    /* responsive portrait phone */
-    @media (max-width: @responsive_p_phone_max) {
-        margin-bottom: 20px;
-    }
-  }
-
   .td-featured-image-rec {
     float: left;
     width: 300px;
@@ -272,16 +263,6 @@
     width: auto;
   }
 
-  .td-post-sharing-top {
-    margin-bottom: 30px;
-
-    /* responsive portrait phone */
-    @media (max-width: @responsive_p_phone_max) {
-      margin-top: 0;
-      margin-bottom: 20px;
-    }
-  }
-
   .td-post-sub-title {
     font-size: 19px;
     line-height: 25px;
@@ -373,7 +354,7 @@
     }
 
     .td-post-date {
-      margin-right: 22px;
+      //margin-right: 22px;
     }
 
     .td-post-comments,
@@ -381,6 +362,8 @@
       float: none;
       display: inline-block;
       vertical-align: top;
+      margin-left: 22px;
+      margin-right: 0;
     }
 
     .td-post-author-name,
@@ -464,16 +447,16 @@
   .td-image-gradient:before {
     z-index: 1;
   }
-  /* responsive portrait phone */
-  @media (max-width: @responsive_p_phone_max) {
-    .td-post-sharing-top {
-      margin-top: 0;
-    }
-  }
 
   /* align center top sharing on full width */
   .td-pb-span12.td-main-content .td-post-sharing-top {
-    text-align: center;
+    .td-post-sharing-classic,
+    .td-post-sharing {
+      text-align: center;
+    }
+    .td-post-sharing-classic {
+      left: 19px;
+    }
   }
 }
 
@@ -1083,7 +1066,13 @@
 
   /* align center top sharing on full width */
   .td-pb-span12.td-main-content .td-post-sharing-top {
-    text-align: center;
+    .td-post-sharing-classic,
+    .td-post-sharing {
+      text-align: center;
+    }
+    .td-post-sharing-classic {
+      left: 19px;
+    }
   }
 
   .td-post-sharing-top {
@@ -1351,7 +1340,13 @@
 
   /* align center top sharing on full width */
   .td-pb-span12.td-main-content .td-post-sharing-top {
-    text-align: center;
+    .td-post-sharing-classic,
+    .td-post-sharing {
+      text-align: center;
+    }
+    .td-post-sharing-classic {
+      left: 19px;
+    }
   }
 }
 
@@ -1595,9 +1590,74 @@
   }
 
   .td-post-sharing-top {
-    margin-bottom: 0;
     margin-top: 21px;
-    text-align: center;
+    margin-bottom: 0;
+
+    .td-post-sharing-classic,
+    .td-post-sharing {
+      text-align: center;
+    }
+    .td-post-sharing-classic {
+      left: 19px;
+
+      iframe {
+        display: inline;
+      }
+    }
+
+    .td-social-network {
+      color: #fff;
+    }
+    .td-social-handler {
+      color: #ccc;
+      border-color: #464646;
+
+      &:before {
+        border-color: transparent transparent transparent #434343;
+      }
+      &:after {
+        border-color: transparent transparent transparent #222;
+      }
+
+      .td-social-but-text {
+        &:before {
+          background-color: #fff;
+        }
+      }
+    }
+    .td-ps-border {
+      .td-social-network {
+        .td-social-but-text {
+          &:before {
+            background-color: #fff;
+          }
+        }
+      }
+    }
+    .td-ps-border-grey {
+      .td-social-but-icon,
+      .td-social-but-text {
+        border-color: #434343;
+      }
+    }
+    .td-ps-icon-color {
+      .td-social-mail,
+      .td-social-digg,
+      .td-social-print {
+        .td-social-but-icon {
+          color: #fff;
+        }
+      }
+    }
+    .td-ps-text-color {
+      .td-social-mail,
+      .td-social-digg,
+      .td-social-print {
+        .td-social-but-text {
+          color: #fff;
+        }
+      }
+    }
   }
 
   .td-post-header {
@@ -1922,7 +1982,7 @@
       }
 
       .td-post-date {
-        margin-right: 22px;
+        //margin-right: 22px;
       }
 
       .td-post-comments,
@@ -1930,6 +1990,8 @@
         float: none;
         display: inline-block;
         vertical-align: top;
+        margin-right: 0;
+        margin-left: 22px;
       }
 
       .td-post-author-name,
@@ -1948,13 +2010,17 @@
   }
 
   .td-post-sharing-top {
-    text-align: center;
-    margin-bottom: 30px;
+    .td-post-sharing-classic,
+    .td-post-sharing {
+      text-align: center;
+    }
+    .td-post-sharing-classic {
+      left: 19px;
+    }
 
     /* responsive portrait phone */
     @media (max-width: @responsive_p_phone_max) {
       margin-top: 5px;
-      margin-bottom: 20px;
     }
   }
 

@@ -37,13 +37,10 @@
   }
 }
 
-//.td-pb-span4 .td_block_wrap {
-//
-//  .td-next-prev-wrap,
-//  .td-load-more-wrap {
-//    margin-top: 0;
-//  }
-//}
+// fix block z-index for shortcode background
+.td-fix-index {
+  .transform(translateZ(0));
+}
 
 .td_with_ajax_pagination {
   .transform(translate3d(0, 0, 0));
@@ -830,6 +827,10 @@
     }
   }
 
+  .td-block-row {
+    width: auto;
+  }
+
   //3columns
   .td-column-3 {
     .td-block-row {
@@ -840,10 +841,6 @@
       @media (max-width: @responsive_p_tablet_max) {
         margin-right: -15px;
       }
-      /* responsive portrait phone */
-      @media (max-width: @responsive_p_phone_max) {
-        margin-right: 0;
-      }
 
       .td-block-span4 {
         padding-right: 22px;
@@ -853,6 +850,7 @@
         /* responsive portrait tablet */
         @media (max-width: @responsive_p_tablet_max) {
           padding-right: 15px;
+          float: left;
         }
 
         /* responsive small portrait phone */
@@ -886,6 +884,7 @@
         /* responsive portrait tablet */
         @media (max-width: @responsive_p_tablet_max) {
           padding-right: 15px;
+          float: left;
         }
 
         /* responsive small portrait phone */
@@ -1039,7 +1038,15 @@
         /* responsive portrait phone */
         @media (max-width: @responsive_p_phone_max) {
           padding-right: 0;
+          float: left;
           width: 100%;
+        }
+      }
+
+      &:last-child .td-block-span4:last-child .td_module_mx7 .td-module-image {
+        /* responsive portrait phone */
+        @media (max-width: @responsive_p_phone_max) {
+          margin-bottom: 0;
         }
       }
     }
@@ -1064,12 +1071,20 @@
         /* responsive portrait phone */
         @media (max-width: @responsive_p_phone_max) {
           width: 100%;
+          float: left;
           padding-right: 0;
         }
       }
 
       &:last-child .td_module_mx4 {
         padding-bottom: 26px;
+      }
+
+      &:last-child .td-block-span4:last-child .td_module_mx7 .td-module-image {
+        /* responsive portrait phone */
+        @media (max-width: @responsive_p_phone_max) {
+          margin-bottom: 0;
+        }
       }
     }
 
@@ -2194,7 +2209,7 @@
 }
 
 .td-main-page-wrap .td-container > .td-pb-row:first-child, // visual composer
-.td-main-page-wrap .tdc-row:first-child .wpb_wrapper > &, // tdc live
+.td-main-page-wrap .tdc-row:first-child .wpb_wrapper, // tdc live
 .td-main-page-wrap .tdc-row:first-of-type .tdc-element:first-of-type { // tdc editor
   .td_block_trending_now:first-child {
     position: relative;
@@ -2208,12 +2223,11 @@
     }
   }
 
-  > .td-trending-style2 {
-    padding-bottom: 20px;
-
+  .td-trending-style2:first-child {
     /* responsive portrait phone */
     @media (max-width: @responsive_p_phone_max) {
-      padding: 4px 2px 12px;
+      padding: 12px 2px !important;
+      margin-bottom: 7px;
     }
   }
 
@@ -2222,9 +2236,8 @@
 // style 2
 .td-trending-style2 {
   border: 1px solid #eaeaea;
-  padding-top: 20px !important;
+  padding-top: 20px;
   padding-bottom: 20px;
-  margin-bottom: 26px !important;
 }
 
 /*  ----------------------------------------------------------------------------
@@ -2364,14 +2377,21 @@
   .td_block_single_image {
     /* responsive portrait phone */
     @media (max-width: @responsive_p_phone_max) {
-      margin-right: -10px;
-      margin-left: -10px;
+      margin-right: -20px;
+      margin-left: -20px;
     }
   }
 }
 .td_block_single_image {
   a {
     display: block;
+  }
+
+  &.td-no-img-custom-url {
+    a {
+      pointer-events: none;
+      cursor: default;
+    }
   }
 }
 
@@ -2385,7 +2405,7 @@
 
     /* responsive portrait phone */
     @media (max-width: @responsive_p_phone_max) {
-      margin: 0 -10px;
+      margin: 0 -20px;
     }
 
     a:hover {
@@ -2483,7 +2503,7 @@
 
     /* responsive portrait phone */
     @media (max-width: @responsive_p_phone_max) {
-      margin: 0 -10px;
+      margin: 0 -20px;
     }
   }
   .td-image-box-span {
@@ -2617,6 +2637,10 @@
         padding: 8px 16px;
         background-color: #fff;
         color: #000;
+
+        &:empty {
+          display: none;
+        }
       }
     }
   }

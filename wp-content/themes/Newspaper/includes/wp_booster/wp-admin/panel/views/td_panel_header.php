@@ -20,7 +20,7 @@
     </div>
 
     <?php
-    if ('ionMag' == TD_THEME_NAME) { ?>
+    if ('ionMag' == TD_THEME_NAME || 'Newspaper' == TD_THEME_NAME) { ?>
         <!-- SEARCH POSITION -->
         <div class="td-box-row">
             <div class="td-box-description">
@@ -34,7 +34,8 @@
                     'option_id' => 'tds_search_placement',
                     'values' => array (
                         array('text' => '<strong>Main menu</strong> - Default', 'val' => ''),
-                        array('text' => '<strong>Top bar</strong>', 'val' => 'top_bar')
+                        array('text' => '<strong>Top bar</strong>', 'val' => 'top_bar'),
+                        array('text' => '<strong>Hidden</strong>', 'val' => 'hide')
                     )
                 ));
                 ?>
@@ -279,11 +280,15 @@
 		</div>
 	</div>
 
-	<!-- Weather: api key -->
+<!-- Weather: api key -->
 <div class="td-box-row td-box-weather">
     <div class="td-box-description">
-        <span class="td-box-title">Weather api key</span>
-        <p><a href="https://forum.tagdiv.com/weather-widget/" target="_blank">How to get an api key</a></p>
+        <span class="td-box-title">Api key</span>
+        <?php if ('ionMag' == TD_THEME_NAME) { ?>
+            <p><a href="https://www.wpion.com/members/weather-widget/" target="_blank">How to get an api key</a></p>
+        <?php } else { ?>
+            <p><a href="https://forum.tagdiv.com/weather-widget/" target="_blank">How to get an api key</a></p>
+        <?php } ?>
     </div>
     <div class="td-box-control-full">
         <?php
@@ -427,7 +432,7 @@
 
     <div class="td-box-section-separator"></div>
 
-    <?php if ('ionMag' == TD_THEME_NAME) { ?>
+    <?php if ('ionMag' == TD_THEME_NAME || 'Newspaper' == TD_THEME_NAME) { ?>
         <!-- Social networks: enable disable -->
         <div class="td-box-row">
             <div class="td-box-description">
@@ -646,7 +651,7 @@
 
 
 <?php
-if ('ionMag' == TD_THEME_NAME) { ?>
+if ('ionMag' == TD_THEME_NAME || 'Newspaper' == TD_THEME_NAME) { ?>
 
     <!-- HEADER BACKGROUND -->
     <?php echo td_panel_generator::box_start('Header background', false); ?>
@@ -701,10 +706,10 @@ if ('ionMag' == TD_THEME_NAME) { ?>
                 'ds' => 'td_option',
                 'option_id' => 'tds_header_background_size',
                 'values' => array(
-                    array('text' => 'Auto', 'val' => ''),
+                    array('text' => 'Auto', 'val' => 'auto'),
                     array('text' => 'Full Width', 'val' => '100% auto'),
                     array('text' => 'Full Height', 'val' => 'auto 100%'),
-                    array('text' => 'Cover', 'val' => 'cover'),
+                    array('text' => 'Cover', 'val' => ''),
                     array('text' => 'Contain', 'val' => 'contain')
                 )
             ));

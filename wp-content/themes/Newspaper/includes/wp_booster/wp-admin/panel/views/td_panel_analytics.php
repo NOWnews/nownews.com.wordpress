@@ -21,7 +21,7 @@
 	            Google Analytics code
 	            <?php td_util::tooltip_html('
                         <h3>Google analytics tracking code:</h3>
-                        <p>Paste here the Universal Analytics tracking code for this property. The code will be added to the body tag on all the sites pages</p>
+                        <p>Paste here the Universal Analytics tracking code for this property. The code will be added to the head tag on all the sites pages</p>
                 ', 'right')?>
             </p>
         </div>
