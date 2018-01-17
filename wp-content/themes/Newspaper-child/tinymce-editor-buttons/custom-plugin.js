@@ -1,5 +1,5 @@
 (function() {
-    tinymce.create('tinymce.plugins.Wptuts', {
+    tinymce.create('tinymce.plugins.Custom', {
         /**
          * Initializes the plugin, this will be executed after the plugin has been created.
          * This call is done before the editor instance has finished it's initialization so use the onInit event
@@ -73,7 +73,7 @@
          */
         getInfo : function() {
             return {
-                longname : 'Wptuts Buttons',
+                longname : 'Custom Buttons',
                 author : 'esbb48',
                 authorurl : 'https://github.com/NOWnews/nownews.com.wordpress',
                 infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/example',
@@ -83,5 +83,5 @@
     });
  
     // Register plugin
-    tinymce.PluginManager.add( 'wptuts', tinymce.plugins.Wptuts );
+    tinymce.PluginManager.add('custom', tinymce.plugins.Custom );
 })();
