@@ -24,6 +24,7 @@ $external_shortcodes = array(
         "class" => 'td_block_social_counter',
         "controls" => "full",
         "category" => __('Blocks', TD_THEME_NAME),
+		'tdc_category' => 'External',
         'icon' => 'icon-pagebuilder-td_social_counter',
         "params" => array_merge(
 			$block_general_params_array,
@@ -185,11 +186,11 @@ $external_shortcodes = array(
 	),
 
 	'rev_slider' => array(
-		'external_shortcode' => true,
 		'base' => 'rev_slider',
 		'name' => __( 'Revolution Slider', 'td_composer' ),
 		'icon' => 'icon-wpb-revslider',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'External',
 		'description' => __( 'Place Revolution slider', 'td_composer' ),
 		'params' => array(
 			array(
@@ -327,27 +328,133 @@ function tdc_load_internal_shortcodes() {
 }
 
 
+$rowColumns = array (
+	array(
+		'1/1' => '11'
+	),
+	array(
+		'2/3 + 1/3' => '23_13',
+	),
+	array(
+		'1/3 + 2/3' => '13_23',
+	),
+	array(
+		'1/3 + 1/3 + 1/3' => '13_13_13',
+	),
+);
+
+if ( 'Newsmag' !== TD_THEME_NAME && is_plugin_active( 'td-multi-purpose/td-multi-purpose.php' ) ) {
+	$rowColumns = array_merge( $rowColumns, array(
+		'1/2 + 1/2' => '12_12',
+        '7/12 + 5/12' => '7_5',
+		'5/12 + 7/12' => '5_7',
+        '3/4 + 1/4' => '34_14',
+        '1/4 + 3/4' => '14_34',
+		'1/4 + 1/2 + 1/4' => '14_12_14',
+        '1/4 + 1/4 + 1/4 + 1/4' => '14_14_14_14',
+	));
+}
+
 $rowParams = array(
 	// internal modifier - does not update atts
 	array (
 		'param_name' => 'tdc_row_columns_modifier',
 		'heading' => 'Layout',
 		'type' => 'dropdown',
-		'value' => array (
-			'1/1' => '11',
-			'2/3 + 1/3' => '23_13',
-			'1/3 + 2/3' => '13_23',
-			'1/3 + 1/3 + 1/3' => '13_13_13'
-		),
+		'value' => $rowColumns,
 		'tdc_dropdown_images' => true, // show image selector instead of classic dropdown
 		'class' => 'tdc-row-col-dropdown tdc-visual-selector',
+	),
+
+	array(
+		'param_name' => 'gap',
+		'type' => 'textfield',
+		'value' => '',
+		'heading' => 'Columns gap',
+		'description' => '',
+		'class' => 'tdc-textfield-small',
+	),
+
+	array(
+		"param_name" => "content_align_vertical",
+		"type" => "dropdown",
+		"value" => array(
+			'Top' => 'content-vert-top',
+			'Center' => 'content-vert-center',
+			'Bottom' => 'content-vert-bottom'
+		),
+		"heading" => 'Vertical align',
+		"description" => "",
+		"holder" => "div",
+		'tdc_dropdown_images' => true,
+		"class" => "tdc-visual-selector tdc-add-class",
+	),
+
+	array(
+		"param_name" => "row_full_height",
+		"type" => "checkbox",
+		"value" => '',
+		"heading" => "Full height",
+		"description" => "",
+		"holder" => "div",
+		"class" => "",
+	),
+
+	array(
+		"param_name" => "row_parallax",
+		"type" => "checkbox",
+		"value" => '',
+		"heading" => "Add parallax",
+		"description" => "",
+		"holder" => "div",
+		"class" => "",
+	),
+
+	array(
+		"param_name" => "separator",
+		"type" => "text_separator",
+		"value" => "",
+		"heading" => "Video background",
+		"class" => ""
+	),
+
+	array(
+		'param_name' => 'video_background',
+		'type' => 'textfield',
+		'value' => '',
+		'heading' => 'Youtube ID',
+		'description' => '',
+		'class' => 'tdc-textfield-big',
+	),
+
+	array(
+		'param_name' => 'video_scale',
+		'type' => 'textfield',
+		'value' => '',
+		'heading' => 'Scale',
+		'description' => '',
+		'class' => 'tdc-textfield-small',
+	),
+
+	array(
+		'param_name' => 'video_opacity',
+		'type' => 'range',
+		'value' => '1',
+		'heading' => 'Opacity',
+		'description' => '',
+		'class' => 'tdc-textfield-small',
+		'range_min' => '0',
+		'range_max' => '1',
+		'range_step' => '0.02',
 	),
 
 	array(
 		"param_name" => "separator",
 		"type" => "horizontal_separator",
 		"value" => "",
-		"class" => ""
+		"description" => "",
+        "holder" => "div",
+        "class" => "",
 	),
 
 	array (
@@ -357,6 +464,10 @@ $rowParams = array(
 		'value' => array (
 			'Default' => '',
 			'Stretch row' => 'stretch_row',
+			'Stretch row and 1200px content' => 'stretch_row_1200 td-stretch-content',
+			'Stretch row and 1400px content' => 'stretch_row_1400 td-stretch-content',
+			'Stretch row and 1600px content' => 'stretch_row_1600 td-stretch-content',
+			'Stretch row and 1800px content' => 'stretch_row_1800 td-stretch-content',
 			'Stretch row and content' => 'stretch_row_content td-stretch-content',
 			'Stretch row and content (with paddings)' => 'stretch_row_content_no_space td-stretch-content',
 		),
@@ -395,6 +506,7 @@ $rowParams = array(
         'group' => 'Design options',
     ),
 );
+
 // Remove the 'Row stretch' option on Newsmag
 if ( 'Newsmag' === TD_THEME_NAME ) {
 	foreach ($rowParams as $key => $rowParam) {
@@ -451,6 +563,35 @@ tdc_mapper::map_shortcode(
 	)
 );
 
+$innerRowColumns = array (
+	array(
+		'1/1' => '11'
+	),
+	array(
+		'1/2 + 1/2' => '12_12'
+	),
+	array(
+		'2/3 + 1/3' => '23_13'
+	),
+	array(
+		'1/3 + 2/3' => '13_23'
+	),
+	array(
+		'1/3 + 1/3 + 1/3' => '13_13_13'
+	)
+);
+
+if ( 'Newsmag' !== TD_THEME_NAME && is_plugin_active( 'td-multi-purpose/td-multi-purpose.php' ) ) {
+	$innerRowColumns = array_merge( $innerRowColumns, array(
+		'7/12 + 5/12' => '7_5',
+		'5/12 + 7/12' => '5_7',
+        '3/4 + 1/4' => '34_14',
+        '1/4 + 3/4' => '14_34',
+		'1/4 + 1/2 + 1/4' => '14_12_14',
+        '1/4 + 1/4 + 1/4 + 1/4' => '14_14_14_14',
+	));
+}
+
 tdc_mapper::map_shortcode(
 	array(
 		'base' => 'vc_row_inner',
@@ -466,15 +607,33 @@ tdc_mapper::map_shortcode(
 				'param_name' => 'tdc_inner_row_columns_modifier',
 				'heading' => 'Layout',
 				'type' => 'dropdown',
-				'value' => array (
-					'1/1' => '11',
-					'1/2 + 1/2' => '12_12',
-					'2/3 + 1/3' => '23_13',
-					'1/3 + 2/3' => '13_23',
-					'1/3 + 1/3 + 1/3' => '13_13_13'
-				),
+				'value' => $innerRowColumns,
 				'tdc_dropdown_images' => true, // show image selector instead of classic dropdown
 				'class' => 'tdc-innerRow-col-dropdown tdc-visual-selector'
+			),
+
+			array(
+				'param_name' => 'gap',
+				'type' => 'textfield',
+				'value' => '',
+				'heading' => 'Inner columns gap',
+				'description' => '',
+				'class' => 'tdc-textfield-small',
+			),
+
+			array(
+				"param_name" => "content_align_vertical",
+				"type" => "dropdown",
+				"value" => array(
+					'Top' => 'content-vert-top',
+					'Center' => 'content-vert-center',
+					'Bottom' => 'content-vert-bottom'
+				),
+				"heading" => 'Vertical align',
+				"description" => "",
+				"holder" => "div",
+				'tdc_dropdown_images' => true,
+				"class" => "tdc-visual-selector tdc-add-class",
 			),
 
 			array(
@@ -559,6 +718,7 @@ tdc_mapper::map_shortcode(
 		'name' => __( 'Column text', 'td_composer' ),
 		'icon' => 'icon-wpb-column-text',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'Extended',
 		'description' => __( 'Column text description', 'td_composer' ),
 		'params' => array_merge(
 			$block_general_params_array,
@@ -612,6 +772,7 @@ tdc_mapper::map_shortcode(
 		'name' => __( 'Raw html', 'td_composer' ),
 		'icon' => 'icon-wpb-raw-html',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'Extended',
 		'description' => __( 'Raw html description', 'td_composer' ),
 		'params' => array(
 			array(
@@ -656,6 +817,7 @@ tdc_mapper::map_shortcode(
 		'name' => __( 'Empty space', 'td_composer' ),
 		'icon' => 'icon-wpb-empty-space',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'Extended',
 		'description' => __( 'Empty space description', 'td_composer' ),
 		'params' => array(
 			array(
@@ -698,6 +860,7 @@ tdc_mapper::map_shortcode(
 		'name' => __( 'Widget sidebar', 'td_composer' ),
 		'icon' => 'icon-wpb-layout_sidebar',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'Extended',
 		'description' => __( 'Widget sidebar description', 'td_composer' ),
 		'params' => array(
 			array(
@@ -728,6 +891,7 @@ tdc_mapper::map_shortcode(
 		'name' => __( 'Single image', 'td_composer' ),
 		'icon' => 'icon-wpb-empty-space',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'Extended',
 		'description' => __( 'Single image description', 'td_composer' ),
 		'params' => array(
 			array(
@@ -762,7 +926,7 @@ tdc_mapper::map_shortcode(
                 "type" => "textfield",
                 "value" => '',
                 "heading" => __( 'Image height', 'td_composer' ),
-                "description" => "",
+                "description" => "Default height: 400px",
                 "holder" => "div",
                 "class" => "tdc-textfield-small"
             ),
@@ -868,6 +1032,7 @@ tdc_mapper::map_shortcode(
 		'name' => __( 'Separator', 'td_composer' ),
 		'icon' => 'icon-wpb-empty-space',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'Extended',
 		'description' => __( 'Separator description', 'td_composer' ),
 		'params' => array(
 			array(
@@ -981,6 +1146,7 @@ tdc_mapper::map_shortcode(
 		'name' => __( 'Recent comments', 'td_composer' ),
 		'icon' => 'icon-wpb-empty-space',
 		'category' => __( 'Content', 'td_composer' ),
+		'tdc_category' => 'Extended',
 		'description' => __( 'Description', 'td_composer' ),
 		'params' => array_merge(
 			$block_general_params_array,

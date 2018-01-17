@@ -64,57 +64,59 @@ class vc_wp_recentcomments extends td_block {
         if (!empty($comments)) {
             foreach ($comments as $comment) {
 
-	            $comment_author_link = esc_url( $comment->comment_author_url );
-	            if ( empty( $comment_author_link ) ) {
-		            $comment_author_link = $comment->comment_author;
-	            } else {
-		            $comment_author_link = '<a href="' . esc_url($comment->comment_author_url) . '">' . $comment->comment_author . '</a>';
-	            }
+				if  ($comment->comment_approved == '1') {
+					$comment_author_link = esc_url($comment->comment_author_url);
+					if (empty($comment_author_link)) {
+						$comment_author_link = $comment->comment_author;
+					} else {
+						$comment_author_link = '<a href="' . esc_url($comment->comment_author_url) . '">' . $comment->comment_author . '</a>';
+					}
 
-	            $comment_link = get_comment_link( $comment->comment_ID );
+					$comment_link = get_comment_link($comment->comment_ID);
 
-	            switch ($td_column_number) {
+					switch ($td_column_number) {
 
-		            case '1': //one column layout
-			            $buffy .= $td_block_layout->open12(); //added in 010 theme - span 12 doesn't use rows
-			            $buffy .= '<span class="recentcomments"><span class="comment-author-link">' . $comment_author_link . '</span> on <a href="' . $comment_link . '">' . get_the_title($comment->comment_post_ID) . '</a></span>';
-			            $buffy .= $td_block_layout->close12();
-			            break;
+						case '1': //one column layout
+							$buffy .= $td_block_layout->open12(); //added in 010 theme - span 12 doesn't use rows
+							$buffy .= '<span class="recentcomments"><span class="comment-author-link">' . $comment_author_link . '</span> on <a href="' . $comment_link . '">' . get_the_title($comment->comment_post_ID) . '</a></span>';
+							$buffy .= $td_block_layout->close12();
+							break;
 
-		            case '2': //two column layout
-			            $buffy .= $td_block_layout->open_row();
+						case '2': //two column layout
+							$buffy .= $td_block_layout->open_row();
 
-			            $buffy .= $td_block_layout->open6(); //added in 010 theme - span 12 doesn't use rows
-			            $buffy .= '<span class="recentcomments"><span class="comment-author-link">' . $comment_author_link . '</span> on <a href="' . $comment_link . '">' . get_the_title($comment->comment_post_ID) . '</a></span>';
-			            $buffy .= $td_block_layout->close6();
+							$buffy .= $td_block_layout->open6(); //added in 010 theme - span 12 doesn't use rows
+							$buffy .= '<span class="recentcomments"><span class="comment-author-link">' . $comment_author_link . '</span> on <a href="' . $comment_link . '">' . get_the_title($comment->comment_post_ID) . '</a></span>';
+							$buffy .= $td_block_layout->close6();
 
-			            if ($td_current_column == 2) {
-				            $buffy .= $td_block_layout->close_row();
-			            }
-			            break;
+							if ($td_current_column == 2) {
+								$buffy .= $td_block_layout->close_row();
+							}
+							break;
 
 
-		            case '3': //three column layout
-			            $buffy .= $td_block_layout->open_row();
+						case '3': //three column layout
+							$buffy .= $td_block_layout->open_row();
 
-			            $buffy .= $td_block_layout->open4();
-			            $buffy .= '<span class="recentcomments"><span class="comment-author-link">' . $comment_author_link . '</span> on <a href="' . $comment_link . '">' . get_the_title($comment->comment_post_ID) . '</a></span>';
-			            $buffy .= $td_block_layout->close4();
+							$buffy .= $td_block_layout->open4();
+							$buffy .= '<span class="recentcomments"><span class="comment-author-link">' . $comment_author_link . '</span> on <a href="' . $comment_link . '">' . get_the_title($comment->comment_post_ID) . '</a></span>';
+							$buffy .= $td_block_layout->close4();
 
-			            if ($td_current_column == 3) {
-				            $buffy .= $td_block_layout->close_row();
-			            }
-		                break;
-	            }
+							if ($td_current_column == 3) {
+								$buffy .= $td_block_layout->close_row();
+							}
+							break;
+					}
 
-	            //current column
-	            if ($td_current_column == $td_column_number) {
-		            $td_current_column = 1;
-	            } else {
-		            $td_current_column++;
-	            }
+					//current column
+					if ($td_current_column == $td_column_number) {
+						$td_current_column = 1;
+					} else {
+						$td_current_column++;
+					}
 
-	            $td_post_count++;
+					$td_post_count++;
+				}
             }
         }
         $buffy .= $td_block_layout->close_all_tags();

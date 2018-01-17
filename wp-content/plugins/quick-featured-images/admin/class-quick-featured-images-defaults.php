@@ -250,7 +250,11 @@ class Quick_Featured_Images_Defaults {
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( 'Preset Featured Images', 'quick-featured-images' );
+		//return __( 'Preset Featured Images', 'quick-featured-images' );
+		$text = 'Default Images';
+		return __( $text );
+		// just for the translation editor to catch this string
+		$text = __( 'Preset Featured Images', 'quick-featured-images' );
 	}
 
 	/**

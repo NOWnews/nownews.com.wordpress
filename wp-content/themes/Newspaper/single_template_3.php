@@ -15,7 +15,13 @@ $td_mod_single = new td_module_single($post);
     <div class="td-post-header td-container">
         <div class="td-crumb-container"><?php echo td_page_generator::get_single_breadcrumbs($td_mod_single->title); ?></div>
         <div class="td-post-header-holder td-image-gradient">
-            <?php echo $td_mod_single->get_image('td_1068x0'); ?>
+            <?php
+            if ( td_global::$is_boxed_layout === true ) {
+                echo $td_mod_single->get_image('full');
+            } else {
+                echo $td_mod_single->get_image('td_1068x0');
+            }
+            ?>
 
             <header class="td-post-title">
                 <?php echo $td_mod_single->get_category(); ?>

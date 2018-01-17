@@ -283,7 +283,7 @@ $demo_cat_9_id =td_demo_category::add_category(array(
 $td_homepage_id = td_demo_content::add_page(array(
     'title' => 'Home',
     'file' => td_global::$get_template_directory . '/includes/demos/travel/pages/homepage.txt',
-    'template' => 'default',   // the page template full file name with .php
+    'template' => 'default',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '',
     'homepage' => true
 ));
@@ -291,7 +291,7 @@ $td_homepage_id = td_demo_content::add_page(array(
 $td_blog_id = td_demo_content::add_page(array(
 	'title' => 'Travel blog',
 	'file' => td_global::$get_template_directory . '/includes/demos/travel/pages/travel-blog.txt',
-	'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+	'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php, for default no extension needed
 	'td_layout' => '12',
 	'homepage' => false
 ));

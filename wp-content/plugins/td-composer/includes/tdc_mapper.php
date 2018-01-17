@@ -74,6 +74,10 @@ class tdc_mapper {
 		self::$external_shortcodes = $external_shortcodes;
 	}
 
+	static function add_external_shortcodes( $external_shortcodes ) {
+		self::$external_shortcodes = array_merge( self::$external_shortcodes, $external_shortcodes );
+	}
+
 	static function get_external_shortcodes() {
 		return self::$external_shortcodes;
 	}

@@ -602,7 +602,15 @@ class Quick_Featured_Images_Settings {
 		$html .= '</div>';
 		$html .= '</fieldset>';
 		$html .= sprintf( '<p class="description">%s</p>', esc_html__( 'Select the minimum user role a user must have to see the plugin.', 'quick-featured-images' ) );
-		$html .= sprintf( '<p class="description">%s</p>', sprintf( esc_html__( 'The rules as set in &#8220;%s&#8221; work on posts independently of this setting.', 'quick-featured-images' ), esc_html__( 'Preset Featured Images', 'quick-featured-images' ) ) );
+		$text = 'Default Images';
+		$html .= sprintf( 
+			'<p class="description">%s</p>', 
+			sprintf( 
+				esc_html__( 'The rules as set in &#8220;%s&#8221; work on posts independently of this setting.', 'quick-featured-images' ),
+				//esc_html__( 'Preset Featured Images', 'quick-featured-images' ) 
+				esc_html__( $text )
+			)
+		);
 		$html .= sprintf( '<p class="description">%s</p>', esc_html__( 'This setting controls as well whether a user will see in an image column the thumbnails with action links or the thumbnails only. To switch image columns on and off use the section above.', 'quick-featured-images' ) );
 		$html .= sprintf( '<p class="description">%s</p>', esc_html__( 'This page is accessible for administrators only.', 'quick-featured-images' ) );
 		echo $html;

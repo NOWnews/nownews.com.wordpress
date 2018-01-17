@@ -150,7 +150,7 @@ $demo_cat_6_id =td_demo_category::add_category(array(
 $td_homepage_page = td_demo_content::add_page(array(
     'title' => 'Home',
     'file' => td_global::$get_template_directory . '/includes/demos/retro/pages/homepage.txt',
-    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '',
     'sidebar_position' => '',
     'homepage' => true
@@ -330,7 +330,7 @@ td_demo_content::add_post(array(
     'featured_image_td_id' => 'td_pic_2'
 ));
 td_demo_content::add_post(array(
-    'title' => 'Snake Pass review – a Rare Kind of Platfomer',
+    'title' => 'Snake Pass review a Rare Kind of Platfomer',
     'file' => td_global::$get_template_directory . '/includes/demos/retro/pages/post_default.txt',
     'categories_id_array' => array(get_cat_ID(TD_FEATURED_CAT), $demo_cat_4_id),
     'featured_image_td_id' => 'td_pic_3'

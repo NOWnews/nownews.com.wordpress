@@ -119,7 +119,7 @@ abstract class td_module {
     function get_author() {
         $buffy = '';
 
-        if ($this->is_review === false) {
+        if ($this->is_review === false or td_util::get_option('tds_m_show_review') == 'hide') {
             if (td_util::get_option('tds_m_show_author_name') != 'hide') {
                 $buffy .= '<span class="td-post-author-name">';
                 $buffy .= '<a href="' . get_author_posts_url($this->post->post_author) . '">' . get_the_author_meta('display_name', $this->post->post_author) . '</a>' ;
@@ -135,14 +135,14 @@ abstract class td_module {
     }
 
 
-    function get_date($show_stars_on_review = true) {
+    function get_date() {
         $visibility_class = '';
         if (td_util::get_option('tds_m_show_date') == 'hide') {
             $visibility_class = ' td-visibility-hidden';
         }
 
         $buffy = '';
-        if ($this->is_review and $show_stars_on_review === true) {
+        if ($this->is_review and td_util::get_option('tds_m_show_review') != 'hide') {
             //if review show stars
             $buffy .= '<div class="entry-review-stars">';
             $buffy .=  td_review::render_stars($this->td_review);

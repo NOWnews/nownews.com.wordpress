@@ -347,6 +347,26 @@
 }
 
 /*  ----------------------------------------------------------------------------
+    style new sidebar input fields
+*/
+.td-new-sidebar-field-error {
+  .td-panel-control-comment {
+    margin: 10px 0 0 10px;
+    color: #ff7a7a;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 15px;
+  }
+
+  .td-button-add-new-sidebar {
+    pointer-events: none;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+
+/*  ----------------------------------------------------------------------------
     style footer
 */
 #td-panel-footer .td-small-wrapper-o-separator {
@@ -768,4 +788,31 @@
       }
     }
   }
+}
+
+
+
+// td box in td box
+#td-multipurpose-plugin {
+  .td-box {
+    .td-box {
+      margin-left: 0;
+      margin-right: 15px;
+
+      .td-panel-fonts-header {
+        margin-left: 132px;
+      }
+
+      .td-panel-font-typography {
+        .td-box-description {
+          width: 117px;
+        }
+
+        .td-box-control-full {
+          width: 658px;
+        }
+      }
+    }
+  }
+
 }

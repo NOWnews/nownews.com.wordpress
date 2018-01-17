@@ -68,6 +68,10 @@ td_api_autoload::add('td_log',                      td_global_mob::$get_parent_t
 td_api_autoload::add('td_css_buffer',               td_global_mob::$get_parent_template_directory . '/includes/wp_booster/td_css_buffer.php');
 td_api_autoload::add('td_page_views',               td_global_mob::$get_parent_template_directory . '/includes/wp_booster/td_page_views.php');
 
+
+td_api_autoload::add('td_social_sharing', td_global_mob::$get_parent_template_directory . '/includes/wp_booster/td_social_sharing.php');
+
+
 td_api_autoload::add('td_page_generator_mob',   get_template_directory() . '/includes/td_page_generator_mob.php');
 td_api_autoload::add('td_ajax_mob',             get_template_directory() . '/includes/td_ajax_mob.php');
 td_api_autoload::add('td_walker_mobile_menu',   get_template_directory() . '/parts/td_walker_mobile_menu.php');

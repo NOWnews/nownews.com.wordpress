@@ -159,6 +159,30 @@ if (TD_DEBUG_LIVE_THEME_STYLE) {
 
 }
 
-//td_demo_state::update_state("art_creek", 'full');
+//td_demo_state::update_state("wildlife", 'full');
 
 //print_r(td_global::$all_theme_panels_list);
+
+/**
+ * Show info message for logged users when API classes are not defined (maybe some TAGDIV plugins are not installed)
+ */
+add_action( 'get_footer', 'td_on_get_footer' );
+function td_on_get_footer() {
+	if ( is_user_logged_in() && ! td_util::tdc_is_live_editor_iframe() && td_util::get_check_installed_plugins() ) {
+
+		ob_start();
+		?>
+		<script>
+
+			setTimeout(function () {
+
+				confirm( "Did you disable any TagDiv plugins? \nWe've got some errors at loading API files. It could happen because of a disabled TagDiv plugin!");
+
+			}, 3000);
+
+		</script>
+		<?php
+
+		echo ob_get_clean();
+	}
+}

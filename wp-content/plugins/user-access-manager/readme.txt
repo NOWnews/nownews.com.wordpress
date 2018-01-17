@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: admin, access, member area, members, member, member access, page, pages, post, posts, private, privacy, restrict, user, user access manager, user management
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 2.1.9
+Stable tag: 2.1.10
 
 With the "User Access Manager"-plugin you can manage the access to your posts, pages and files.
 
@@ -59,6 +59,17 @@ Here you found the changes in each version.
 
     Version     Date        Changes
 
+    2.1.10      2017/12/15  Fix Posts removed from WP_Query results in Ajax requests for unprivileged users #176
+                            Improve partly download handler
+                            Suppress errors on file delivery
+                            Improve error handling
+                            Change blog switch handling. fixes #194
+                            Fix wrong parameter name. fixes #191
+                            Improve user group sorting. closes #180
+                            Add new redirect type to the login page. closes #155
+                            Add dynamic user groups for exclude object calculation. closes #181
+                            Add filter for getUserUserGroupsForObjectAccess. #closes 157
+                            Make it possible to set a default group for new media files.
     2.1.9       2017/11/18  Add show content before <!--more--> tag option for all post types
                             Fix js time input issue
                             Fix small prepare query issue

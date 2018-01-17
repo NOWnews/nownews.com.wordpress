@@ -50,6 +50,10 @@ html.tdc-active #wpadminbar {
     display: block;
     clear: both;
   }
+
+  &.tdc-element-inline {
+    display: inline-block;
+  }
 }
 
 body.tdc-active-helper {
@@ -58,15 +62,8 @@ body.tdc-active-helper {
       content: '';
       display: block;
       clear: both;
-    }
-  }
-}
-
-body.tdc-theme-Newspaper.tdc-active-helper {
-  .tdc-element {
-    &:after {
-      height: 48px;
-      margin-top: -48px;
+      //padding-bottom: 1px;
+      //margin-bottom: -1px;
     }
   }
 }
@@ -98,7 +95,7 @@ body.tdc-theme-Newspaper.tdc-active-helper {
 .tdc-column.tdc-element-selected { // columns - they are colapsing and we need to add the outline to the inner wrapper
   outline: none;
 
-  > .vc_column {
+  > .wpb_wrapper {
     outline: 2px dashed rgb(212, 212, 212);
   }
 }
@@ -106,7 +103,7 @@ body.tdc-theme-Newspaper.tdc-active-helper {
 .tdc-inner-column.tdc-element-selected { // columns - they are colapsing and we need to add the outline to the inner wrapper
   outline: none;
 
-  > .vc_column_inner {
+  > .vc_column-inner {
     outline: 2px dashed rgb(212, 212, 212);
   }
 }
@@ -120,13 +117,14 @@ body.tdc-theme-Newspaper.tdc-active-helper {
       display: block;
       position: absolute;
       height: 100%;
+      width: 100%;
     }
   }
 
   &.tdc-element-selected {
     outline: none;
 
-    .td-pb-row:before {
+    > .vc_row {
       outline: 2px dashed rgb(212, 212, 212);
     }
   }

@@ -4,6 +4,10 @@ class td_util {
 
     private static $authors_array_cache = ''; //cache the results from  create_array_authors
 
+	private static $shortcodes_with_icons = null; //shortcodes with icon type params
+
+	private static $check_installed_plugins = false;
+
     public static $e_keys = array('dGRfMDEx' => '', 'dGRfMDExXw==' => 2);
 
     //returns the $class if the variable is not empty or false
@@ -23,6 +27,27 @@ class td_util {
             return '';
         }
     }
+
+	static function get_shortcodes_with_icons() {
+		if ( is_null( self::$shortcodes_with_icons ) ) {
+			self::$shortcodes_with_icons = array();
+
+			if ( td_util::tdc_is_installed() ) {
+				$mapped_shortcodes = tdc_mapper::get_mapped_shortcodes();
+					foreach ( $mapped_shortcodes as $mapped_shortcode ) {
+					if ( isset( $mapped_shortcode['params'] ) && isset( $mapped_shortcode['base'] ) ) {
+						foreach ( $mapped_shortcode['params'] as $shortcode_param ) {
+							if ( isset( $shortcode_param['type'] ) && 'icon' === $shortcode_param['type'] ) {
+								self::$shortcodes_with_icons[$mapped_shortcode['base']] = $mapped_shortcode['params'];
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		return self::$shortcodes_with_icons;
+	}
 
 
     /**
@@ -662,6 +687,14 @@ class td_util {
 	}
 
 
+	static function is_amp_plugin_installed() {
+		if (defined('TD_AMP__VERSION')) {
+	        return true;
+        }
+
+        return false;
+    }
+
 
 	/**
 	 * Checks a page content and tries to determin if a page was build with a pagebuilder (tdc or vc)
@@ -852,36 +885,76 @@ class td_util {
      * @param $message
      */
     static function error($file, $message, $more_data = '') {
-        echo '<br><br>wp booster error:<br>';
+	    ob_start();
+
+	    echo '<br><br>wp booster error:<br>';
         echo $message;
+
+        echo '<br>' . $file;
+        if (!empty($more_data)) {
+            echo '<br><br><pre>';
+            echo 'more data:' . PHP_EOL;
+            print_r($more_data);
+            echo '</pre>';
+        }
+
+	    $buffer = ob_get_clean();
+
         if (is_user_logged_in() and current_user_can('switch_themes')){
-            echo '<br>' . $file;
-            if (!empty($more_data)) {
-                echo '<br><br><pre>';
-                echo 'more data:' . PHP_EOL;
-                print_r($more_data);
-                echo '</pre>';
-            }
-        };
+	        echo $buffer;
+        } else {
+	        echo '
+		    <!--
+		        Error: ' . $buffer . ' (rara-error)
+		    -->
+		    ';
+        }
     }
+
+
+	static function set_check_installed_plugins() {
+		self::$check_installed_plugins = true;
+	}
+
+	static function get_check_installed_plugins() {
+		return self::$check_installed_plugins;
+	}
 
 
     static function get_block_error($block_name, $message) {
         if (is_user_logged_in()){
             return '<div class="td-block-missing-settings"><span>' . $block_name . '</span>' . $message . '</div>';
         };
+
+        return '';
     }
 
 
     static function get_block_lock() {
-        return '<div class="td-block-lock" style="">Unlock this block. <a href="https://wpion.com/pricing">Buy Now</a></div>';
+        if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false) {
+            return '<div class="td-block-lock"><div class="td-lock-wrap"><span>Available only in the Premium version.</span><a class="td-lock-button" href="https://www.wpion.com/pricing/?utm_source=front_lock&utm_medium=wp_admin&utm_campaign=ionMag_free" target="_blank">UNLOCK NOW</a></div></div>';
+        }
+
+        return '';
     }
 
 
     static function get_template_lock() {
-        return '<div class="td-template-lock" style="">Unlock this block. <a href="https://wpion.com/pricing">XXXXXXXXXXXXXXXXXXXXXXXXXXX</a></div>';
+        if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false) {
+            return '<div class="td-template-lock"><div class="td-lock-wrap"><span>Available only in the Premium version.</span><a class="td-lock-button" href="https://www.wpion.com/pricing/?utm_source=front_lock&utm_medium=wp_admin&utm_campaign=ionMag_free" target="_blank">UNLOCK NOW</a></div></div>';
+        }
+
+        return '';
     }
 
+
+    static function get_free_tracking($utm_source = '') {
+        if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false) {
+            return "?utm_source={$utm_source}&utm_medium=wp_admin&utm_campaign=ionMag_free";
+        }
+
+        return '';
+    }
 
     /**
      * makes sure that we return something even if the $_POST of that value is not defined

@@ -1923,7 +1923,11 @@ class Quick_Featured_Images_Tools { // only for debugging: extends Quick_Feature
 	 *@return    page headline variable.
 	 */
 	public function get_page_headline() {
-		return __( 'Set, replace, remove', 'quick-featured-images' );
+		//return __( 'Set, replace, remove', 'quick-featured-images' );
+		$text = 'Bulk Edit';
+		return __( $text );
+		// just for the translation editor to catch this string
+		$text = __( 'Set, replace, remove', 'quick-featured-images' );
 	}
 
 	/**

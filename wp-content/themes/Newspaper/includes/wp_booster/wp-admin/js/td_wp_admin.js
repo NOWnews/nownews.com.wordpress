@@ -72,7 +72,6 @@ function td_theme_update() {
 }
 document.addEventListener("DOMContentLoaded", td_theme_update);
 
-
 jQuery().ready(function() {
 
 
@@ -223,3 +222,68 @@ jQuery().ready(function() {
     });
 
 });
+
+/**
+ * show the box if the cookie is set
+ */
+function td_admin_popup_box_on_load() {
+    'use strict';
+
+    var td_current_box_stat = td_read_site_cookie( 'td-cookie-admin-popup' );
+    if ( td_current_box_stat !== 'hide-admin-popup-box' ) {
+        jQuery("#td-admin-popup").addClass( 'td-display-block' );
+    }
+}
+document.addEventListener("DOMContentLoaded", td_admin_popup_box_on_load);
+
+function td_admin_popup_box() {
+    //adding event to hide the box
+    jQuery('.td-close-admin-popup-box').click(function(event){
+        event.preventDefault();
+        event.stopPropagation();
+
+        var $this = jQuery(this);
+
+        //hiding the box
+        $this.parents('#td-admin-popup').removeClass('td-display-block');
+
+        //cookie life > setting cookie
+        td_set_cookies_life( ['td-cookie-admin-popup', 'hide-admin-popup-box', 259200000] );
+    });
+}
+document.addEventListener("DOMContentLoaded", td_admin_popup_box);
+
+/**
+ * reading cookies
+ * @param name
+ * @returns {*}
+ */
+function td_read_site_cookie(name) {
+    var nameEQ = escape(name) + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return unescape(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+
+/**
+ *
+ * @param td_time_cookie_array
+ *
+ * @param[0]: name of the cookie
+ * @param[1]: value of the cookie
+ * @param[2]: expiration time
+ */
+function td_set_cookies_life(td_time_cookie_array) {
+    //console.log("cookie array: ");
+    //console.log(td_time_cookie_array);
+
+    var expiry = new Date();
+    expiry.setTime(expiry.getTime() + td_time_cookie_array[2]);
+
+    // Date()'s toGMTSting() method will format the date correctly for a cookie
+    document.cookie = td_time_cookie_array[0] + "=" + td_time_cookie_array[1] + "; expires=" + expiry.toGMTString() + "; path=/";
+}

@@ -5,13 +5,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Quick Featured Images\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/quick-featured-images\n"
-"POT-Creation-Date: 2017-07-23 22:36+0200\n"
+"POT-Creation-Date: 2017-12-07 00:15+0100\n"
 "PO-Revision-Date: 2017-07-06 23:17+0200\n"
 "Language-Team: Martin Stehle <m.stehle@gmx.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
 "esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
 "X-Poedit-Basepath: ..\n"
@@ -65,12 +65,11 @@ msgstr ""
 msgid "No changes were saved."
 msgstr ""
 
-#: admin/class-quick-featured-images-defaults.php:253
-#: admin/class-quick-featured-images-settings.php:605
+#: admin/class-quick-featured-images-defaults.php:257
 msgid "Preset Featured Images"
 msgstr ""
 
-#: admin/class-quick-featured-images-defaults.php:264
+#: admin/class-quick-featured-images-defaults.php:268
 msgid "Set default featured images for future posts"
 msgstr ""
 
@@ -112,31 +111,31 @@ msgstr ""
 msgid "Select the minimum user role a user must have to see the plugin."
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:605
+#: admin/class-quick-featured-images-settings.php:609
 #, php-format
 msgid ""
 "The rules as set in &#8220;%s&#8221; work on posts independently of this "
 "setting."
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:606
+#: admin/class-quick-featured-images-settings.php:614
 msgid ""
 "This setting controls as well whether a user will see in an image column the "
 "thumbnails with action links or the thumbnails only. To switch image columns "
 "on and off use the section above."
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:607
+#: admin/class-quick-featured-images-settings.php:615
 msgid "This page is accessible for administrators only."
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:617
+#: admin/class-quick-featured-images-settings.php:625
 msgid ""
 "The additional columns give you a quick overview about all used featured "
 "images for every post. The Featured Image column is sortable."
 msgstr ""
 
-#: admin/class-quick-featured-images-settings.php:626
+#: admin/class-quick-featured-images-settings.php:634
 msgid "Controls which minimum user role can see the plugin."
 msgstr ""
 
@@ -265,15 +264,15 @@ msgstr ""
 msgid "Type in values stored by WordPress."
 msgstr ""
 
-#: admin/class-quick-featured-images-tools.php:1926
+#: admin/class-quick-featured-images-tools.php:1930
 msgid "Set, replace, remove"
 msgstr ""
 
-#: admin/class-quick-featured-images-tools.php:1937
+#: admin/class-quick-featured-images-tools.php:1941
 msgid "Bulk set, replace and remove featured images for existing posts"
 msgstr ""
 
-#: admin/class-quick-featured-images-tools.php:2046
+#: admin/class-quick-featured-images-tools.php:2050
 msgid "Bulk set as featured image"
 msgstr ""
 
@@ -283,10 +282,6 @@ msgstr ""
 
 #: admin/views/filter_post_types.php:2
 msgid "Select post types"
-msgstr ""
-
-#: admin/views/filter_post_types.php:2
-msgid "You can select posts and pages."
 msgstr ""
 
 #: admin/views/filter_tag.php:7
@@ -385,20 +380,20 @@ msgid ""
 "post in a new window by clicking on its link in the list."
 msgstr ""
 
-#: admin/views/form_confirm.php:121
+#: admin/views/form_confirm.php:120
 msgid "Confirm the change"
 msgstr ""
 
-#: admin/views/form_confirm.php:122
+#: admin/views/form_confirm.php:121
 msgid "You can not undo the operation!"
 msgstr ""
 
-#: admin/views/form_confirm.php:183 admin/views/section_errormsg.php:8
+#: admin/views/form_confirm.php:182 admin/views/section_errormsg.php:8
 #: admin/views/section_results.php:86
 msgid "Start again"
 msgstr ""
 
-#: admin/views/form_confirm.php:183
+#: admin/views/form_confirm.php:182
 msgid "or refine your selection with the following form fields."
 msgstr ""
 

@@ -212,6 +212,8 @@ class SettingsController extends Controller
      * @param string $postType
      *
      * @return \UserAccessManager\Form\Form
+     *
+     * @throws \Exception
      */
     private function getPostSettingsForm($postType = MainConfig::DEFAULT_TYPE)
     {
@@ -249,6 +251,8 @@ class SettingsController extends Controller
      * @param string $taxonomy
      *
      * @return \UserAccessManager\Form\Form
+     *
+     * @throws \Exception
      */
     private function getTaxonomySettingsForm($taxonomy = MainConfig::DEFAULT_TYPE)
     {
@@ -319,6 +323,8 @@ class SettingsController extends Controller
      * Returns the files settings form.
      *
      * @return \UserAccessManager\Form\Form
+     *
+     * @throws \Exception
      */
     private function getFilesSettingsForm()
     {
@@ -358,6 +364,8 @@ class SettingsController extends Controller
      * Returns the author settings form.
      *
      * @return \UserAccessManager\Form\Form
+     *
+     * @throws \Exception
      */
     private function getAuthorSettingsForm()
     {
@@ -371,9 +379,51 @@ class SettingsController extends Controller
     }
 
     /**
+     * Adds the custom page redirect from element.
+     *
+     * @param array $configParameters
+     * @param array $values
+     */
+    private function addCustomPageRedirectFormElement(array $configParameters, array &$values)
+    {
+        if (isset($configParameters['redirect_custom_page']) === true) {
+            $redirectCustomPage = $configParameters['redirect_custom_page'];
+            $redirectCustomPageValue = $this->formFactory->createMultipleFormElementValue(
+                'custom_page',
+                TXT_UAM_REDIRECT_TO_PAGE
+            );
+
+            $possibleValues = [];
+            $pages = $this->getPages();
+
+            foreach ($pages as $page) {
+                $possibleValues[] = $this->formFactory->createValueSetFromElementValue(
+                    (int)$page->ID,
+                    $page->post_title
+                );
+            }
+
+            $formElement = $this->formFactory->createSelect(
+                $redirectCustomPage->getId(),
+                $possibleValues,
+                (int)$redirectCustomPage->getValue()
+            );
+
+            try {
+                $redirectCustomPageValue->setSubElement($formElement);
+                $values[] = $redirectCustomPageValue;
+            } catch (\Exception $exception) {
+                // Do Nothing
+            }
+        }
+    }
+
+    /**
      * Returns the author settings form.
      *
      * @return \UserAccessManager\Form\Form
+     *
+     * @throws \Exception
      */
     private function getOtherSettingsForm()
     {
@@ -384,41 +434,21 @@ class SettingsController extends Controller
             $values = [
                 $this->formFactory->createMultipleFormElementValue('false', TXT_UAM_NO),
                 $this->formFactory->createMultipleFormElementValue('blog', TXT_UAM_REDIRECT_TO_BLOG),
+                $this->formFactory->createMultipleFormElementValue('login', TXT_UAM_REDIRECT_TO_LOGIN)
             ];
 
-            if (isset($configParameters['redirect_custom_page']) === true) {
-                $redirectCustomPage = $configParameters['redirect_custom_page'];
-                $redirectCustomPageValue = $this->formFactory->createMultipleFormElementValue(
-                    'selected',
-                    TXT_UAM_REDIRECT_TO_PAGE
-                );
-
-                $possibleValues = [];
-                $pages = $this->getPages();
-
-                foreach ($pages as $page) {
-                    $possibleValues[] = $this->formFactory->createValueSetFromElementValue(
-                        (int)$page->ID,
-                        $page->post_title
-                    );
-                }
-
-                $formElement = $this->formFactory->createSelect(
-                    $redirectCustomPage->getId(),
-                    $possibleValues,
-                    (int)$redirectCustomPage->getValue()
-                );
-
-                $redirectCustomPageValue->setSubElement($formElement);
-                $values[] = $redirectCustomPageValue;
-            }
+            $this->addCustomPageRedirectFormElement($configParameters, $values);
 
             if (isset($configParameters['redirect_custom_url']) === true) {
-                $values[] = $this->formHelper->createMultipleFromElement(
-                    'custom_url',
-                    TXT_UAM_REDIRECT_TO_URL,
-                    $configParameters['redirect_custom_url']
-                );
+                try {
+                    $values[] = $this->formHelper->createMultipleFromElement(
+                        'custom_url',
+                        TXT_UAM_REDIRECT_TO_URL,
+                        $configParameters['redirect_custom_url']
+                    );
+                } catch (\Exception $exception) {
+                    // Do nothing.
+                }
             }
 
             $configParameter = $configParameters['redirect'];
@@ -506,8 +536,10 @@ class SettingsController extends Controller
      * Returns the full cache providers froms.
      *
      * @return array
+     *
+     * @throws \Exception
      */
-    private function getFullCacheProvidersFrom()
+    private function getFullCacheProvidersForm()
     {
         $groupForms = [];
         $cacheProviders = $this->cache->getRegisteredCacheProviders();
@@ -532,18 +564,33 @@ class SettingsController extends Controller
         $group = $this->getCurrentTabGroup();
         $groupForms = [];
 
-        if ($group === self::GROUP_POST_TYPES) {
-            $groupForms = $this->getFullPostSettingsForm();
-        } elseif ($group === self::GROUP_TAXONOMIES) {
-            $groupForms = $this->getFullTaxonomySettingsForm();
-        } elseif ($group === self::GROUP_FILES) {
-            $groupForms = [self::SECTION_FILES => $this->getFilesSettingsForm()];
-        } elseif ($group === self::GROUP_AUTHOR) {
-            $groupForms = [self::SECTION_AUTHOR => $this->getAuthorSettingsForm()];
-        } elseif ($group === self::GROUP_CACHE) {
-            $groupForms = $this->getFullCacheProvidersFrom();
-        } elseif ($group === self::GROUP_OTHER) {
-            $groupForms = [self::SECTION_OTHER => $this->getOtherSettingsForm()];
+        try {
+            $formMap = [
+                self::GROUP_POST_TYPES => function () {
+                    return $this->getFullPostSettingsForm();
+                },
+                self::GROUP_TAXONOMIES => function () {
+                    return $this->getFullTaxonomySettingsForm();
+                },
+                self::GROUP_FILES => function () {
+                    return [self::SECTION_FILES => $this->getFilesSettingsForm()];
+                },
+                self::GROUP_AUTHOR => function () {
+                    return [self::SECTION_AUTHOR => $this->getAuthorSettingsForm()];
+                },
+                self::GROUP_CACHE => function () {
+                    return $this->getFullCacheProvidersForm();
+                },
+                self::GROUP_OTHER => function () {
+                    return [self::SECTION_OTHER => $this->getOtherSettingsForm()];
+                }
+            ];
+
+            if (isset($formMap[$group]) === true) {
+                return $formMap[$group]();
+            }
+        } catch (\Exception $exception) {
+            $this->addErrorMessage(sprintf(TXT_UAM_ERROR, $exception->getMessage()));
         }
 
         return $groupForms;

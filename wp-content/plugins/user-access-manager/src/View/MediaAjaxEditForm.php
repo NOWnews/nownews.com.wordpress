@@ -17,25 +17,8 @@
  * @var \UserAccessManager\Controller\Backend\ObjectController $controller
  */
 $userGroups = $controller->getFilteredUserGroups();
-uasort(
-    $userGroups,
-    function (
-        \UserAccessManager\UserGroup\AbstractUserGroup $userGroupOne,
-        \UserAccessManager\UserGroup\AbstractUserGroup $userGroupTwo
-    ) {
-        $notLoggedInUserGroupId = \UserAccessManager\UserGroup\DynamicUserGroup::USER_TYPE
-            .'|'.\UserAccessManager\UserGroup\DynamicUserGroup::NOT_LOGGED_IN_USER_ID;
-
-        if ($userGroupOne->getId() === $notLoggedInUserGroupId) {
-            return 1;
-        } elseif ($userGroupTwo->getId() === $notLoggedInUserGroupId) {
-            return 0;
-        }
-
-        return strnatcasecmp($userGroupOne->getName(), $userGroupTwo->getName());
-    }
-);
-$objectUserGroups = $controller->getObjectUserGroups();
+$controller->sortUserGroups($userGroups);
+$objectUserGroups = $controller->getObjectInformation()->getObjectUserGroups();
 
 if (count($userGroups) > 0) {
     ?>
@@ -43,8 +26,8 @@ if (count($userGroups) > 0) {
     <ul class="uam_group_selection_ajax" style="margin: 0;">
         <?php
         $groupsFormName = $controller->getGroupsFormName();
-        $objectType = $controller->getObjectType();
-        $objectId = $controller->getObjectId();
+        $objectType = $controller->getObjectInformation()->getObjectType();
+        $objectId = $controller->getObjectInformation()->getObjectId();
 
         /**
          * @var \UserAccessManager\UserGroup\UserGroup[] $userGroups

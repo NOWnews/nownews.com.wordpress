@@ -18,6 +18,7 @@ define('TXT_UAM_PHP_VERSION_TO_LOW', __('Sorry you need at least PHP version 5.4
 define('TXT_UAM_WORDPRESS_VERSION_TO_LOW', __('Sorry you need at least Wordpress version 3.0 to use the User Access Manager. Your current Wordpress version is %s.', 'user-access-manager'));
 /** @noinspection HtmlUnknownTarget */
 define('TXT_UAM_NEED_DATABASE_UPDATE', __('Please update the database of the User Access Manager. <a href="%s">Click here to proceed</a>', 'user-access-manager'));
+define('TXT_UAM_ERROR', __('The following error occurred: %s', 'user-access-manager'));
 
 // --- Multiple use ---
 define('TXT_UAM_ALL', __('All', 'user-access-manager'));
@@ -158,6 +159,7 @@ define('TXT_UAM_PROTECT_FEED_DESC', __('Selecting "Yes" will also protect your f
 define('TXT_UAM_REDIRECT', __('Redirect user', 'user-access-manager'));
 define('TXT_UAM_REDIRECT_DESC', __('Setup what happen if a user visit a post/page with no access.', 'user-access-manager'));
 define('TXT_UAM_REDIRECT_TO_BLOG', __('To blog start page', 'user-access-manager'));
+define('TXT_UAM_REDIRECT_TO_LOGIN', __('To login page (wp-admin)', 'user-access-manager'));
 define('TXT_UAM_REDIRECT_TO_PAGE', __('Custom page: ', 'user-access-manager'));
 define('TXT_UAM_REDIRECT_TO_URL', __('Custom URL: ', 'user-access-manager'));
 define('TXT_UAM_LOCK_RECURSIVE', __('Lock recursive', 'user-access-manager'));

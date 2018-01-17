@@ -8,6 +8,7 @@ use UserAccessManager\Config\ConfigParameterFactory;
 use UserAccessManager\Config\WordpressConfig;
 use UserAccessManager\Cache\CacheProviderFactory;
 use UserAccessManager\Controller\ControllerFactory;
+use UserAccessManager\Controller\Backend\ObjectInformationFactory;
 use UserAccessManager\Widget\WidgetFactory;
 use UserAccessManager\Database\Database;
 use UserAccessManager\File\FileHandler;
@@ -24,6 +25,7 @@ use UserAccessManager\Setup\SetupHandler;
 use UserAccessManager\Setup\Update\UpdateFactory;
 use UserAccessManager\UserAccessManager;
 use UserAccessManager\UserGroup\AssignmentInformationFactory;
+use UserAccessManager\UserGroup\UserGroupAssignmentHandler;
 use UserAccessManager\UserGroup\UserGroupFactory;
 use UserAccessManager\UserGroup\UserGroupHandler;
 use UserAccessManager\User\UserHandler;
@@ -115,6 +117,13 @@ function initUserAccessManger()
         $mainConfig,
         $fileHandler
     );
+    $objectInformationFactory = new ObjectInformationFactory();
+    $userGroupAssignmentHandler = new UserGroupAssignmentHandler(
+        $dateUtil,
+        $userHandler,
+        $userGroupHandler,
+        $userGroupFactory
+    );
     $controllerFactory = new ControllerFactory(
         $php,
         $wordpress,
@@ -128,13 +137,15 @@ function initUserAccessManger()
         $objectMapHandler,
         $userHandler,
         $userGroupHandler,
-        $accessHandler,
         $userGroupFactory,
+        $userGroupAssignmentHandler,
+        $accessHandler,
         $fileHandler,
         $fileObjectFactory,
         $setupHandler,
         $formFactory,
-        $formHelper
+        $formHelper,
+        $objectInformationFactory
     );
     $widgetFactory = new WidgetFactory($php, $wordpress, $wordpressConfig);
 
@@ -244,10 +255,14 @@ function initUserAccessManger()
         $cliWrapper = new \UserAccessManager\Wrapper\WordpressCli();
 
         $groupCommand = new \UserAccessManager\Command\GroupCommand($cliWrapper, $userGroupHandler, $userGroupFactory);
-        \WP_CLI::add_command('uam groups', $groupCommand);
-
         $objectCommand = new \UserAccessManager\Command\ObjectCommand($cliWrapper, $userGroupHandler);
-        \WP_CLI::add_command('uam objects', $objectCommand);
+
+        try {
+            \WP_CLI::add_command('uam groups', $groupCommand);
+            \WP_CLI::add_command('uam objects', $objectCommand);
+        } catch (Exception $exception) {
+            // Do nothing
+        }
     }
 
     return $userAccessManager;

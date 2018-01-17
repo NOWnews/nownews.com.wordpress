@@ -379,6 +379,11 @@
 
   .td-sml-current-item-title {
     margin-top: 6px;
+
+    /* responsive portrait phone */
+    @media (max-width: @responsive_p_phone_max) {
+      font-size: 19px;
+    }
   }
 
   .td-number-and-title {
@@ -414,6 +419,13 @@
     float: right;
     margin-left: 20px;
     width: 300px;
+
+    /* responsive portrait phone */
+    @media (max-width: @responsive_p_phone_max) {
+      float: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   /* responsive portrait tablet */

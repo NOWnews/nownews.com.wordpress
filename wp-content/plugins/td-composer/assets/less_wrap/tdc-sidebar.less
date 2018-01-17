@@ -1,3 +1,6 @@
+@font1:'Open Sans', sans-serif;
+
+
 #tdc-sidebar {
   position: fixed;
   top: 0;
@@ -364,6 +367,46 @@
   color: @tdc_font_color;
 }
 
+.tdc-element-delete {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  font-family: @font1;
+  font-size: 9px;
+  font-weight: 600;
+
+  &:before {
+    content: 'x';
+    position: absolute;
+    color: #000;
+    z-index: 2;
+    display: block;
+    line-height: 15px;
+    width: 17px;
+    height: 17px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    .transition(all 0.3s ease);
+    margin: auto;
+    top: -1px;
+    bottom: 0;
+  }
+  &:hover:before {
+    color: red;
+  }
+}
+// hover
+.tdc-sidebar-element:hover .tdc-element-delete:before {
+  opacity: 1;
+}
+
 .tdc-sidebar-modal-menu {
   .tdc-sidebar-modal-content {
     padding-left: 0;
@@ -601,6 +644,7 @@
 
   .tdc-tab-content {
     display: none;
+    position: relative;
   }
 
   .tdc-tab-content-visible {
@@ -709,7 +753,7 @@ placeholder when sidebar is empty
   .tdc-sidebar-button {
     display: inline-block;
     padding: 6px 12px 7px 12px;
-    margin: 0 3px;
+    margin: 0 3px 6px;
     cursor: pointer;
     text-align: center;
     color:white;
@@ -722,6 +766,11 @@ placeholder when sidebar is empty
       transform: translateY(-1px);
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.14);
     }
+  }
+
+  .tdc-sidebar-save-shortcode {
+    display: block;
+    margin-top: 21px;
   }
 }
 

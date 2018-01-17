@@ -27,10 +27,6 @@ var tdConfirm;
 
         init: function() {
 
-            if ( tdConfirm._isInitialized ) {
-                return;
-            }
-
             tdConfirm._$body = jQuery( 'body' );
 
             tdConfirm._$content = jQuery( '<div id="td-confirm" style="display: none;">' +
@@ -46,8 +42,97 @@ var tdConfirm;
             tdConfirm._$confirmNo = tdConfirm._$content.find( 'button.td-confirm-no' );
 
             tdConfirm._$body.append( tdConfirm._$content );
+        },
 
-            tdConfirm._isInitialized = true;
+        /**
+         * OK modal
+         * @param args
+         */
+        modal: function( args ) {
+
+            // caption, htmlInfoContent, callbackYes, objectContext, url, textYes, hideNo, textNo
+
+            tdConfirm.init();
+
+            if ( 'undefined' === typeof args.url ) {
+                args.url = '#TB_inline?inlineId=td-confirm&width=480';
+            }
+
+            if ( 'undefined' === typeof args.objectContext || null === args.objectContext) {
+                args.objectContext = window;
+            }
+
+            if ( 'undefined' === typeof args.htmlInfoContent) {
+                args.htmlInfoContent = '';
+            }
+
+            // Change OK text
+            if ( 'undefined' === typeof args.textYes ) {
+                tdConfirm._$confirmYes.html('Ok');
+            } else {
+                tdConfirm._$confirmYes.html( args.textYes );
+            }
+
+            tdConfirm._$infoContent.html( args.htmlInfoContent );
+
+            // Remove confirm No
+            if ( 'undefined' !== typeof args.hideNoButton && true === args.hideNoButton ) {
+                tdConfirm._$confirmNo.hide();
+            } else {
+                tdConfirm._$confirmNo.show();
+                tdConfirm._$confirmNo.unbind();
+                tdConfirm._$confirmNo.click( function() {
+                    tb_remove();
+                    return false;
+                });
+
+                // Change Yes to OK
+                if ( 'undefined' === typeof args.textNo ) {
+                    tdConfirm._$confirmNo.html('No');
+                } else {
+                    tdConfirm._$confirmNo.html( args.textNo );
+                }
+            }
+
+            //Yes callback
+            if ( 'undefined' === typeof args.callbackYes) {
+                tdConfirm._$confirmYes.click( function() {
+                    tb_remove();
+                    return true;
+                });
+            } else {
+                tdConfirm._$confirmYes.off('click');
+                tdConfirm._$confirmYes.click( function() {
+                    args.callbackYes.apply(args.objectContext, args.argsYes);
+                    return true;
+                });
+            }
+
+            tdConfirm._$body.addClass( 'td-thickbox-loading' );
+
+            tb_show( args.caption, args.url );
+
+            // Remove close on overlay container click
+            if ( 'undefined' !== typeof args.offOverlayClick && true === args.offOverlayClick ) {
+                jQuery("#TB_overlay").off('click');
+            }
+
+            var $TBWindow = jQuery( '#TB_window' );
+
+            // Remove close button
+            if ( 'undefined' !== typeof args.hideCloseButton && true === args.hideCloseButton ) {
+                $TBWindow.find('#TB_closeWindowButton').hide();
+            }
+
+            $TBWindow.addClass( 'td-thickbox' );
+
+            if (tdConfirm._$infoContent.height() > 400) {
+                $TBWindow.addClass( 'td-thickbox-fixed' );
+            }
+
+            tdConfirm._$body.removeClass( 'td-thickbox-loading' );
+
+            tdConfirm._$content.remove();
         },
 
         /**
@@ -77,8 +162,7 @@ var tdConfirm;
             tdConfirm._$infoContent.html( htmlInfoContent );
 
             // Remove confirm No
-            tdConfirm._$confirmNo.unbind();
-            tdConfirm._$confirmNo.remove();
+            tdConfirm._$confirmNo.hide();
 
             // Change Yes to OK
             tdConfirm._$confirmYes.html('Ok');
@@ -122,6 +206,8 @@ var tdConfirm;
             }
 
             tdConfirm._$body.removeClass( 'td-thickbox-loading' );
+
+            tdConfirm._$content.remove();
         },
 
 
@@ -188,8 +274,8 @@ var tdConfirm;
                 });
             }
 
-
             // Remove any bound callback
+            tdConfirm._$confirmNo.show();
             tdConfirm._$confirmNo.unbind();
             tdConfirm._$confirmNo.click( function() {
                 tb_remove();
@@ -210,6 +296,8 @@ var tdConfirm;
             }
 
             tdConfirm._$body.removeClass( 'td-thickbox-loading' );
+
+            tdConfirm._$content.remove();
         }
     };
 

@@ -48,6 +48,58 @@
     </div>
 </div>
 
+
+
+<!-- PAGE FOOTER -->
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">Footer page</span>
+        <p>Set the footer page</p>
+    </div>
+    <div class="td-box-control-full td-footer-page-container">
+        <?php
+
+        $page_values = array();
+
+        $pages = get_pages(array());
+        foreach ( $pages as $page ) {
+
+	        $text = $page->post_title;
+	        if ( empty( $text ) ) {
+		        $text = '#' . $page->ID . '(no title)';
+	        }
+
+	        $page_values[] = array(
+		        'text' => $text,
+		        'val' => $page->ID
+	        );
+        }
+
+        echo td_panel_generator::dropdown(array(
+            'ds' => 'td_option',
+            'option_id' => 'tds_footer_page',
+            'values' => array_merge(
+	            array(
+                    array('text' => '- No page -' , 'val' => ''),
+	            ),
+	            $page_values
+            )
+        ));
+
+        $href = '#';
+        $style = 'display: none';
+        if ('' !== td_util::get_option('tds_footer_page')) {
+			$href = admin_url() . 'post.php?post_id=' . td_util::get_option('tds_footer_page') . '&td_action=tdc';
+	        $style = '';
+        }
+
+        echo '<a class="td-view-footer-page" href="' . $href . '" style="' . $style . '" target="_blank">Edit footer page</a>';
+
+        ?>
+    </div>
+</div>
+
+
 <?php echo td_panel_generator::box_end();?>
 
 
@@ -452,6 +504,23 @@
                 'option_id' => 'tds_sub_footer',
                 'true_value' => '',
                 'false_value' => 'no'
+            ));
+            ?>
+        </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Sub footer templates</span>
+            <p>Set the sub footer template</p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::visual_select_o(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_sub_footer_template',
+                'values' => td_api_sub_footer_template::_helper_to_panel_values()
             ));
             ?>
         </div>

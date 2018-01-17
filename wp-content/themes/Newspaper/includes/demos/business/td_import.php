@@ -259,7 +259,7 @@ $demo_cat_11_id = td_demo_category::add_category(array(
 $td_homepage_id = td_demo_content::add_page(array(
     'title' => 'Home',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/homepage.txt',
-    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '1',
     'sidebar_position' => 'no_sidebar',
     'homepage' => true,
@@ -270,7 +270,7 @@ $td_homepage_id = td_demo_content::add_page(array(
 $td_contactpage_id = td_demo_content::add_page(array(
     'title' => 'Contact',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/contact.txt',
-    'template' => 'default',   // the page template full file name with .php
+    'template' => 'default',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '',
     'sidebar_position' => 'no_sidebar',
     'homepage' => false
@@ -440,7 +440,7 @@ td_demo_content::add_post(array(
 ));
 
 td_demo_content::add_post(array(
-    'title' => 'London Stock Exchange and Deutsche Börse Merger Blocked by EU',
+    'title' => 'London Stock Exchange and Deutsche Bï¿½rse Merger Blocked by EU',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/post_default.txt',
     'categories_id_array' => array(get_cat_ID(TD_FEATURED_CAT)),
     'featured_image_td_id' => 'td_pic_6'
@@ -500,7 +500,7 @@ td_demo_content::add_post(array(
 ));
 
 td_demo_content::add_post(array(
-    'title' => 'London Stock Exchange and Deutsche Börse Merger Blocked by EU',
+    'title' => 'London Stock Exchange and Deutsche Bï¿½rse Merger Blocked by EU',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/post_default.txt',
     'categories_id_array' => array($demo_cat_2_id,$demo_cat_3_id,$demo_cat_5_id,$demo_cat_6_id,$demo_cat_7_id,$demo_cat_8_id,$demo_cat_9_id,$demo_cat_10_id,$demo_cat_11_id),
     'featured_image_td_id' => 'td_pic_6'
@@ -647,7 +647,7 @@ td_demo_content::add_post(array(
 ));
 
 td_demo_content::add_post(array(
-    'title' => 'London Stock Exchange and Deutsche Börse Merger Blocked by EU',
+    'title' => 'London Stock Exchange and Deutsche Bï¿½rse Merger Blocked by EU',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/post_default.txt',
     'categories_id_array' => array($demo_cat_4_id),
     'featured_image_td_id' => 'td_pic_6'
@@ -663,7 +663,7 @@ td_demo_content::add_post(array(
 ));
 
 td_demo_content::add_post(array(
-    'title' => 'Toyota to Invest £240m in a United Kingdom Plant at Burnaston',
+    'title' => 'Toyota to Invest ï¿½240m in a United Kingdom Plant at Burnaston',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/post_default.txt',
     'categories_id_array' => array($demo_cat_5_id),
     'featured_image_td_id' => 'td_pic_15'
@@ -730,7 +730,7 @@ td_demo_content::add_post(array(
 /* ------------------------------------------------------------------ */
 
 td_demo_content::add_post(array(
-    'title' => 'UK Investment Funds Suffered £5.7bn Outflows after Brexit Vote on June',
+    'title' => 'UK Investment Funds Suffered ï¿½5.7bn Outflows after Brexit Vote on June',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/post_default.txt',
     'categories_id_array' => array($demo_cat_11_id),
     'featured_image_td_id' => 'td_pic_2'
@@ -832,7 +832,7 @@ td_demo_content::add_post(array(
 ));
 
 td_demo_content::add_post(array(
-    'title' => 'European Banks Sitting on €1tn "Mountain" of Bad Debt',
+    'title' => 'European Banks Sitting on ï¿½1tn "Mountain" of Bad Debt',
     'file' => td_global::$get_template_directory . '/includes/demos/business/pages/post_default.txt',
     'categories_id_array' => array($demo_cat_10_id),
     'featured_image_td_id' => 'td_pic_3'

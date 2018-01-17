@@ -211,7 +211,7 @@ die;
 
 
                             <?php
-                            if (TD_DEPLOY_IS_PREMIUM === false) {
+                            if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false) {
                                 if ( $stack_params['premium_demo'] == 'free' ) {
                                     // free theme + free demo
                                     ?>

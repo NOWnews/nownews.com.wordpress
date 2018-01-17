@@ -369,6 +369,15 @@ usage:
 .td-art-creek .td-art-creek-dark-row .td-module-thumb:hover img {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 2px, rgba(0, 0, 0, 0.2) 0px 4px 4px, rgba(0, 0, 0, 0.2) 0px 8px 8px, rgba(0, 0, 0, 0.2) 0px 16px 16px, rgba(0, 0, 0, 0.2) 0px 32px 32px, rgba(0, 0, 0, 0.1) 0px 64px 64px;
 }
+.td-art-creek .td-art-creek-dark-row .td-social-style9 .td_social_type {
+  width: 50%;
+  /* responsive portrait phone */
+}
+@media (max-width: 767px) {
+  .td-art-creek .td-art-creek-dark-row .td-social-style9 .td_social_type {
+    width: 25%;
+  }
+}
 .td-art-creek .td-art-creek-dark-row .td-social-style9 .td_social_info_name {
   color: #888;
 }
@@ -380,7 +389,6 @@ usage:
   overflow-y: hidden !important;
 }
 .td-art-creek .td-social-style9 .td_social_type {
-  width: 50%;
   margin-bottom: 15px;
   /* responsive portrait phone */
 }
@@ -390,7 +398,6 @@ usage:
 }
 @media (max-width: 767px) {
   .td-art-creek .td-social-style9 .td_social_type {
-    width: 25%;
     margin-bottom: 0;
   }
 }

@@ -20,8 +20,6 @@ class tdc_composer_block extends td_block {
 				'tdc_css' => '',
 				'tdc_css_class' => '',
 				'tdc_css_class_style' => '',
-
-				'full_width' => '', // param for rows @see full_width VC param
 			),
 			$atts
 		);
@@ -33,6 +31,9 @@ class tdc_composer_block extends td_block {
 		 /** The _rand_style class is used by td-element-style to add style */
 	    $unique_block_class_style = $this->block_uid . '_rand_style';
 	    $this->atts['tdc_css_class_style'] = $unique_block_class_style;
+
+		// Set tdc_config::$font_settings ('load' param)
+		$this->set_font_settings($atts);
 	}
 
 
@@ -132,6 +133,11 @@ class tdc_composer_block extends td_block {
 			$buffy .= PHP_EOL . '/* tdc_composer_block - inline css att */' . PHP_EOL . $css;
 		}
 
+		$custom_css = $this->get_custom_css();
+		if (!empty($custom_css)) {
+			$buffy .= PHP_EOL . '/* custom css */' . PHP_EOL . $custom_css;
+		}
+
 		$tdcCss = $this->get_att( 'tdc_css' );
 		$cssOutput = '';
 		$beforeCssOutput = '';
@@ -146,9 +152,30 @@ class tdc_composer_block extends td_block {
 			$buffy = PHP_EOL . '<style scoped>' . PHP_EOL . $buffy . PHP_EOL . '</style>';
 		}
 
+//		$tdcElementStyleCss = '';
+//		if ( !empty($cssOutput) || !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
+//			$tdcElementStyleCss = PHP_EOL . '<div class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></div>';
+//			$addElementStyle = true;
+//		}
+
 		$tdcElementStyleCss = '';
 		if ( !empty($cssOutput) || !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
-			$tdcElementStyleCss = PHP_EOL . '<div class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></div>';
+			$beforeElement = '';
+			if ( !empty($beforeCssOutput) ) {
+				$beforeElement = '<div class="td-element-style-before"><style>' . $beforeCssOutput . '</style></div>';
+			}
+			$inline_style = '';
+
+
+
+			if (class_exists('vc_row') && $this instanceof vc_row ) {
+				$inline_style = 'style="opacity: 0; transition: opacity 1s;"';
+			}
+
+
+
+
+			$tdcElementStyleCss = PHP_EOL . '<div class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style" ' . $inline_style . '>' . $beforeElement . '<style>' . $cssOutput . ' ' . $afterCssOutput . '</style></div>';
 			$addElementStyle = true;
 		}
 

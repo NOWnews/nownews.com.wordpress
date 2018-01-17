@@ -17,7 +17,9 @@ class td_block_big_grid_4 extends td_block {
             ), $atts));
 
 
-
+		if ( empty( $atts ) ) {
+			$atts = array();
+		}
         $atts['limit'] = self::POST_LIMIT;
 
         parent::render($atts); // sets the live atts, $this->atts, $this->block_uid, $this->td_query (it runs the query)

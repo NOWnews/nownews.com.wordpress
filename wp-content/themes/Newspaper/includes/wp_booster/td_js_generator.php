@@ -1,5 +1,8 @@
 <?php
 function td_js_generator() {
+	if (is_admin()) {
+		td_js_buffer::add_variable( 'td_admin_url', admin_url() );
+	}
     td_js_buffer::add_variable('td_ajax_url', admin_url('admin-ajax.php?td_theme_name=' . TD_THEME_NAME . '&v=' . TD_THEME_VERSION));
     td_js_buffer::add_variable('td_get_template_directory_uri', get_template_directory_uri());
     td_js_buffer::add_variable('tds_snap_menu', td_util::get_option('tds_snap_menu'));
@@ -57,7 +60,7 @@ function td_js_generator() {
         }
         td_js_buffer::add_variable('tdsDateFormat', $td_date_i18n_format);
     }
-	
+
 	// global used by tdDatei18n.js
 	global $wp_locale;
 	$monthNames = array_map(array($wp_locale, 'get_month'), range(1, 12));
@@ -107,12 +110,16 @@ function td_js_generator() {
         (function(){
             var htmlTag = document.getElementsByTagName("html")[0];
 
-            if ( navigator.userAgent.indexOf("MSIE 10.0") > -1 ) {
+	        if ( navigator.userAgent.indexOf("MSIE 10.0") > -1 ) {
                 htmlTag.className += ' ie10';
             }
 
             if ( !!navigator.userAgent.match(/Trident.*rv\:11\./) ) {
                 htmlTag.className += ' ie11';
+            }
+
+	        if ( navigator.userAgent.indexOf("Edge") > -1 ) {
+                htmlTag.className += ' ieEdge';
             }
 
             if ( /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ) {

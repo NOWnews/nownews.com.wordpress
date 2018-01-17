@@ -23,7 +23,7 @@ class td_block_author extends td_block {
 	    if ( false === $td_author ) {
 		    $buffy = '';
 		    $buffy .= '<div class="' . $this->get_block_classes() . '" ' . $this->get_block_html_atts() . '>';
-			    $buffy .= '<div class="td_author_wrap">';
+			    $buffy .= '<div class="td_author_wrap td-fix-index">';
 				    $buffy .= '<a href="#">' . get_avatar('', '196') . '</a>';
 
 				    $buffy .= '<div class="item-details">';
@@ -53,7 +53,7 @@ class td_block_author extends td_block {
         $buffy .= '</div>';
 
 
-        $buffy .= '<div class="td_author_wrap">';
+        $buffy .= '<div class="td_author_wrap td-fix-index">';
         $buffy .= '<a href="' . get_author_posts_url($td_author->ID) . '">' . get_avatar($td_author->user_email, '196') . '</a>';
         $buffy .= '<div class="item-details">';
 

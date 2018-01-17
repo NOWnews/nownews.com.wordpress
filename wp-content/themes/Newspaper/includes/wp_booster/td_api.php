@@ -160,7 +160,18 @@ class td_api_base {
 		    self::locate_the_file($id);
 	    }
 
-	    return self::$components_list[$id][$key];
+        if (isset(self::$components_list[$id][$key]) ) {
+            return self::$components_list[$id][$key];
+        }
+
+        /**
+         * show a soft error if
+         * - the user is logged in
+         * - the user is on the login page / register
+         * - the user tries to log in via wp-admin (that is why is_admin() is required)
+         */
+        td_util::error(__FILE__, "td_api_base::get_key : a component with the ID: <b>$id</b> Key: <b>$key</b> is not set.");
+        return'';
     }
 
 
@@ -491,12 +502,18 @@ class td_api_block_template extends td_api_base{
 
         //add each value
         foreach (self::get_all() as $id => $config) {
-            $buffy_array[] = array(
+            $config_array = array(
                 'text' => $config['text'],
                 'val' => $id,
-                'title' => '',
+                'title' => $config['text'],
                 'img' => $config['img'],
             );
+
+            if (isset($config['premium'])) {
+                $config_array['premium'] = $config['premium'];
+            }
+
+            $buffy_array[] = $config_array;
         }
 
         // the first template is the default one, ex: it has no value in the database
@@ -584,7 +601,8 @@ class td_api_category_template extends td_api_base {
             $td_category_template = new $template_id();
             $td_category_template->render();
         } else {
-            td_util::error(__FILE__, "The category template $template_id doesn't exist. Did you disable a tagDiv plugin?");
+	        td_util::error( __FILE__, "The category template $template_id doesn't exist. Did you disable a tagDiv plugin?" );
+	        td_util::set_check_installed_plugins();
         }
     }
 
@@ -618,12 +636,18 @@ class td_api_category_template extends td_api_base {
 
                 // add the rest
                 foreach (self::get_all() as $id => $config) {
-                    $buffy_array[] = array(
+                    $config_array = array(
                         'text' => $config['text'],
-                        'title' => self::_display_file_path($id),
+                        'title' => $config['text'],
                         'val' => $id,
                         'img' => $config['img']
                     );
+
+                    if (isset($config['premium'])) {
+                        $config_array['premium'] = $config['premium'];
+                    }
+
+                    $buffy_array[] = $config_array;
                 }
                 break;
 
@@ -631,12 +655,18 @@ class td_api_category_template extends td_api_base {
 
                 //get all the top post styles, the first one is with an empty value
                 foreach (self::get_all() as $id => $config) {
-                    $buffy_array[] = array(
+                    $config_array = array(
                         'text' => $config['text'],
-                        'title' => self::_display_file_path($id),
+                        'title' => $config['text'],
                         'val' => $id,
                         'img' => $config['img']
                     );
+
+                    if (isset($config['premium'])) {
+                        $config_array['premium'] = $config['premium'];
+                    }
+
+                    $buffy_array[] = $config_array;
                 }
 
                 // the first template is the default one, ex: it has no value in the database
@@ -736,7 +766,8 @@ class td_api_category_top_posts_style extends td_api_base {
             $td_category_template = new $template_id();
             $td_category_template->show_top_posts();
         } else {
-            td_util::error(__FILE__, "The category template $template_id doesn't exist. Did you disable a tagDiv plugin?");
+	        td_util::error( __FILE__, "The category template $template_id doesn't exist. Did you disable a tagDiv plugin?" );
+	        td_util::set_check_installed_plugins();
         }
 
     }
@@ -766,12 +797,18 @@ class td_api_category_top_posts_style extends td_api_base {
 
                 // add the rest
                 foreach (self::get_all() as $id => $config) {
-                    $buffy_array[] = array(
+                    $config_array = array(
                         'text' => $config['text'],
-                        'title' => self::_display_file_path($id),
+                        'title' => $config['text'],
                         'val' => $id,
                         'img' => $config['img']
                     );
+
+                    if (isset($config['premium'])) {
+                        $config_array['premium'] = $config['premium'];
+                    }
+
+                    $buffy_array[] = $config_array;
                 }
                 break;
 
@@ -779,12 +816,18 @@ class td_api_category_top_posts_style extends td_api_base {
 
                 //get all the top post styles, the first one is with an empty value
                 foreach (self::get_all() as $id => $config) {
-                    $buffy_array[] = array(
+                    $config_array = array(
                         'text' => $config['text'],
-                        'title' => self::_display_file_path($id),
+                        'title' => $config['text'],
                         'val' => $id,
                         'img' => $config['img']
                     );
+
+                    if (isset($config['premium'])) {
+                        $config_array['premium'] = $config['premium'];
+                    }
+
+                    $buffy_array[] = $config_array;
                 }
 
                 // the first template is the default one, ex: it has no value in the database
@@ -835,14 +878,15 @@ class td_api_footer_template extends td_api_base {
         try {
             $template_path = self::get_key($template_id, 'file');
         } catch (ErrorException $ex) {
-            td_util::error(__FILE__, "td_api_footer_template::_helper_show_footer : $template_id isn't set. Did you disable a tagDiv plugin?");  //does not stop execution
+	        td_util::error( __FILE__, "td_api_footer_template::_helper_show_footer : $template_id isn't set. Did you disable a tagDiv plugin?" );  //does not stop execution
+	        td_util::set_check_installed_plugins();
         }
 
         // load the template
         if (!empty($template_path) and file_exists($template_path)) {
             load_template($template_path);
         } else {
-            td_util::error(__FILE__, "The path $template_path of the template id: $template_id not found.");   //shoud be fatal?
+	        td_util::error( __FILE__, "The path $template_path of the template id: $template_id not found." );   //shoud be fatal?
         }
 
     }
@@ -850,12 +894,18 @@ class td_api_footer_template extends td_api_base {
     static function _helper_to_panel_values() {
         // add the rest
         foreach (self::get_all() as $id => $config) {
-            $buffy_array[] = array(
+            $config_array = array(
                 'text' => $config['text'],
-                'title' => self::_display_file_path($id),
+                'title' => $config['text'],
                 'val' => $id,
                 'img' => $config['img']
             );
+
+            if (isset($config['premium'])) {
+                $config_array['premium'] = $config['premium'];
+            }
+
+            $buffy_array[] = $config_array;
         }
 
         // the first template is the default one, ex: it has no value in the database
@@ -869,6 +919,88 @@ class td_api_footer_template extends td_api_base {
 
     private static function _helper_get_active_id() {
         $template_id = td_util::get_option('tds_footer_template');
+        if (empty($template_id)) { // nothing is set, check the default value
+            $template_id = parent::get_default_component_id(__CLASS__);
+        }
+
+        return $template_id;
+    }
+
+}
+/**
+ * Created by ra on 2/13/2015.
+ */
+
+
+class td_api_sub_footer_template extends td_api_base {
+    static function add($template_id, $params_array = '') {
+
+	    // put a default image if we don't have any image, useful when developing a new module
+	    if (empty($params_array['img'])) {
+		    $params_array['img'] = td_global::$get_template_directory_uri . '/includes/wp_booster/wp-admin/images/panel/panel-placeholders/no_sub_footer_template.png';
+	    }
+
+        parent::add_component(__CLASS__, $template_id, $params_array);
+    }
+
+	static function update($template_id, $params_array = '') {
+		parent::update_component(__CLASS__, $template_id, $params_array);
+	}
+
+    static function get_all() {
+        return parent::get_all_components_metadata(__CLASS__);
+    }
+
+    static function _helper_show_sub_footer() {
+
+        $template_path = '';
+
+        // find the current active template's id
+        $template_id = self::_helper_get_active_id();
+        try {
+            $template_path = self::get_key($template_id, 'file');
+        } catch (ErrorException $ex) {
+	        td_util::error( __FILE__, "td_api_sub_footer_template::_helper_show_sub_footer : $template_id isn't set. Did you disable a tagDiv plugin?" );  //does not stop execution
+	        td_util::set_check_installed_plugins();
+        }
+
+        // load the template
+        if (!empty($template_path) and file_exists($template_path)) {
+            load_template($template_path);
+        } else {
+	        td_util::error( __FILE__, "The path $template_path of the template id: $template_id not found." );   //shoud be fatal?
+        }
+
+    }
+
+    static function _helper_to_panel_values() {
+        // add the rest
+        foreach (self::get_all() as $id => $config) {
+            $config_array = array(
+                'text' => $config['text'],
+                'title' => $config['text'],
+                'val' => $id,
+                'img' => $config['img']
+            );
+
+            if (isset($config['premium'])) {
+                $config_array['premium'] = $config['premium'];
+            }
+
+            $buffy_array[] = $config_array;
+        }
+
+        // the first template is the default one, ex: it has no value in the database
+        $buffy_array[0]['val'] = '';
+
+        return $buffy_array;
+    }
+
+
+
+
+    private static function _helper_get_active_id() {
+        $template_id = td_util::get_option('tds_sub_footer_template');
         if (empty($template_id)) { // nothing is set, check the default value
             $template_id = parent::get_default_component_id(__CLASS__);
         }
@@ -920,12 +1052,17 @@ class td_api_ad extends td_api_base {
 
 				case 'ajax':
 
-					echo td_panel_generator::ajax_box($ad_text, array(
-							'td_ajax_calling_file' => 'td_panel_ads',
-							'td_ajax_box_id' => 'td_get_ad_spot_by_id',
-							'ad_spot_id' => $ad_id
-						)
+					$ad_box_params_array = array(
+						'td_ajax_calling_file' => 'td_panel_ads',
+						'td_ajax_box_id' => 'td_get_ad_spot_by_id',
+						'ad_spot_id' => $ad_id
 					);
+
+					if ( isset( $ad_array['premium'] ) ){
+						$ad_box_params_array['premium'] = $ad_array['premium'];
+					}
+
+					echo td_panel_generator::ajax_box($ad_text, $ad_box_params_array);
 
 				break;
 			}
@@ -981,12 +1118,18 @@ class td_api_header_style extends td_api_base {
 
         //add each value
         foreach (self::get_all() as $id => $config) {
-            $buffy_array[] = array(
+            $config_array = array(
                 'text' => $config['text'],
                 'val' => $id,
-                'title' => '',
+                'title' => strip_tags($config['text']),
                 'img' => $config['img'],
             );
+
+            if (isset($config['premium'])) {
+                $config_array['premium'] = $config['premium'];
+            }
+
+            $buffy_array[] = $config_array;
         }
 
         // the first template is the default one, ex: it has no value in the database
@@ -1008,7 +1151,8 @@ class td_api_header_style extends td_api_base {
         try {
             $template_path = self::get_key($tds_header_style, 'file');
         } catch (ErrorException $ex) {
-            td_util::error(__FILE__, "The header style: $tds_header_style isn't set. Did you disable a tagDiv plugin?");  //does not stop execution
+	        td_util::error( __FILE__, "The header style: $tds_header_style isn't set. Did you disable a tagDiv plugin?" );  //does not stop execution
+	        td_util::set_check_installed_plugins();
         }
 
 
@@ -1016,7 +1160,8 @@ class td_api_header_style extends td_api_base {
         if (!empty($template_path) and file_exists($template_path)) {
             load_template($template_path);
         } else {
-            td_util::error(__FILE__, "The path $template_path of the $tds_header_style header style not found. Did you disable a tagDiv plugin?");
+	        td_util::error( __FILE__, "The path $template_path of the $tds_header_style header style not found. Did you disable a tagDiv plugin?" );
+	        td_util::set_check_installed_plugins();
         }
     }
 
@@ -1270,20 +1415,27 @@ class td_api_single_template extends td_api_base {
 
         foreach (self::get_all() as $id => $template_config) {
 	        if ($id == 'single_template') {
-		        $buffy_array[] = array(
+                $config_array = array(
 			        'text' => '',
-			        'title' => self::_display_file_path($id),
+			        'title' => $template_config['text'],
 			        'val' => '',
 			        'img' => $template_config['img']
 		        );
+                $buffy_array[] = $config_array;
 		        continue;
 	        }
-            $buffy_array[] = array(
+            $config_array = array(
                 'text' => '',
-                'title' => self::_display_file_path($id),
+                'title' => $template_config['text'],
                 'val' => $id,
                 'img' => $template_config['img']
             );
+
+            if (isset($template_config['premium'])) {
+                $config_array['premium'] = $template_config['premium'];
+            }
+
+            $buffy_array[] = $config_array;
         }
 
 //        // add the default template at the beginning
@@ -1304,13 +1456,19 @@ class td_api_single_template extends td_api_base {
 		$buffy_array = array();
 
 		foreach (self::get_all() as $id => $template_config) {
-			$buffy_array[] = array(
+            $config_array = array(
 				'text' => '',
-				'title' => self::_display_file_path($id),
+				'title' => $template_config['text'],
 				'val' => $id,
 				'img' => $template_config['img']
 			);
-		}
+
+            if (isset($template_config['premium'])) {
+                $config_array['premium'] = $template_config['premium'];
+            }
+
+            $buffy_array[] = $config_array;
+        }
 
         // add the default template at the beginning
         array_unshift (
@@ -1341,7 +1499,8 @@ class td_api_single_template extends td_api_base {
         try {
             $template_path = self::get_key($template_id, 'file');
         } catch (ErrorException $ex) {
-            td_util::error(__FILE__, "The template $template_id isn't set. Did you disable a tagDiv plugin?"); // this does not stop execution
+            td_util::error( __FILE__, "The template $template_id isn't set. Did you disable a tagDiv plugin?" ); // this does not stop execution
+	        td_util::set_check_installed_plugins();
         }
 
 
@@ -1349,10 +1508,9 @@ class td_api_single_template extends td_api_base {
         if (!empty($template_path) and file_exists($template_path)) {
             load_template($template_path);
         } else {
-            td_util::error(__FILE__, "The path $template_path of the $template_id template not found. Did you disable a tagDiv plugin?");  // this does not stop execution
+	        td_util::error( __FILE__, "The path $template_path of the $template_id template not found. Did you disable a tagDiv plugin?" );  // this does not stop execution
+	        td_util::set_check_installed_plugins();
         }
-
-
     }
 }
 
@@ -1423,12 +1581,18 @@ class td_api_smart_list extends td_api_base {
         );
 
         foreach (self::get_all() as $id => $template_config) {
-            $buffy_array[] = array(
+            $config_array = array(
                 'text' => '',
-                'title' => self::_display_file_path($id),
+                'title' => $template_config['text'],
                 'val' => $id,
                 'img' => $template_config['img']
             );
+
+            if (isset($template_config['premium'])) {
+                $config_array['premium'] = $template_config['premium'];
+            }
+
+            $buffy_array[] = $config_array;
         }
 
 
@@ -1515,14 +1679,15 @@ class td_api_top_bar_template extends td_api_base {
         try {
             $template_path = self::get_key($template_id, 'file');
         } catch (ErrorException $ex) {
-            td_util::error(__FILE__, "td_api_top_bar_template::_helper_show_top_bar : $template_id isn't set. Did you disable a tagDiv plugin?");  //does not stop execution
+	        td_util::error( __FILE__, "td_api_top_bar_template::_helper_show_top_bar : $template_id isn't set. Did you disable a tagDiv plugin?" );  //does not stop execution
+	        td_util::set_check_installed_plugins();
         }
 
         // load the template
         if (!empty($template_path) and file_exists($template_path)) {
             load_template($template_path);
         } else {
-            td_util::error(__FILE__, "The path $template_path of the template id: $template_id not found.");   //shoud be fatal?
+	        td_util::error( __FILE__, "The path $template_path of the template id: $template_id not found." );   //shoud be fatal?
         }
 
     }
@@ -1531,7 +1696,7 @@ class td_api_top_bar_template extends td_api_base {
         // add the rest
         foreach (self::get_all() as $id => $config) {
             $buffy_array[] = array(
-                'text' => '',
+                'text' => $config['text'],
                 'title' => '',
                 'val' => $id,
                 'img' => $config['img']
@@ -1574,7 +1739,7 @@ class td_api_tinymce_formats extends td_api_base {
 
 
     static function add($tinymce_format_id, $params_array = '') {
-        parent::add_component(__CLASS__, $tinymce_format_id, $params_array);
+	    parent::add_component(__CLASS__, $tinymce_format_id, $params_array);
     }
 
 
@@ -1707,14 +1872,15 @@ class td_api_text {
 
 class td_api_features {
 	private static $features = array (
-		'require_activation' => false,
+		'require_activation' => true,
 		'require_vc' => true,
 		'require_td_composer' => true,
 		'page_mega_menu' => true,
 		'video_playlists' => true,
 		'tagdiv_slide_gallery' => true,
 		'text_logo' => true,
-		'check_for_updates' => false
+		'check_for_updates' => false,
+        'has_premium_version' => false
 	);
 
 
@@ -1786,6 +1952,86 @@ class td_api_css_generator {
     static function get_all() {
         self::$used = true;
         return self::$css_buffer;
+    }
+
+
+}
+
+
+class td_api_social_sharing_styles extends td_api_base {
+
+    static function add($social_sharing_id, $params_array = '') {
+        parent::add_component(__CLASS__, $social_sharing_id, $params_array);
+    }
+
+
+
+
+    static function get_all() {
+        return parent::get_all_components_metadata(__CLASS__);
+    }
+
+
+    static function _helper_get_style_classes($style_id) {
+        return td_api_social_sharing_styles::get_key($style_id, 'wrap_classes');
+    }
+
+
+    static function _helper_social_sharing_to_panel_values() {
+        $buffy_array = array();
+
+        foreach (self::get_all() as $id => $social_sharing_config) {
+            if ($id == 'style1') {
+                $config_array = array(
+                    'text' => '',
+                    'title' => $social_sharing_config['text'],
+                    'val' => '',
+                    'img' => $social_sharing_config['img']
+                );
+                $buffy_array[] = $config_array;
+                continue;
+            }
+            $config_array = array(
+                'text' => '',
+                'title' => $social_sharing_config['text'],
+                'val' => $id,
+                'img' => $social_sharing_config['img']
+            );
+            $buffy_array[] = $config_array;
+        }
+
+//        // add the default template at the beginning
+//        array_unshift (
+//            $buffy_array,
+//            array(
+//                'text' => '',
+//                'title' => '',
+//                'val' => '',
+//                'img' => td_global::$get_template_directory_uri . '/images/panel/single_templates/single_template_default.png'
+//            )
+//        );
+        return $buffy_array;
+    }
+
+
+
+
+
+
+    static function _helper_get_enabled_socials() {
+        $social_share_services = td_options::get('td_social_drag_and_drop');
+
+        $social_share_render = array ();
+
+        if (is_array($social_share_services)) {
+            foreach ($social_share_services as $social_share_service => $is_enabled) {
+                if ($is_enabled === true) {
+                    $social_share_render[]=$social_share_service;
+                }
+            }
+        }
+
+        return $social_share_render;
     }
 
 

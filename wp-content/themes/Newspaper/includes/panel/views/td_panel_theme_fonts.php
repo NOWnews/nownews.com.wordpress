@@ -5,6 +5,9 @@
 <div class="td-section-separator">Font Settings</div>
     <?php
     foreach (td_global::$typography_settings_list as $panel_section => $font_settings_array) {
+	    if ( 0 === strpos( $panel_section, 'mp_' ) ) {
+		    continue;
+	    }
         echo td_panel_generator::ajax_box($panel_section,
             array(
                 'td_ajax_calling_file' => basename(__FILE__),

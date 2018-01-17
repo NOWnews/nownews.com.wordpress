@@ -366,6 +366,11 @@ class td_global {
 
 
 
+	static $viewport_settings = array();
+
+
+
+
     static $translate_languages_list = array(
         'en' => 'English (default)',
         'af' => 'Afrikaans',
@@ -481,6 +486,13 @@ class td_global {
      * this is also used by the css compiler
      */
     public static $typography_settings_list = array ();
+
+
+    /**
+     * @var bool
+     * set true in @see td_background::wp_head_hook_background_logic if a bg img or color is set
+     */
+    public static $is_boxed_layout = false;
 
 
 

@@ -64,7 +64,7 @@ require_once "td_view_header.php";
     <hr style=" border:none !important;"/>
 
     <h3>An easier way to make content</h3>
-    <p>One of our main goals in the last year was to make the theme easier to use and more user friendly. Please let us know if you encounter any issues or if you have any feedback, we are very happy when we get your suggestions and feedback.</p>
+    <p>One of our main goals in the last year was to make the theme easier to use and more user friendly. We'll be happy to receive your feedback and suggestions. Please let us know if you encounter any kind of issues using our theme.</p>
 
     <div style="margin-top: 26px;">
         <div class="td-admin-box-text td-admin-box-three">

@@ -131,6 +131,182 @@
 }
 
 
+/*  ----------------------------------------------------------------------------
+    style for theme panel checkbox control
+*/
+
+.td-classic-check {
+  input[type=checkbox] {
+    display: none;
+
+    & + label span.td-check {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-color: #fff;
+      border: 1px solid #ededed;
+      cursor: pointer;
+      vertical-align: middle;
+      top: -2px;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 10px;
+        height: 10px;
+        background-color: @td_panel_color;
+        display: none;
+      }
+    }
+
+    &:checked + label span.td-check:after {
+      display: block;
+    }
+  }
+}
+
+.td-check-wrap {
+  font-size: 13px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.td-check-title {
+  padding-left: 7px;
+
+  .td-check-icon {
+    display: inline-block;
+    width: 22px;
+    margin-right: 2px;
+    text-align: center;
+
+    i {
+      position: relative;
+      top: -1px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.td-social-drag-and-drop {
+  margin-bottom: 32px;
+  #td-social-place-holder {
+    position: relative;
+  }
+}
+
+.td-drag-and-drop-social {
+  position: relative;
+  margin-top: -1px;
+  width: 284px;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+
+  &:first-child {
+    margin-top: 0;
+    border-top-width: 1px;
+  }
+
+  label {
+    display: inline-block;
+    padding: 0 9px;
+    line-height: 38px;
+  }
+
+  .icon-tagdiv-drag {
+    position: absolute;
+    top: 50%;
+    right: 9px;
+    .transform(translateY(-50%));
+    margin-top: -1px;
+    color: #ddd;
+  }
+
+}
+
+.td-dad-googleplus,
+.td-dad-telegram,
+.td-dad-print,
+.td-dad-line,
+.td-dad-viber {
+  i {
+    font-size: 14px;
+  }
+}
+.td-dad-reddit,
+.td-dad-digg {
+  i {
+    font-size: 15px;
+  }
+}
+
+.td-dad-facebook i {
+  color: #516eab;
+}
+.td-dad-twitter i {
+  font-size: 12px;
+  color: #29c5f6;
+}
+.td-dad-googleplus i {
+  color: #eb4026;
+}
+.td-dad-pinterest i {
+  color: #ca212a;
+}
+.td-dad-whatsapp i {
+  font-size: 16px;
+  color: #7bbf6a;
+}
+.td-dad-reddit i {
+  color: #f54200;
+}
+.td-dad-mail,
+.td-dad-digg,
+.td-dad-print {
+  i {
+    color: #000;
+  }
+}
+.td-dad-linkedin i {
+  color: #0266a0;
+}
+.td-dad-tumblr i {
+  color: #3e5a70;
+}
+.td-dad-telegram i {
+  color: #179cde;
+}
+.td-dad-stumbleupon i {
+  color: #ee4813;
+}
+.td-dad-vk i {
+  color: #4c75a3;
+}
+.td-dad-line i {
+  color: #00b900;
+}
+.td-dad-viber i {
+  color: #5d54a4;
+}
+
+
+
+
 
 /*  ----------------------------------------------------------------------------
     visual selector orizontaly control
@@ -141,6 +317,10 @@
   display: inline-block;
   text-align: center;
   vertical-align: top;
+
+  &.ionmag-premium {
+    opacity: 0.2;
+  }
 }
 
 .td-small-wrapper-o-separator {
@@ -496,8 +676,16 @@
     border-color: @td_color_border_controls;
   }
 }
-#td-panel-ads .td_textarea_control {
-  height: 175px;
+#td-panel-ads {
+  .td_textarea_control {
+    height: 175px;
+  }
+
+  .td-box {
+    &.ionmag-premium {
+      opacity: 0.2;
+    }
+  }
 }
 
 /*
@@ -552,31 +740,35 @@ title one row controls
 .wp-picker-container input.wp-color-picker[type="text"] {
   height: 32px !important;
   box-shadow: none !important;
+  vertical-align: top; // WP4.9
 }
 
-.wp-picker-container .button {
+//.wp-picker-container .button {
+.wp-picker-container input.button { // WP4.9
   color: #FFFFFF;
   font-size:13px;
   text-decoration: none;
-  padding: 0px 11px 0px 11px !important;
-  background-color: @td_panel_color !important;
+  padding: 0 11px 0 11px !important;
+  background-color: @td_panel_color;
   display: inline-block;
-  margin: 0px 0px 0px 6px !important;
-  border: 0px !important;
+  margin: 0 0 0 6px !important;
+  border: 0 !important;
   height: 32px !important;
-  border-radius: 0px;
+  border-radius: 0;
   box-shadow: none !important;
 }
 
-.wp-picker-container .button:hover,
-.wp-picker-container .button:focus,
-.wp-picker-container .button:active,
-.wp-picker-container .button:visited {
+.wp-picker-container input.button:hover, // WP4.9
+.wp-picker-container input.button:focus,
+.wp-picker-container input.button:active,
+.wp-picker-container input.button:visited {
   color: #FFFFFF;
   background-color: @td_panel_color;
   border-radius: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
+  -webkit-transform: none; // WP4.9
+  transform: none; // WP4.9
 }
 
 .wp-picker-container .wp-color-result {
@@ -584,12 +776,13 @@ title one row controls
   height: 32px;
   border: 0;
   padding-left: 35px;
-  -webkit-box-shadow: inset 1px 1px 6px -2px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: inset 1px 1px 6px -2px rgba(0, 0, 0, 0.4);
-  box-shadow: inset 1px 1px 6px -2px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: inset 1px 1px 6px -2px rgba(0, 0, 0, 0.4) !important;
+  -moz-box-shadow: inset 1px 1px 6px -2px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 1px 1px 6px -2px rgba(0, 0, 0, 0.4) !important;
 }
 
-.wp-picker-container .wp-color-result:after {
+.wp-picker-container .wp-color-result:after,
+.wp-picker-container .wp-color-result .wp-color-result-text { // WP4.9
   border-radius: 0;
   display: inline-block;
   border: 0;
@@ -603,6 +796,23 @@ title one row controls
   position: relative;
   top: 3px;
 }
+
+// WP4.9
+.wp-picker-container .wp-color-result .wp-color-result-text {
+  top: 0;
+}
+.wp-picker-container .wp-color-result.button {
+  height: 32px;
+  padding-left: 35px;
+}
+.wp-picker-container {
+  display: inline-block;
+}
+// end WP4.9
+
+
+
+
 
 // color picker vc
 .wp-picker-container .iris-picker {
@@ -643,6 +853,23 @@ title one row controls
   text-decoration: underline;
 }
 
+// footer page button
+.td-footer-page-container {
+  .td-select-style-overwrite {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    margin-right: 20px;
+  }
+}
+.td-view-footer-page {
+  display: inline-block;
+  background-color: #222;
+  color: #fff;
+  text-decoration: none;
+  padding: 7px 17px;
+  vertical-align: middle;
+}
 
 // the notice that appears when there are no settings available -> like no CPT installed
 .td-panel-no-settings-found {

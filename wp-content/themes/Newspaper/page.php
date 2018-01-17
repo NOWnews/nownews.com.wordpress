@@ -29,6 +29,12 @@ if($loop_sidebar_position == 'sidebar_left') {
 	$td_sidebar_position = 'td-sidebar-left';
 }
 
+$is_buddypress_template = true;
+// check if buddypress is active
+if ( function_exists( 'is_buddypress' ) ) {
+    // Check if we are on buddypress
+    $is_buddypress_template = is_buddypress();
+}
 
 
 /**
@@ -102,7 +108,7 @@ if ($td_use_page_builder) {
                                 ?>
                                 </div>
                                 <?php
-                                if($td_enable_or_disable_page_comments == 'show_comments') {
+                                if($td_enable_or_disable_page_comments == 'show_comments' and !$is_buddypress_template) {
                                     comments_template('', true);
                                 }?>
                             </div>
@@ -137,7 +143,7 @@ if ($td_use_page_builder) {
                             ?>
                             </div>
                             <?php
-                            if($td_enable_or_disable_page_comments == 'show_comments') {
+                            if($td_enable_or_disable_page_comments == 'show_comments' and !$is_buddypress_template) {
                                 comments_template('', true);
                             }?>
                         </div>
@@ -171,7 +177,7 @@ if ($td_use_page_builder) {
                         ?>
                         </div>
                         <?php
-                        if($td_enable_or_disable_page_comments == 'show_comments') {
+                        if($td_enable_or_disable_page_comments == 'show_comments' and !$is_buddypress_template) {
                             comments_template('', true);
                         }?>
                     </div>

@@ -76,19 +76,17 @@ class td_panel_core {
                                             case 'link':
                                                 ?>
                                                 <li>
-                                                    <a href="<?php echo $panel_array['url'] ?>" onclick="tdConfirm.showModal( 'You are about to leave the Theme Panel area!',
-
-											                window,
-
-											                function( href ) {
+                                                    <a href="<?php echo $panel_array['url'] ?>" onclick="tdConfirm.modal({
+	                                                        caption: 'You are about to leave the Theme Panel area!',
+	                                                        callbackYes: function( href ) {
 
 											                    window.location.replace(href);
 											                    tb_remove();
 											                },
-
-											                ['<?php echo $panel_array['url'] ?>'],
-
-	                                                        'If you have made any changes hit Cancel and Save Settings </br> Do you wish to continue?'); return false">
+	                                                        argsYes: ['<?php echo $panel_array['url'] ?>'],
+	                                                        htmlInfoContent: 'If you have made any changes hit Cancel and Save Settings </br> Do you wish to continue?'
+	                                                    });
+	                                                    return false">
 
                                                         <span class="td-sp-nav-icon td-ico-export"></span>
                                                         <?php echo $panel_array['text'] ?>

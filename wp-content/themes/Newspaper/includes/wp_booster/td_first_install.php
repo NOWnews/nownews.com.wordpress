@@ -247,7 +247,34 @@ function td_theme_migration() {
 	$td_db_version = td_util::get_option('td_version');
 
 
-    // empty -> any version
+	// update TO version 8.6 - add social networks
+    // @since 14.12.2017
+	if (version_compare($td_db_version, '8.6', '<') || TD_DEPLOY_MODE == 'dev') {
+	    $social_drag_and_drop = td_options::get('td_social_drag_and_drop');
+        if ($social_drag_and_drop == '') {
+            td_options::update_array('td_social_drag_and_drop', array (
+                'facebook'      => true,
+                'twitter'       => true,
+                'googleplus'    => true,
+                'pinterest'     => true,
+                'whatsapp'      => true,
+                'linkedin'      => '',
+                'reddit'        => '',
+                'mail'          => '',
+                'print'         => '',
+                'tumblr'        => '',
+                'telegram'      => '',
+                'stumbleupon'   => '',
+                'vk'            => '',
+                'digg'          => '',
+                'line'          => '',
+                'viber'         => '',
+            ));
+        }
+    }
+
+
+    // empty -> any version older version - probably 6?
 	if (empty($td_db_version)) {
 
 		// wp_parse_args format

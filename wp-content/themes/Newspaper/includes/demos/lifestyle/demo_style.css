@@ -188,44 +188,6 @@ Lifestyle demo
   margin-bottom: 15px;
   padding-bottom: 15px;
 }
-.td-lifestyle .td-post-sharing-top .td-social-sharing-buttons {
-  padding: 8px 18px 8px 18px;
-}
-.td-lifestyle .td-post-sharing-top .td-social-google,
-.td-lifestyle .td-post-sharing-top .td-social-pinterest {
-  padding: 8px 10px 8px 11px;
-}
-.td-lifestyle .td-post-sharing-top .td-social-but-text {
-  padding-left: 0;
-  margin-left: 9px;
-}
-.td-lifestyle .td-post-sharing-bottom .td-social-sharing-buttons {
-  padding: 5px 9px 4px 9px;
-}
-.td-lifestyle .td-post-sharing-bottom .td-social-but-text {
-  padding-left: 0;
-}
-.td-lifestyle .td-default-sharing .td-social-sharing-buttons {
-  color: black;
-  background-color: transparent;
-  border: 1px solid #ebebeb;
-  border-radius: 20px;
-}
-.td-lifestyle .td-social-facebook .td-icon-facebook {
-  color: #3d76c3;
-}
-.td-lifestyle .td-social-twitter .td-icon-twitter {
-  color: #29c5f6;
-}
-.td-lifestyle .td-social-google .td-icon-googleplus {
-  color: #eb4026;
-}
-.td-lifestyle .td-social-pinterest .td-icon-pinterest {
-  color: #ca212a;
-}
-.td-lifestyle.single_template_11 .td-default-sharing .td-social-sharing-buttons {
-  color: white;
-}
 .td-lifestyle .page-nav a,
 .td-lifestyle .page-nav span,
 .td-lifestyle .page-nav:first-child > div {

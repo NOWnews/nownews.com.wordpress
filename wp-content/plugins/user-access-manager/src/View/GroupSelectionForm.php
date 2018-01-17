@@ -21,27 +21,10 @@
      */
 
     $groupsFormName = $controller->getGroupsFormName();
-    $objectType = $controller->getObjectType();
-    $objectId = $controller->getObjectId();
+    $objectType = $controller->getObjectInformation()->getObjectType();
+    $objectId = $controller->getObjectInformation()->getObjectId();
     $userGroups = $controller->getFilteredUserGroups();
-    uasort(
-        $userGroups,
-        function (
-            \UserAccessManager\UserGroup\AbstractUserGroup $userGroupOne,
-            \UserAccessManager\UserGroup\AbstractUserGroup $userGroupTwo
-        ) {
-            $notLoggedInUserGroupId = \UserAccessManager\UserGroup\DynamicUserGroup::USER_TYPE
-                .'|'.\UserAccessManager\UserGroup\DynamicUserGroup::NOT_LOGGED_IN_USER_ID;
-
-            if ($userGroupOne->getId() === $notLoggedInUserGroupId) {
-                return 1;
-            } elseif ($userGroupTwo->getId() === $notLoggedInUserGroupId) {
-                return 0;
-            }
-
-            return strnatcasecmp($userGroupOne->getName(), $userGroupTwo->getName());
-        }
-    );
+    $controller->sortUserGroups($userGroups);
     $dateUtil = $controller->getDateUtil();
 
     /**
@@ -142,7 +125,8 @@
     ?>
 </ul>
 <?php
-if ($controller->getObjectType() !== \UserAccessManager\Object\ObjectHandler::GENERAL_USER_OBJECT_TYPE
+if ($controller->getObjectInformation()->getObjectType() !==
+    \UserAccessManager\Object\ObjectHandler::GENERAL_USER_OBJECT_TYPE
     && $controller->checkUserAccess() === true
 ) {
     ?>

@@ -366,6 +366,15 @@
     }
 
     .td-social-style9 {
+      .td_social_type {
+        width: 50%;
+
+        /* responsive portrait phone */
+        @media (max-width: @responsive_p_phone_max) {
+          width: 25%;
+        }
+      }
+
       .td_social_info_name {
         color: #888;
       }
@@ -385,7 +394,6 @@
 
   .td-social-style9 {
     .td_social_type {
-      width: 50%;
       margin-bottom: 15px;
 
       &:last-child,
@@ -395,7 +403,6 @@
 
       /* responsive portrait phone */
       @media (max-width: @responsive_p_phone_max) {
-        width: 25%;
         margin-bottom: 0;
       }
     }

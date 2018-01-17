@@ -284,11 +284,17 @@ class td_panel_generator {
                 $extra_class = $list_option['class'];
             }
 
+            //add the premium class
+            $ionmag_premium_class = '';
+
+            if ( td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false && isset($list_option['premium']) && $list_option['premium'] === true ) {
+                $ionmag_premium_class = ' ionmag-premium';
+            }
 
             $nr++;
 
             //@todo add here for default support $user_data
-            $buffy .= '<div class="' . $class_separator . '"><div class="td-visual-selector-o ' . $extra_class .'" id="' . $div_uniq_id . '"><a href="#" title="' . $list_option['title'] . '"><img src="' . $list_option['img'] . '" class="td-visual-selector-o-img ' . $add_active_class . '" data-uid="' . $control_uniq_id . '" data-option-value="' . $list_option['val'] . '" data-control-wrapper="' . $control_wrapper_id . '" border="0" /></a></div><div class="td_vso_caption">' . $list_option['text'] . '</div></div>';
+            $buffy .= '<div class="' . $class_separator . $ionmag_premium_class . '"><div class="td-visual-selector-o ' . $extra_class . '" id="' . $div_uniq_id . '"><a href="#" title="' . $list_option['title'] . '"><img src="' . $list_option['img'] . '" class="td-visual-selector-o-img ' . $add_active_class . '" data-uid="' . $control_uniq_id . '" data-option-value="' . $list_option['val'] . '" data-control-wrapper="' . $control_wrapper_id . '" border="0" /></a></div><div class="td_vso_caption">' . $list_option['text'] . '</div></div>';
         }
 
         $buffy .= '</div><input type="hidden" name="' . self::generate_name($params_array) . '" id="' . $control_uniq_id . '" value="'. $user_data .'">';
@@ -354,6 +360,56 @@ class td_panel_generator {
                  </div>';
 
         return $buffy;
+
+    }
+
+
+
+    static function social_drag_and_drop($params_array) {
+        // get all the social networks
+        $social_networks = td_panel_data_source::read($params_array);
+
+        ob_start();
+        ?>
+
+        <div class="td-social-drag-and-drop">
+            <div id="td-social-place-holder">
+                <?php
+                    $i = 0;
+                    foreach ($social_networks as $social_network => $is_enabled) {
+                        ?>
+                        <div class="td-drag-and-drop-social td-classic-check td-dad-<?php echo $social_network ?>">
+                            <input type="hidden" name="td_social_drag_and_drop_sort[]" value="<?php echo $social_network?>" />
+                            <input type="checkbox" id="td_social_drag_and_drop_<?php echo $i ?>" name="td_social_drag_and_drop[]" value="<?php echo $social_network?>" <?php if ($is_enabled) {echo "checked";}?>>
+                            <label for="td_social_drag_and_drop_<?php echo $i ?>" class="td-check-wrap">
+                                <span class="td-check"></span>
+                                <span class="td-check-title">
+                                    <span class="td-check-icon">
+                                        <i class="icon-tagdiv-<?php echo $social_network ?>"></i>
+                                    </span>
+                                    <?php echo $social_network?>
+                                </span>
+                            </label>
+
+                            <i class="icon-tagdiv-drag"></i>
+                        </div>
+                        <?php
+                        $i++;
+                    }
+                ?>
+            </div>
+        </div>
+
+        <script>
+            jQuery().ready(function() {
+                jQuery( function() {
+                    jQuery( "#td-social-place-holder" ).sortable({ axis: 'y' });
+                    jQuery( "#td-social-place-holder" ).disableSelection();
+                } );
+            });
+        </script>
+        <?php
+        return ob_get_clean();
 
     }
 
@@ -805,18 +861,25 @@ class td_panel_generator {
             $box_uid = td_global::td_generate_unique_id();
         }
 
+        //add the premium class
+        $ionmag_premium_class = '';
 
         $tad_ajax_parameters = '';
         if(!empty($ajax_params)) {
             $ajax_params['action'] = 'td_panel_core_load_ajax_box';  //this is added so we can directly send this json-encoded data (no javascript encoding necessary)
             $ajax_params['td_current_theme_panel_id'] = td_panel_core::get_current_theme_panel_id();
             $tad_ajax_parameters = "data-panel-ajax-params='" . json_encode($ajax_params) . "'" ;
+
+
+            if (td_api_features::is_enabled('has_premium_version') && TD_DEPLOY_IS_PREMIUM === false && isset($ajax_params['premium']) && $ajax_params['premium'] === true ) {
+                $ionmag_premium_class = 'ionmag-premium';
+            }
         }
 
 
 
         $buffy = '
-        <div class="td-box td-box-close ' . $panel_class . '" id="' . $box_uid . '">
+        <div class="td-box td-box-close ' . $panel_class . $ionmag_premium_class . '" id="' . $box_uid . '">
             <div class="td-box-header td-box-header-js-ajax" data-box-id="' . $box_uid . '"  ' . $tad_ajax_parameters . '  unselectable="on">
                 <div class="td-box-title">' . $panel_text . '</div>
                 <a class="td-box-toggle" data-box-id="' . $box_uid . '" href="#"><div class="td-box-close-open-icon"></div></a>
@@ -894,12 +957,18 @@ class td_panel_generator {
 
                 foreach (td_api_module::get_all() as $id => $module_array) {
                     if ($module_array['enabled_on_loops'] === true) {
-                        $modules_array[] = array(
+                        $config_array = array(
 	                        'text' => '',
-	                        'title' => $module_array['text'] . ' - ' . td_api_module::_display_file_path($id),
+	                        'title' => $module_array['text'],
 	                        'val' => td_api_module::_helper_get_module_loop_id($id),
 	                        'img' => $module_array['img']
                         );
+
+                        if (isset($module_array['premium'])) {
+                            $config_array['premium'] = $module_array['premium'];
+                        }
+
+                        $modules_array[] = $config_array;
                     }
                 }
                 break;
@@ -908,12 +977,18 @@ class td_panel_generator {
                 // all modules that have enabled_on_loops
                 foreach (td_api_module::get_all() as $id => $module_array) {
                     if ($module_array['enabled_on_loops'] === true) {
-                        $modules_array[] = array(
+                        $config_array = array(
 	                        'text' => '',
-	                        'title' => $module_array['text'] . ' - ' . td_api_module::_display_file_path($id),
+	                        'title' => $module_array['text'],
 	                        'val' => td_api_module::_helper_get_module_loop_id($id),
 	                        'img' => $module_array['img']
                         );
+
+                        if (isset($module_array['premium'])) {
+                            $config_array['premium'] = $module_array['premium'];
+                        }
+
+                        $modules_array[] = $config_array;
                     }
                 }
                 break;
@@ -922,12 +997,18 @@ class td_panel_generator {
                 // all modules that are enabled on the more articles box
                 foreach (td_api_module::get_all() as $id => $module_array) {
                     if ($module_array['enabled_on_more_articles_box'] === true) {
-                        $modules_array[] = array(
+                        $config_array = array(
 	                        'text' => '',
-	                        'title' => $module_array['text'] . ' - ' . td_api_module::_display_file_path($id),
+	                        'title' => $module_array['text'],
 	                        'val' => td_api_module::_helper_get_module_loop_id($id),
 	                        'img' => $module_array['img']
                         );
+
+                        if (isset($module_array['premium'])) {
+                            $config_array['premium'] = $module_array['premium'];
+                        }
+
+                        $modules_array[] = $config_array;
                     }
                 }
                 break;

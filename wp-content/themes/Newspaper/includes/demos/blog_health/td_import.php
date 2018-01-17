@@ -272,7 +272,7 @@ $demo_cat_10_id =td_demo_category::add_category(array(
 $td_homepage_id = td_demo_content::add_page(array(
     'title' => 'Home',
     'file' => td_global::$get_template_directory . '/includes/demos/blog_health/pages/homepage.txt',
-    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php
+    'template' => 'page-pagebuilder-latest.php',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '17',
     'homepage' => true,
     'limit' => '5'
@@ -282,7 +282,7 @@ $td_homepage_id = td_demo_content::add_page(array(
 $td_aboutpage_id = td_demo_content::add_page(array(
     'title' => 'About',
     'file' => td_global::$get_template_directory . '/includes/demos/blog_health/pages/about.txt',
-    'template' => 'page-pagebuilder-title.php',   // the page template full file name with .php
+    'template' => 'page-pagebuilder-title.php',   // the page template full file name with .php, for default no extension needed
     'td_layout' => '',
     'homepage' => false
 ));

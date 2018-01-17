@@ -11,6 +11,11 @@
     padding-left: 2px;
   }
 }
+.td-header-menu-no-search {
+  .td-header-main-menu {
+    padding-right: 0;
+  }
+}
 
 
 /*  ----------------------------------------------------------------------------
@@ -203,7 +208,8 @@ ul.sf-menu li li.sfHover li ul {
 
 
 #td-header-menu {
-  min-height: 48px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 
@@ -669,67 +675,61 @@ ul.sf-js-enabled > li > a > i.td-icon-menu-down:before {
 }
 
 
+/*  ----------------------------------------------------------------------------
+    Social icons
+*/
+.td-header-menu-social {
+  float: right;
+  margin-right: 5px;
+  line-height: 48px;
+
+  .td-social-icon-wrap {
+    a {
+      color: #000;
+    }
+
+    i {
+      min-width: 16px;
+      font-size: 12px;
+      line-height: 24px;
+      vertical-align: middle;
+
+      /* responsive portrait tablet */
+      @media (min-width: @responsive_p_tablet_min) and (max-width: @responsive_p_tablet_max) {
+        font-size: 12px !important;
+      }
+    }
+  }
+
+  /* responsive tablet + phone */
+  @media (max-width: @responsive_l_tablet_max) {
+    display: none;
+  }
+}
+.td-affix .td-header-menu-social {
+  line-height: 48px !important;
+}
+.td-header-menu-no-search .td-header-menu-social {
+  margin-right: 0 !important;
+}
+.td_stretch_content .td-header-menu-social {
+  margin-right: 44px;
+}
+
+
 
 /*  ----------------------------------------------------------------------------
     Search
 */
-#td-top-search {
+.header-search-wrap  {
   position: absolute;
+  top: 0;
   right: 0;
-  top: 50%;
-  margin-top: -24px;
-
-  /* responsive portrait phone */
-  @media (max-width: @responsive_p_phone_max) {
-    top: 0;
-    margin-top: 0;
-  }
-}
-
-#td-header-search {
-  width: 235px;
-  height: 32px;
-  margin: 0;
-  border-right: 0;
-  line-height: 17px;
-  border-color: #eaeaea !important;
-
-  /* responsive portrait phone */
-  @media (max-width: @responsive_p_phone_max) {
-    width: 91%;
-    font-size: 16px;
-  }
-}
-
-.header-search-wrap {
-
-  /* search toggle button */
-  #td-header-search-button,
-  #td-header-search-button-mob {
-    display: block;
-    position: relative;
-  }
-
-  #td-header-search-button {
-    /* responsive portrait phone */
-    @media (max-width: @responsive_p_phone_max) {
-      display: none;
-    }
-  }
-
-  #td-header-search-button-mob {
-    display: none;
-
-    /* responsive portrait phone */
-    @media (max-width: @responsive_p_phone_max) {
-      display: block;
-    }
-  }
+  z-index: 999;
 
   .td-icon-search {
     display: inline-block;
     font-size: 19px;
-    height: 48px;
     width: 48px;
     line-height: 48px;
     text-align: center;
@@ -748,157 +748,28 @@ ul.sf-js-enabled > li > a > i.td-icon-menu-down:before {
       margin-right: 2px;
     }
   }
+}
 
-  /* the search drop down */
-  .td-drop-down-search {
+
+
+
+.td-header-menu-social + .td-search-wrapper #td-header-search-button {
+  position: relative;
+
+  &:before {
+    content: '';
     position: absolute;
-    top: 100%;
-    z-index: 999; //99999; menu over the search
-    //display: none;
-    visibility: hidden;
-    opacity: 0;
-    right: 0;
-    border-radius: 0;
-    border: none;
-    width: 342px;
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    .transition(all 0.4s ease);
-    .transform(translate3d(0, 20px, 0));
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background-color: #000;
+    .opacity(0.08);
 
-    /* responsive portrait phone */
-    @media (max-width: @responsive_p_phone_max) {
-      width: 100%;
+    /* responsive tablet + phone */
+    @media (max-width: @responsive_l_tablet_max) {
+      display: none;
     }
-
-    /* search form */
-    .btn {
-      position: absolute;
-      height: 32px;
-      min-width: 67px;
-      line-height: 17px;
-      padding: 7px 15px 8px;
-      text-shadow: none;
-      vertical-align: top;
-      right: 20px;
-      margin: 0 !important;
-      .transition(background-color @td_transition_time); // @todo check transition
-
-
-      &:hover {
-        background-color: @td_theme_color;
-      }
-    }
-
-    /* triangle top */
-    &:before {
-      position:absolute;
-      top: -9px;
-      right: 19px;
-      display:block;
-      content:'';
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 0 5.5px 6px 5.5px;
-      border-color: transparent transparent @td_theme_color transparent;
-    }
-
-    &:after {
-      position: absolute;
-      top: -3px;
-      display: block;
-      content: '';
-      right: 0;
-      left: 0;
-      margin: 0 auto;
-      width: 100%;
-      height: 3px;
-      background-color: @td_theme_color;
-    }
-  }
-
-  /* hack to show the link on all the module */
-  .td_module_mx2 .entry-title {
-    a:after {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      top: 0;
-      bottom: 0;
-      content: '';
-      z-index: 1; // is needed
-    }
-  }
-
-  .td-post-category {
-    z-index: 2;
-    position: relative;
-  }
-
-  /* this class is added by the js to open the menu - will be used for animation */
-  .td-drop-down-search-open {
-    //display: block;
-    visibility: visible;
-    opacity: 1;
-    .transform(translate3d(0, 0, 0));
-  }
-
-  .td-search-form {
-    margin: 20px;
-  }
-
-  .result-msg {
-    text-align: center;
-    padding: 4px 0 6px 0;
-    font-family: @font3;
-    font-size: 12px;
-    color: #222;
-    font-style: italic;
-
-    a {
-      color: #222;
-      display: block;
-      &:hover {
-        color: @td_theme_color;
-      }
-    }
-  }
-
-  .td-aj-search-results {
-    //background-color: #fdfdfd;
-    background-color: rgba(144, 144, 144, 0.02);
-    border-top: 1px solid #ededed;
-    border-bottom: 1px solid #ededed;
-    padding: 10px 0;
-
-    .item-details {
-      margin: 10px 20px 10px 115px;
-    }
-
-    .td-module-thumb {
-      top: 10px;
-      margin-left: 20px;
-    }
-  }
-
-  .td_module_mx2 {
-    padding-bottom: 0;
-  }
-
-  .no-result {
-    background-color: #fdfdfd;
-    border-top: 1px solid #ededed;
-    border-bottom: 1px solid #ededed;
-  }
-
-  .meta-info {
-    line-height: 14px;
-  }
-
-  .td-aj-cur-element {
-    //background-color: #f0f0f0;
-    background-color: rgba(128, 128, 128, 0.1);
   }
 }
 

@@ -161,7 +161,8 @@ if ( ! function_exists( 'load_css_live' ) ) {
 		}
 
 
-		add_action( 'wp_head', 'td_live_css_inject_css' );
+		// 100000 priority to be the last in header
+		add_action( 'wp_head', 'td_live_css_inject_css', 100000 );
 		function td_live_css_inject_css() {
 			$css_buffer = td_live_css_css_storage::get( 'css' );
 

@@ -3,7 +3,7 @@
 Plugin Name: WP Static HTML Output
 Plugin URI:  https://leonstafford.github.io
 Description: Benefit from WordPress as a CMS but with the speed, performance and portability of a static site
-Version:     1.9
+Version:     2.1
 Author:      Leon Stafford
 Author URI:  https://leonstafford.github.io
 Text Domain: static-html-output-plugin
@@ -11,7 +11,9 @@ Text Domain: static-html-output-plugin
 Copyright (c) 2017 Leon Stafford
  */
 
-require_once 'library/StaticHtmlOutput/Exception.php';
+// use dropbox sdk lib composer fake autoload
+require_once 'library/dropboxsdk/autoload.php';
+require_once 'library/Github/autoload.php';
 require_once 'library/StaticHtmlOutput/Options.php';
 require_once 'library/StaticHtmlOutput/View.php';
 require_once 'library/StaticHtmlOutput/UrlRequest.php';
@@ -19,8 +21,7 @@ require_once 'library/StaticHtmlOutput.php';
 
 StaticHtmlOutput::init(__FILE__);
 
-function pluginActionLinks($links) 
-{
+function pluginActionLinks($links) {
 	$settings_link = '<a href="tools.php?page=wp-static-html-output-options">' . __('Settings', 'static-html-output-plugin') . '</a>'; 
   	array_unshift( $links, $settings_link ); 
   	return $links; 	

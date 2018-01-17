@@ -82,7 +82,9 @@ class FileHandler
     private function clearBuffer()
     {
         //prevent '\n' / '0A'
-        if (is_numeric(ob_get_length()) === true) {
+        if ((int)$this->php->iniGet('output_buffering') === 0
+            && is_numeric(ob_get_length()) === true
+        ) {
             ob_clean();
         }
 
@@ -193,22 +195,124 @@ class FileHandler
     /**
      * Sets the seek start and end.
      *
-     * @param string $rangeOrigin
+     * @param string $range
      * @param int    $fileSize
      * @param int    $seekStart
      * @param int    $seekEnd
+     *
+     * @return bool
      */
-    private function getSeekStartEnd($rangeOrigin, $fileSize, &$seekStart, &$seekEnd)
+    private function getSeekStartEnd($range, $fileSize, &$seekStart, &$seekEnd)
     {
-        //just serve the first range
-        $range = explode(',', $rangeOrigin)[0];
-        //figure out download piece from range (if set)
+        //Figure out download piece from range (if set)
         $seek = explode('-', $range);
-        $seekStart = abs((int)$seek[0]);
-        $seekEnd = isset($seek[1]) === true ? abs((int)$seek[1]) : 0;
-        //start and end based on range (if set), else set defaults also check for invalid ranges.
-        $seekEnd = ($seekEnd === 0) ? ($fileSize - 1) : min($seekEnd, ($fileSize - 1));
-        $seekStart = ($seekEnd < $seekStart) ? 0 : max($seekStart, 0);
+        $seekStart = ($seek[0] !== '') ? abs((int)$seek[0]) : null;
+        $seekEnd = (isset($seek[1]) === true && $seek[1] !== '') ? abs((int)$seek[1]) : null;
+        $maxSize = $fileSize - 1;
+
+        if ($seekStart === null) {
+            $seekStart = $fileSize - $seekEnd;
+            $seekEnd = $maxSize;
+        } elseif ($seekEnd === null) {
+            $seekEnd = $maxSize;
+        }
+
+        //Start and end based on range (if set), else set defaults also check for invalid ranges.
+        $seekEnd = min($seekEnd, $maxSize);
+
+        return $seekStart < $seekEnd;
+    }
+
+    /**
+     * Reads the file partly.
+     *
+     * @param resource $fileHandler
+     * @param int      $bytes
+     */
+    private function readFilePartly($fileHandler, $bytes)
+    {
+        $bytesLeft = $bytes;
+        $bufferSize = 1024;
+
+        while ($bytesLeft > 0 && feof($fileHandler) === false) {
+            $bytesToRead = min($bytesLeft, $bufferSize);
+            $bytesLeft -= $bytesToRead;
+            echo $this->php->fread($fileHandler, $bytesToRead);
+            $this->clearBuffer();
+
+            if ($this->php->connectionStatus() !== 0) {
+                $this->php->fClose($fileHandler);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Returns the http ranges.
+     *
+     * @param int $fileSize
+     *
+     * @return array
+     */
+    private function getRanges($fileSize)
+    {
+        $httpRange = explode('=', $_SERVER['HTTP_RANGE']);
+        $originRanges = isset($httpRange[1]) === true ? $httpRange[1] : '';
+        $originRanges = explode(',', $originRanges);
+        $sizeUnit = $httpRange[0];
+        $ranges = [];
+
+        if ($sizeUnit === 'bytes') {
+            foreach ($originRanges as $originRange) {
+                if ($this->getSeekStartEnd($originRange, $fileSize, $seekStart, $seekEnd) === false) {
+                    $ranges = [];
+                    break;
+                }
+
+                $ranges[] = [$seekStart, $seekEnd];
+            }
+        }
+
+        return $ranges;
+    }
+
+    /**
+     * Returns the extra contents.
+     *
+     * @param string $file
+     * @param array  $ranges
+     * @param int    $contentLength
+     * @param string $boundary
+     *
+     * @return array
+     */
+    private function getExtraContents($file, array $ranges, &$contentLength, &$boundary)
+    {
+        $contentLength = 0;
+        $extraContents = [];
+
+        //More than one range is requested?
+        if (count($ranges) > 1) {
+            $boundary = 'g45d64df96bmdf4sdgh45hf5';
+            $fullBoundary = "\r\n--{$boundary}--\r\n";
+            $fileSize = filesize($file);
+            $mineType = $this->getFileMineType($file);
+
+            //compute content length
+            foreach ($ranges as $index => $range) {
+                list($seekStart, $seekEnd) = $range;
+                $extraContent = $fullBoundary;
+                $extraContent .= "Content-Type: {$mineType}\r\n";
+                $extraContent .= "Content-Range: bytes $seekStart-$seekEnd/$fileSize\r\n\r\n";
+                $extraContents[$index] = $extraContent;
+                $contentLength += strlen($extraContent) + ($seekEnd - $seekStart + 1);
+            }
+
+            $contentLength += strlen($fullBoundary);
+            $extraContents[] = $fullBoundary;
+        }
+
+        return $extraContents;
     }
 
     /**
@@ -219,35 +323,45 @@ class FileHandler
      */
     private function deliverFilePartial($file, $isInline)
     {
-        $httpRange = explode('=', $_SERVER['HTTP_RANGE']);
-        $sizeUnit = $httpRange[0];
-        $rangeOrigin = isset($httpRange[1]) === true ? $httpRange[1] : '';
+        $fileSize = filesize($file);
+        $ranges = $this->getRanges($fileSize);
 
-        if ($sizeUnit === 'bytes') {
-            $fileSize = filesize($file);
-            $this->getSeekStartEnd($rangeOrigin, $fileSize, $seekStart, $seekEnd);
+        if ($ranges !== []) {
+            $extraContents = $this->getExtraContents($file, $ranges, $contentLength, $boundary);
 
-            $this->addDefaultHeader($file, $isInline);
             header('HTTP/1.1 206 Partial Content');
             header('Content-Transfer-Encoding: binary');
             header('Accept-Ranges: bytes');
-            header('Content-Range: bytes '.$seekStart.'-'.$seekEnd.'/'.$fileSize);
-            header('Content-Length: '.($seekEnd - $seekStart + 1));
 
-            $handler = fopen($file, 'r');
-            fseek($handler, $seekStart);
+            if ($extraContents === []) {
+                $this->addDefaultHeader($file, $isInline);
+                list($seekStart, $seekEnd) = $ranges[0];
+                $contentLength = ($seekEnd - $seekStart + 1);
+                header("Content-Range: bytes {$seekStart}-{$seekEnd}/{$fileSize}");
+            } else {
+                header("Content-Type: multipart/x-byteranges; boundary={$boundary}");
+            }
 
-            while (feof($handler) === false) {
-                echo $this->php->fread($handler, 1024 * 8);
-                $this->clearBuffer();
+            header("Content-Length: {$contentLength}");
+            $fileHandler = fopen($file, 'r');
 
-                if ($this->php->connectionStatus() !== 0) {
-                    $this->php->fClose($handler);
-                    break;
+            foreach ($ranges as $index => $range) {
+                if (isset($extraContents[$index]) === true) {
+                    echo $extraContents[$index];
                 }
+
+                list($seekStart, $seekEnd) = $ranges[0];
+                fseek($fileHandler, $seekStart);
+                $this->readFilePartly($fileHandler, $seekEnd - $seekStart + 1);
+            }
+
+            if ($extraContents !== []) {
+                echo end($extraContents);
+                $this->clearBuffer();
             }
         } else {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
+            header("Content-Range: */$fileSize");
         }
     }
 

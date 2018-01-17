@@ -23,6 +23,9 @@ jQuery().ready(function() {
     //add events to visual selectors verticaly
     td_panel_visual_select_vo('.td-visual-selector-v');
 
+    //add events to visual selectors & premium features
+    td_panel_visual_select_premium_features('.ionmag-premium');
+
     //the navigation script
     panel_navigation();
 
@@ -59,9 +62,14 @@ jQuery().ready(function() {
     //social fields validation
     td_add_event_to_validate_panel_social_fields();
 
+    //validate new sidebar input
+    td_add_event_to_validate_new_sidebar_field();
+
     //theme activation
     td_theme_activation();
 
+    //footer page selection
+    tdFooterPageSelection();
 });
 
 //function to add click events on all checkboxes
@@ -109,6 +117,28 @@ function td_panel_visual_select_vo(class_vso) {
         //and add active class to the current element
         jQuery(this).addClass('td-visual-selector-active');
 
+    });
+}
+
+
+//function to add modal on click events on ionmag premium visual selects
+function td_panel_visual_select_premium_features() {
+    jQuery('body').on("click", '.ionmag-premium', function(event){
+        var evt = event ? event:window.event;
+        if (evt.stopPropagation)    evt.stopPropagation();
+        if (evt.preventDefault)     evt.preventDefault();
+        if (evt.cancelBubble)       evt.cancelBubble = true;
+
+        tdConfirm.modal({
+            caption: 'Premium feature',
+            htmlInfoContent: 'Available only in the Premium version.',
+            textYes: 'UNLOCK NOW',
+            callbackYes: function() {
+                tb_remove();
+                window.open('https://www.wpion.com/pricing/?utm_source=theme_lock_modal&utm_medium=wp_admin&utm_campaign=ionMag_free');
+            },
+            hideNoButton: true
+        });
     });
 }
 
@@ -637,7 +667,7 @@ function show_content_panel(jquery_panel_obj, keep_position, callback) {
     var jquery_panel_header = jquery_panel_obj.children('.td-box-header').eq(0);
 
     // if the panel doesn't have a header
-    if (!jquery_panel_header.length) {
+    if (!jquery_panel_header.length || jquery_panel_header.parent().hasClass('ionmag-premium')) {
         return;
     }
 
@@ -992,7 +1022,7 @@ function td_add_event_to_validate_panel_social_fields() {
         var current_input_filed_name = input_element.attr("name");
         var current_social_network_name = input_element.parent().attr("id");
 
-        if ( input_element.val() != '' && isUrlValid(input_element.val()) === false && input_element.attr("name") !== 'td_social_networks[mail-1]') {
+        if ( input_element.val() !== '' && isUrlValid(input_element.val()) === false && input_element.attr("name") !== 'td_social_networks[mail-1]') {
 
             if (input_element.hasClass("td-url-error")) {
                 return;
@@ -1006,7 +1036,7 @@ function td_add_event_to_validate_panel_social_fields() {
             input_element.removeClass("td-url-error");
             input_element.siblings().remove();
 
-            if (input_element.attr("name") === 'td_social_networks[mail-1]' && input_element.val() != '' && isEmailUrlValid(input_element.val()) === false) {
+            if (input_element.attr("name") === 'td_social_networks[mail-1]' && input_element.val() !== '' && isEmailUrlValid(input_element.val()) === false) {
                 input_element.addClass("td-url-error");
                 input_element.after('<span id="field-error" class="error" for="'+ current_input_filed_name +'">' + 'Please enter a valid <b>"mailto:"</b> HTML e-mail link </span><br />' +
                     '<span class="error error-note"> NOTE: ** This field should contain the unique HTML e-mail link for your ' + current_social_network_name + ' address!</span>');
@@ -1014,6 +1044,42 @@ function td_add_event_to_validate_panel_social_fields() {
         }
     }
 
+}
+
+/**
+ * function for panel > new_sidebar_field validation
+ * it displays an error message and disables the button if special characters are used on sidebars name
+ */
+function td_add_event_to_validate_new_sidebar_field() {
+    var panel_new_sidebar_fields = jQuery ('.td_new_sidebar_field');
+
+    panel_new_sidebar_fields.each( function() {
+        var current_input_filed = jQuery(this);
+        current_input_filed.on('input',function() {
+            td_input_field_check(current_input_filed);
+        });
+        }
+    );
+
+
+
+    function td_input_field_check(input_element) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        if (!regex.test(input_element.val()) && input_element.val() !== '' ) {
+            if (input_element.parent().hasClass("td-new-sidebar-field-error")) {
+                return;
+            }
+
+            input_element.parent().addClass("td-new-sidebar-field-error");
+            input_element.after('<div class="td-panel-control-comment"> Please do not use any special characters, like " $%^&*!@# "!</div>');
+
+        } else {
+            if (input_element.parent().hasClass("td-new-sidebar-field-error")) {
+                input_element.parent().removeClass("td-new-sidebar-field-error");
+                input_element.siblings(".td-panel-control-comment").remove();
+            }
+        }
+    }
 }
 
 
@@ -1531,6 +1597,29 @@ function td_theme_activation() {
             ( event.keyCode && 13 === event.keyCode )) {
             jQuery('.td-manual-activate-button').trigger('click');
             return;
+        }
+    });
+}
+
+
+/**
+ *
+ */
+function tdFooterPageSelection() {
+    jQuery('#td-panel-footer select[name="td_option[tds_footer_page]"]').change(function(event) {
+        var $this = jQuery(this),
+            $viewFooterPage = jQuery('#td-panel-footer .td-view-footer-page');
+
+        if ( '' === $this.val()) {
+            $viewFooterPage.hide();
+        } else {
+            var editUrl = window.td_admin_url + 'post.php?post=' + $this.val() + '&action=edit';
+            if ( 'undefined' !== typeof window.tdcAdminSettings ) {
+                editUrl = window.tdcAdminSettings.adminUrl + 'post.php?post_id=' + $this.val() + '&td_action=tdc'
+            }
+
+            $viewFooterPage.show();
+            $viewFooterPage.attr( 'href', editUrl  );
         }
     });
 }
