@@ -1,0 +1,73 @@
+# Translation of Plugins - User Switching - Stable (latest release) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - User Switching - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-06-04 14:52:36+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: zh_TW\n"
+"Project-Id-Version: Plugins - User Switching - Stable (latest release)\n"
+
+#: user-switching.php:102
+msgctxt "User Switching title on user profile screen"
+msgid "User Switching"
+msgstr "帳號切換"
+
+#: user-switching.php:162 user-switching.php:188 user-switching.php:197
+#: user-switching.php:202 user-switching.php:229
+msgid "Could not switch users."
+msgstr "無法切換至該帳號"
+
+#: user-switching.php:103 user-switching.php:606 user-switching.php:643
+#: user-switching.php:671
+msgid "Switch&nbsp;To"
+msgstr "切換至該帳號"
+
+#. Translators: "switch off" means to temporarily log out
+#: user-switching.php:238 user-switching.php:258
+msgid "Could not switch off."
+msgstr "無法切換回原帳號"
+
+#. Translators: "switch off" means to temporarily log out
+#: user-switching.php:500
+msgid "Switch Off"
+msgstr "切換回原帳號"
+
+#. Translators: 1: user display name; 2: username;
+#: user-switching.php:379
+msgid "Switched back to %1$s (%2$s)."
+msgstr "已切換回帳號 %2$s (顯示名稱: %1$s)。"
+
+#. Translators: 1: user display name; 2: username;
+#: user-switching.php:346 user-switching.php:476 user-switching.php:517
+#: user-switching.php:542 user-switching.php:566
+msgid "Switch back to %1$s (%2$s)"
+msgstr "切換回帳號 %2$s (顯示名稱: %1$s)"
+
+#. Translators: 1: user display name; 2: username;
+#: user-switching.php:333 user-switching.php:386
+msgid "Switched to %1$s (%2$s)."
+msgstr "已切換至帳號 %2$s (顯示名稱: %1$s)。"
+
+#. Plugin URI of the plugin/theme
+msgid "https://johnblackbourn.com/wordpress-plugin-user-switching/"
+msgstr "https://johnblackbourn.com/wordpress-plugin-user-switching/"
+
+#. Plugin Name of the plugin/theme
+msgid "User Switching"
+msgstr "User Switching"
+
+#. Author of the plugin/theme
+msgid "John Blackbourn"
+msgstr "John Blackbourn"
+
+#. Description of the plugin/theme
+msgid "Instant switching between user accounts in WordPress"
+msgstr "在 WordPress 網站中隨時切換使用者帳號。繁體中文本地化由「<a href=\"https://www.alexclassroom.com/\" target=\"_blank\">阿力獅的教室</a>」站長<a href=\"https://www.facebook.com/captain.alexlion\" target=\"_blank\">阿力獅</a>提供。"
+
+#. Author URI of the plugin/theme
+msgid "https://johnblackbourn.com/"
+msgstr "https://johnblackbourn.com/"

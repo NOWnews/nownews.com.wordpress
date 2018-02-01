@@ -40,7 +40,7 @@ msgstr "."
 msgid "Update anyway, even though it might break your site?"
 msgstr "縱使可能影響到網站還是要更新嗎？"
 
-#: wp-includes/wp-db.php:1290
+#: wp-includes/wp-db.php:1283
 msgid "The query only expected one placeholder, but an array of multiple placeholders was sent."
 msgstr "此查詢預期只有一個佔位符，但現有一個陣列含有多個佔位符被傳送。"
 
@@ -236,11 +236,11 @@ msgid "%1$s &lsaquo; %2$s &#8212; WordPress"
 msgstr "%1$s &lsaquo; %2$s &#8212; WordPress"
 
 #. translators: 1: number of placeholders, 2: number of arguments passed
-#: wp-includes/wp-db.php:1301
+#: wp-includes/wp-db.php:1294
 msgid "The query does not contain the correct number of placeholders (%1$d) for the number of arguments passed (%2$d)."
 msgstr "針對傳送的參數數目 (%2$d)，此查詢未包含正確的佔位符號數目 (%1$d)。"
 
-#: wp-includes/wp-db.php:1253
+#: wp-includes/wp-db.php:1246
 msgid "Unsupported value type (%s)."
 msgstr "不支援的數值型態 (%s)。"
 
@@ -788,13 +788,13 @@ msgstr "Scrape nonce 檢查失敗。請再試一次。"
 
 #. translators: Site admin email change notification email subject. %s: Site
 #. title
-#: wp-includes/functions.php:5770
+#: wp-includes/functions.php:5772
 msgid "[%s] Notice of Admin Email Change"
 msgstr "[%s] 管理員電子郵件變更通知"
 
 #. translators: Do not translate OLD_EMAIL, NEW_EMAIL, SITENAME, SITEURL: those
 #. are placeholders.
-#: wp-includes/functions.php:5755
+#: wp-includes/functions.php:5757
 msgid ""
 "Hi,\n"
 "\n"
@@ -820,7 +820,7 @@ msgstr ""
 "###SITENAME### \n"
 "###SITEURL### "
 
-#: wp-includes/functions.php:5698
+#: wp-includes/functions.php:5700
 msgid "Only UUID V4 is supported at this time."
 msgstr "目前僅支持 UUID V4。"
 
@@ -1910,7 +1910,7 @@ msgctxt "New site notification email subject"
 msgid "[%1$s] Activate %2$s"
 msgstr "[%1$s] 啟用 %2$s"
 
-#: wp-includes/widgets.php:1395 wp-includes/widgets.php:1504
+#: wp-includes/widgets.php:1398 wp-includes/widgets.php:1507
 msgid "RSS Error:"
 msgstr "RSS 錯誤："
 
@@ -4129,13 +4129,13 @@ msgstr "<strong>錯誤</strong>：無效的使用者名稱、電子郵件位址�
 msgid "%1$s %2$s %3$s %4$s Feed"
 msgstr "%1$s %2$s %3$s %4$s Feed"
 
-#: wp-includes/functions.php:5311
+#: wp-includes/functions.php:5313
 msgid "Close dialog"
 msgstr "關閉對話框"
 
 #. translators: 1: PHP class name, 2: PHP parent class name, 3: version number,
 #. 4: __construct() method
-#: wp-includes/functions.php:3899
+#: wp-includes/functions.php:3901
 msgid "The called constructor method for %1$s in %2$s is <strong>deprecated</strong> since version %3$s! Use %4$s instead."
 msgstr "在 %2$s 中被呼叫的構造函數 %1$s 從版本 %3$s 開始<strong>已被捨棄</strong>！請使用 %4$s 替代。"
 
@@ -4273,12 +4273,12 @@ msgstr "https://codex.wordpress.org/Debugging_a_WordPress_Network"
 msgid "Read the <a href=\"%s\" target=\"_blank\">bug report</a> page. Some of the guidelines there may help you figure out what went wrong."
 msgstr "請查詢 <a href=\"%s\" target=\"_blank\">錯誤報告</a>。報告中有些指示或許能協助您瞭解發生什麼樣的錯誤。"
 
-#: wp-includes/functions.php:4142
+#: wp-includes/functions.php:4144
 msgid "https://codex.wordpress.org/Debugging_in_WordPress"
 msgstr "https://codex.wordpress.org/Debugging_in_WordPress"
 
 #. translators: %s: Codex URL
-#: wp-includes/functions.php:4141
+#: wp-includes/functions.php:4143
 msgid "Please see <a href=\"%s\">Debugging in WordPress</a> for more information."
 msgstr "請見 <a href=\"%s\">WordPress 除錯指南</a> 以獲得更多資訊。"
 
@@ -4501,52 +4501,52 @@ msgid "Error reconnecting to the database"
 msgstr "重新連接資料庫發生錯誤"
 
 #. translators: %s: support forums URL
-#: wp-includes/wp-db.php:1601 wp-includes/wp-db.php:1752
+#: wp-includes/wp-db.php:1594 wp-includes/wp-db.php:1752
 msgid "If you&#8217;re unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href=\"%s\">WordPress Support Forums</a>."
 msgstr "假如您不了解這些訊息代表什麼意思，您應該連絡您的主機管理員。如果您還需要任何協助，可以造訪 <a href=\"%s\">WordPress 支援論壇</a>。"
 
-#: wp-includes/wp-db.php:1596 wp-includes/wp-db.php:1746
+#: wp-includes/wp-db.php:1589 wp-includes/wp-db.php:1746
 msgid "Are you sure that the database server is running?"
 msgstr "請確認資料庫伺服器正常運作中？"
 
-#: wp-includes/wp-db.php:1595
+#: wp-includes/wp-db.php:1588
 msgid "Are you sure that you have typed the correct hostname?"
 msgstr "請確認你輸入的主機名稱正確無誤？"
 
-#: wp-includes/wp-db.php:1594
+#: wp-includes/wp-db.php:1587
 msgid "Are you sure you have the correct username and password?"
 msgstr "請確認你輸入了正確使用者名稱及密碼？"
 
 #. translators: 1: wp-config.php. 2: database host
-#: wp-includes/wp-db.php:1588
+#: wp-includes/wp-db.php:1581
 msgid "This either means that the username and password information in your %1$s file is incorrect or we can&#8217;t contact the database server at %2$s. This could mean your host&#8217;s database server is down."
 msgstr "這代表若不是您 %1$s 檔案中的使用者名稱及密碼資訊不正常，就是我們無法連線至資料庫主機 %2$s。 這可能表示主機所連線的資料庫主機已關閉。"
 
 #. translators: %s: support forums URL
-#: wp-includes/wp-db.php:1068
+#: wp-includes/wp-db.php:1061
 msgid "If you don&#8217;t know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href=\"%s\">WordPress Support Forums</a>."
 msgstr "如果你不知道如何設定資料庫的話，請<strong>聯絡你的虛擬主機商</strong>。如果其他方法也失敗的話，請到<a href=\"%s\">WordPress支撐論壇</a>尋求協助。"
 
 #. translators: %s: database name
-#: wp-includes/wp-db.php:1060
+#: wp-includes/wp-db.php:1053
 msgid "On some systems the name of your database is prefixed with your username, so it would be like <code>username_%1$s</code>. Could that be the problem?"
 msgstr "在某些系統上，你的資料庫名稱會以你的使用者名稱做為前綴，所以看起來會像是 <code>username_%1$s</code>。有可能是這個問題嗎？"
 
 #. translators: 1: database user, 2: database name
-#: wp-includes/wp-db.php:1053
+#: wp-includes/wp-db.php:1046
 msgid "Does the user %1$s have permission to use the %2$s database?"
 msgstr "使用者 %1$s 有使用 %2$s 資料庫的權限嗎？"
 
-#: wp-includes/wp-db.php:1049
+#: wp-includes/wp-db.php:1042
 msgid "Are you sure it exists?"
 msgstr "你確定這個存在嗎？"
 
 #. translators: %s: database name
-#: wp-includes/wp-db.php:1044
+#: wp-includes/wp-db.php:1037
 msgid "We were able to connect to the database server (which means your username and password is okay) but not able to select the %s database."
 msgstr "我們可以連接到資料庫伺服器（意味著你的使用者名稱及密碼正確），但無法選擇 %s 資料庫。"
 
-#: wp-includes/wp-db.php:1040
+#: wp-includes/wp-db.php:1033
 msgid "Can&#8217;t select database"
 msgstr "無法選擇資料庫"
 
@@ -5067,7 +5067,7 @@ msgstr "你的密碼重設連結已經失效。請在下方請求一個新連結
 msgid "Your password reset link appears to be invalid. Please request a new link below."
 msgstr "你的密碼重設連結有誤。請在下方再次請求一個新連結。"
 
-#: wp-includes/wp-db.php:1386 wp-includes/wp-db.php:1403
+#: wp-includes/wp-db.php:1379 wp-includes/wp-db.php:1396
 msgid "WordPress database error:"
 msgstr "WordPress 資料庫錯誤："
 
@@ -5085,7 +5085,7 @@ msgid "The %s directory of the develop repository must be used for RTL."
 msgstr "開發庫的 %s 目錄必須用作 RTL。"
 
 #. translators: 1: PHP class name, 2: version number, 3: __construct() method
-#: wp-includes/functions.php:3903
+#: wp-includes/functions.php:3905
 msgid "The called constructor method for %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
 msgstr "%1$s 呼叫的建構子在 %2$s 版之後<strong>已被捨棄</strong>！請使用 %3$s 替代。"
 
@@ -5903,7 +5903,7 @@ msgstr "此類別已存在一相同名稱與代稱的項目。"
 
 #. translators: %s: database access abstraction class, usually wpdb or a class
 #. extending wpdb
-#: wp-includes/wp-db.php:1117
+#: wp-includes/wp-db.php:1110
 msgid "%s must set a database connection for use with escaping."
 msgstr "%s 必須為跳轉設置資料庫連線。"
 
@@ -6785,7 +6785,7 @@ msgstr "新增替代來源以提升 HTML 5 的播放體驗："
 msgid "Hint: The password should be at least twelve characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! \" ? $ % ^ &amp; )."
 msgstr "提示：密碼應該至少要有十二個字元。請混合使用大小寫字母、數字及特殊符號如：! \" ? $ % ^ &amp; ) 讓密碼更安全。"
 
-#: wp-includes/wp-db.php:1237
+#: wp-includes/wp-db.php:1230
 msgid "The query argument of %s must have a placeholder."
 msgstr "%s 的查詢參數不可為空白。"
 
@@ -7213,7 +7213,7 @@ msgstr "http://tw.forums.wordpress.org/forum/requests-and-feedback"
 
 #: wp-includes/admin-bar.php:164 wp-includes/update.php:153
 #: wp-includes/update.php:345 wp-includes/update.php:523
-#: wp-includes/wp-db.php:1069 wp-includes/wp-db.php:1602
+#: wp-includes/wp-db.php:1062 wp-includes/wp-db.php:1595
 #: wp-includes/wp-db.php:1753 wp-login.php:882
 msgid "https://wordpress.org/support/"
 msgstr "http://tw.forums.wordpress.org/"
@@ -7251,22 +7251,22 @@ msgstr "欄位組"
 msgid "Could not find the specified string."
 msgstr "找不到特定字串。"
 
-#: wp-includes/general-template.php:3926
+#: wp-includes/general-template.php:3928
 msgctxt "admin color scheme"
 msgid "Coffee"
 msgstr "咖啡"
 
-#: wp-includes/general-template.php:3920
+#: wp-includes/general-template.php:3922
 msgctxt "admin color scheme"
 msgid "Ocean"
 msgstr "海洋"
 
-#: wp-includes/general-template.php:3914
+#: wp-includes/general-template.php:3916
 msgctxt "admin color scheme"
 msgid "Ectoplasm"
 msgstr "星塵"
 
-#: wp-includes/general-template.php:3908
+#: wp-includes/general-template.php:3910
 msgctxt "admin color scheme"
 msgid "Sunrise"
 msgstr "朝陽"
@@ -7341,17 +7341,17 @@ msgstr "no-subset"
 msgid "Use commas instead of %s to separate excluded terms."
 msgstr "請用半型逗號（,）分隔多個排除項目，不要使用 %s 。"
 
-#: wp-includes/general-template.php:3902
+#: wp-includes/general-template.php:3904
 msgctxt "admin color scheme"
 msgid "Midnight"
 msgstr "午夜"
 
-#: wp-includes/general-template.php:3890
+#: wp-includes/general-template.php:3892
 msgctxt "admin color scheme"
 msgid "Light"
 msgstr "明亮"
 
-#: wp-includes/general-template.php:3879
+#: wp-includes/general-template.php:3881
 msgctxt "admin color scheme"
 msgid "Default"
 msgstr "預設"
@@ -7535,7 +7535,7 @@ msgstr "%3$s-%1$s-%2$s @ %4$s:%5$s"
 msgid "Your session has expired. You can log in again from this page or go to the login page."
 msgstr "工作階段已過期。你可以從這個頁面再登入一次或是到登入頁面。"
 
-#: wp-includes/functions.php:5328
+#: wp-includes/functions.php:5330
 msgid "The login page will open in a new window. After logging in you can close it and return to this page."
 msgstr "登入頁面將會在新視窗開啟。登入之後，你可以關閉該視窗並回到本頁面。"
 
@@ -7560,7 +7560,7 @@ msgctxt "placeholder"
 msgid "Search &hellip;"
 msgstr "搜尋 &hellip;"
 
-#: wp-includes/functions.php:5326 wp-includes/script-loader.php:568
+#: wp-includes/functions.php:5328 wp-includes/script-loader.php:568
 msgid "Session expired"
 msgstr "Session 已過期"
 
@@ -8557,16 +8557,16 @@ msgstr "支援論壇"
 msgid "Documentation"
 msgstr "使用說明"
 
-#: wp-includes/formatting.php:3361 wp-includes/general-template.php:3798
+#: wp-includes/formatting.php:3361 wp-includes/general-template.php:3800
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: wp-includes/functions.php:3776 wp-includes/ms-load.php:455
-#: wp-includes/wp-db.php:1584
+#: wp-includes/functions.php:3778 wp-includes/ms-load.php:455
+#: wp-includes/wp-db.php:1577
 msgid "Error establishing a database connection"
 msgstr "建立資料庫連線時發生錯誤"
 
-#: wp-includes/functions.php:3772
+#: wp-includes/functions.php:3774
 msgid "Database Error"
 msgstr "資料庫錯誤"
 
@@ -8617,7 +8617,7 @@ msgstr "此檔案不是圖片。請試試其他檔案。"
 msgid "This is larger than the maximum size. Please try another."
 msgstr "此檔大小已越過最大限制大小。請嘗試其他檔案。"
 
-#: wp-includes/general-template.php:3896
+#: wp-includes/general-template.php:3898
 msgctxt "admin color scheme"
 msgid "Blue"
 msgstr "藍"
@@ -8742,13 +8742,13 @@ msgid "The user is already active."
 msgstr "此使用者帳號已啟用。"
 
 #. translators: %s: version number
-#: wp-includes/functions.php:4138
+#: wp-includes/functions.php:4140
 msgid "(This message was added in version %s.)"
 msgstr "（此訊息是在 %s 版本新增的。）"
 
 #. translators: Developer debugging message. 1: PHP function name, 2:
 #. Explanatory message, 3: Version information message
-#: wp-includes/functions.php:4145
+#: wp-includes/functions.php:4147
 msgid "%1$s was called <strong>incorrectly</strong>. %2$s %3$s"
 msgstr "呼叫 %1$s 的方法<strong>不正確</strong>。 %2$s %3$s"
 
@@ -9543,13 +9543,13 @@ msgid "Menus"
 msgstr "選單"
 
 #. translators: 1: Database error message, 2: SQL query
-#: wp-includes/wp-db.php:1373
+#: wp-includes/wp-db.php:1366
 msgid "WordPress database error %1$s for query %2$s"
 msgstr "WordPress 資料庫錯誤 %1$s 由指令 %2$s 引發"
 
 #. translators: 1: Database error message, 2: SQL query, 3: Name of the calling
 #. function
-#: wp-includes/wp-db.php:1370
+#: wp-includes/wp-db.php:1363
 msgid "WordPress database error %1$s for query %2$s made by %3$s"
 msgstr "WordPress 資料庫錯誤：%1$s 由指令 %2$s 引發，錯誤來自 %3$s"
 
@@ -9919,7 +9919,7 @@ msgstr "<strong>錯誤</strong>：WordPress %1$s 需要資料庫 MySQL %2$s 以�
 msgid "Sidebar %d"
 msgstr "邊欄 %d"
 
-#: wp-includes/functions.php:5327 wp-includes/user.php:285
+#: wp-includes/functions.php:5329 wp-includes/user.php:285
 msgid "Please log in again."
 msgstr "請再登入一次。"
 
@@ -10109,7 +10109,7 @@ msgstr "關閉標籤"
 msgid "Close all open tags"
 msgstr "關閉全部開放的標籤"
 
-#: wp-includes/rss.php:917 wp-includes/widgets.php:1410
+#: wp-includes/rss.php:917 wp-includes/widgets.php:1413
 msgid "An error has occurred, which probably means the feed is down. Try again later."
 msgstr "發生錯誤；該訂閱可能暫時失效。請稍後再試看看。"
 
@@ -10835,11 +10835,11 @@ msgstr "使用者已阻擋透過 HTTP 的要求。"
 msgid "Gray"
 msgstr "灰"
 
-#: wp-includes/general-template.php:3713
+#: wp-includes/general-template.php:3715
 msgid "Next &raquo;"
 msgstr "下一頁 &raquo;"
 
-#: wp-includes/general-template.php:3712
+#: wp-includes/general-template.php:3714
 msgid "&laquo; Previous"
 msgstr "&laquo; 上一頁"
 
@@ -10926,34 +10926,34 @@ msgstr "登出"
 msgid "Log in"
 msgstr "登入"
 
-#: wp-includes/functions.php:4721
+#: wp-includes/functions.php:4723
 msgid "Manual Offsets"
 msgstr "手動時差"
 
-#: wp-includes/functions.php:4713 wp-includes/functions.php:4717
+#: wp-includes/functions.php:4715 wp-includes/functions.php:4719
 msgid "UTC"
 msgstr "標準時間（UTC）"
 
-#: wp-includes/functions.php:4668
+#: wp-includes/functions.php:4670
 msgid "Select a city"
 msgstr "請選擇城市"
 
 #. translators: 1: PHP function name, 2: version number
-#: wp-includes/functions.php:4032
+#: wp-includes/functions.php:4034
 msgid "%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s with no alternative available."
 msgstr "自 %2$s 版本後，%1$s <strong>已被捨棄</strong>，沒有替代方案。 "
 
 #. translators: 1: PHP function name, 2: version number, 3: optional message
 #. regarding the change
-#: wp-includes/functions.php:4029
+#: wp-includes/functions.php:4031
 msgid "%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s! %3$s"
 msgstr "自 %2$s 版本後，%1$s <strong>已被捨棄</strong>！ 請改用 %3$s。"
 
 #. translators: 1: PHP function name, 2: version number
 #. translators: 1: PHP file name, 2: version number
 #. translators: 1: WordPress hook name, 2: version number
-#: wp-includes/functions.php:3840 wp-includes/functions.php:3968
-#: wp-includes/functions.php:4091
+#: wp-includes/functions.php:3842 wp-includes/functions.php:3970
+#: wp-includes/functions.php:4093
 msgid "%1$s is <strong>deprecated</strong> since version %2$s with no alternative available."
 msgstr "自 %2$s 版本後，%1$s <strong>已被捨棄</strong>，沒有替代品。 "
 
@@ -10962,34 +10962,34 @@ msgstr "自 %2$s 版本後，%1$s <strong>已被捨棄</strong>，沒有替代�
 #. translators: 1: PHP file name, 2: version number, 3: alternative file name
 #. translators: 1: WordPress hook name, 2: version number, 3: alternative hook
 #. name
-#: wp-includes/functions.php:3837 wp-includes/functions.php:3965
-#: wp-includes/functions.php:4088
+#: wp-includes/functions.php:3839 wp-includes/functions.php:3967
+#: wp-includes/functions.php:4090
 msgid "%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
 msgstr "自 %2$s 版本後，%1$s <strong>已被捨棄</strong>！ 請改用 %3$s。"
 
-#: wp-includes/functions.php:2747 wp-load.php:92
+#: wp-includes/functions.php:2749 wp-load.php:92
 msgid "WordPress &rsaquo; Error"
 msgstr "WordPress &rsaquo; 錯誤"
 
-#: wp-includes/functions.php:2735
+#: wp-includes/functions.php:2737
 msgid "&laquo; Back"
 msgstr "&laquo; 返回"
 
-#: wp-includes/functions.php:2610 wp-includes/ms-functions.php:2047
+#: wp-includes/functions.php:2612 wp-includes/ms-functions.php:2047
 msgid "Please try again."
 msgstr "請再試一次。"
 
 #. translators: %s: logout URL
-#: wp-includes/functions.php:2601
+#: wp-includes/functions.php:2603
 msgid "Do you really want to <a href=\"%s\">log out</a>?"
 msgstr "你確定要<a href=\"%s\">登出</a>嗎？"
 
-#: wp-includes/functions.php:2615
+#: wp-includes/functions.php:2617
 msgid "WordPress Failure Notice"
 msgstr "WordPress 錯誤通知"
 
 #. translators: %s: site name
-#: wp-includes/functions.php:2594
+#: wp-includes/functions.php:2596
 msgid "You are attempting to log out of %s"
 msgstr "你已經登出 %s"
 
@@ -11079,31 +11079,31 @@ msgstr "new WordPress Loop"
 msgid "Tag Cloud"
 msgstr "標籤雲"
 
-#: wp-includes/widgets.php:1532
+#: wp-includes/widgets.php:1535
 msgid "Display item date?"
 msgstr "顯示日期？"
 
-#: wp-includes/widgets.php:1529
+#: wp-includes/widgets.php:1532
 msgid "Display item author if available?"
 msgstr "顯示作者？"
 
-#: wp-includes/widgets.php:1526
+#: wp-includes/widgets.php:1529
 msgid "Display item content?"
 msgstr "顯示內容？"
 
-#: wp-includes/widgets.php:1516
+#: wp-includes/widgets.php:1519
 msgid "How many items would you like to display?"
 msgstr "你想要顯示多少項目？"
 
-#: wp-includes/widgets.php:1513
+#: wp-includes/widgets.php:1516
 msgid "Give the feed a title (optional):"
 msgstr "設定訂閱標題（非必要）："
 
-#: wp-includes/widgets.php:1510
+#: wp-includes/widgets.php:1513
 msgid "Enter the RSS feed URL here:"
 msgstr "請輸入 RSS 訂閱來源網址："
 
-#: wp-includes/widgets.php:1426
+#: wp-includes/widgets.php:1429
 msgid "Untitled"
 msgstr "無標題"
 
@@ -11329,7 +11329,7 @@ msgstr "頁次："
 msgid "Comments (%s)"
 msgstr "迴響數（%s）"
 
-#: wp-includes/category-template.php:1139
+#: wp-includes/category-template.php:1131
 msgid "Tags: "
 msgstr "標籤："
 
@@ -11388,7 +11388,7 @@ msgid "For some strange yet very annoying reason, this post could not be edited.
 msgstr "由於某些討人厭的原因，你無法編輯此篇文章。"
 
 #: wp-includes/admin-bar.php:830 wp-includes/class-wp-customize-widgets.php:412
-#: wp-includes/functions.php:3713
+#: wp-includes/functions.php:3715
 msgid "Widgets"
 msgstr "小工具"
 
@@ -11992,7 +11992,7 @@ msgstr "編輯"
 msgid "No"
 msgstr "否"
 
-#: wp-includes/deprecated.php:3130 wp-includes/functions.php:2605
+#: wp-includes/deprecated.php:3130 wp-includes/functions.php:2607
 msgid "Are you sure you want to do this?"
 msgstr "你確定要這麼做？"
 
